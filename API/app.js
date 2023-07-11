@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const AlumniAccount = require('./models/AlumniAccount')
+const Post = require('./models/Post')
 
 app.use(express.json())
 
@@ -35,6 +36,15 @@ app.post('/register', async(req,res)=>{
         res.status(500).json({message: error.message})
     }
     
+})
+
+app.post('/addPost', async(req,res)=>{
+    try{
+        const newPost = await Post.create(req.body)
+        res.status(200).json(newPost);
+    }catch(error){
+        res.status(500).json({messgae: error.message})
+    }
 })
 
 app.listen(3000,()=>{
