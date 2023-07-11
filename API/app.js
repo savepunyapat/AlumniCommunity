@@ -15,7 +15,7 @@ mongoose.connect('mongodb+srv://save1412:save1412@cluster0.nsshdfm.mongodb.net/A
 //Routes
 
 app.get('/', (req,res)=>{
-    res.send("kuy jaa")
+    res.send("Home")
 })
 
 app.get('/AllAccount', async(req,res) =>{
@@ -38,7 +38,7 @@ app.post('/register', async(req,res)=>{
 })
 
 app.listen(3000,()=>{
-    console.log("Kuy")
+    console.log("listening port 3000")
 })
 
 
