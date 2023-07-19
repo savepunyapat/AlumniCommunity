@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const AlumniAccount = require('./models/AlumniAccount')
-const Post = require('./models/Post')
+const PostRoute = require('./routes/PostRoute')
+const AccountRoute = require('./routes/AccountRoute')
 
+var cors = require('cors')
+app.use(cors())
 app.use(express.json())
 
 mongoose.set("strictQuery", false)
@@ -19,34 +22,10 @@ app.get('/', (req,res)=>{
     res.send("Home")
 })
 
-app.get('/AllAccount', async(req,res) =>{
-    try {
-        const Accounts = await AlumniAccount.find({});
-        res.status(200).json(Accounts);
-    }catch(error){
-        res.status(500).json({message: error.message})
-    }
-})
 
-app.post('/register', async(req,res)=>{
-    try{
-        const alumniAccount = await AlumniAccount.create(req.body)
-        res.status(200).json(alumniAccount);
-    }catch(error){
-        res.status(500).json({message: error.message})
-    }
-    
-})
 
-app.post('/addPost', async(req,res)=>{
-    try{
-        const newPost = await Post.create(req.body)
-        res.status(200).json(newPost);
-    }catch(error){
-        res.status(500).json({messgae: error.message})
-    }
-})
-
+app.use(PostRoute);
+app.use(AccountRoute);
 app.listen(3000,()=>{
     console.log("listening port 3000")
 })

@@ -35,6 +35,19 @@ const AlumniAccountSchema = mongoose.Schema(
         GraduateYear:{
             type:String,
             default:'0'
+        },
+        Permission:{
+            type:String,
+            require:true,
+            default:"student"
+        },
+        Email:{
+            type:String,
+            require:true,
+        },
+        Password:{
+            type:String,
+            require:true,
         }
     },
     {

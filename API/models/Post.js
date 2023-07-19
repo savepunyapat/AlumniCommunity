@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 
 const PostSchema = mongoose.Schema(
     {
-        PostID:{
-            type:String,
-            required:true
-        },
         PostSubject:{
             type:String,
             require:true
