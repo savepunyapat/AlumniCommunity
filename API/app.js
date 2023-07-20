@@ -4,13 +4,14 @@ const mongoose = require('mongoose');
 const AlumniAccount = require('./models/AlumniAccount')
 const PostRoute = require('./routes/PostRoute')
 const AccountRoute = require('./routes/AccountRoute')
-
 var cors = require('cors')
 app.use(cors())
 app.use(express.json())
+require('dotenv').config();
+const mongoKey = process.env.MONGO_KEY;
 
 mongoose.set("strictQuery", false)
-mongoose.connect('mongodb+srv://save1412:save1412@cluster0.nsshdfm.mongodb.net/AlumniAccount')
+mongoose.connect(mongoKey)
 .then(()=> {
     console.log("MongoDB connected")
 }).catch((error) =>{
