@@ -1,2 +1,3 @@
 API/node_modules/
-client/alumni/node_modules/
+client/node_modules/
+.env
