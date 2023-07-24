@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const AccountModel = require('../models/AlumniAccount');
-
+const {userLogin, registerUser} = require('../controllers/AccountController')
 
 router.post("/addAccount", async (req, res) => {
   try {
@@ -42,5 +42,9 @@ router.put("/acc/:id", async (req, res) => {
     res.status(500).json(err.message);
   }
 });
+
+router.post('/register',registerUser)
+
+router.post('/login',userLogin)
 
 module.exports = router;

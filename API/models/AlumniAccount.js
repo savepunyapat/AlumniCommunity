@@ -8,11 +8,11 @@ const AlumniAccountSchema = mongoose.Schema(
         },
         LastName:{
             type:String,
-            require:[true, "Enter Last Name"]
+            //require:[true, "Enter Last Name"]
         },
         PhoneNumber:{
             type:String,
-            require:[true],
+            //require:[true],
             default:"0",
         },
         Address:{
@@ -22,7 +22,7 @@ const AlumniAccountSchema = mongoose.Schema(
         StdID:{
             type:String,
             default:"0",
-            require:[true,"Enter Your Student ID"],
+            //require:[true,"Enter Your Student ID"],
         },  
         Course:{
             type:String,
@@ -38,7 +38,7 @@ const AlumniAccountSchema = mongoose.Schema(
         },
         Permission:{
             type:String,
-            require:true,
+            //require:true,
             default:"student"
         },
         Email:{
