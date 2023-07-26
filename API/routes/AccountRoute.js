@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const AccountModel = require('../models/AlumniAccount');
-const {userLogin, registerUser} = require('../controllers/AccountController')
+const {userLogin, registerUser, getMe ,updateAccount} = require('../controllers/AccountController')
+const {verified} = require('../middlewares/Auth')
 
 router.post("/addAccount", async (req, res) => {
   try {
@@ -12,7 +13,7 @@ router.post("/addAccount", async (req, res) => {
   }
 });
 
-router.get("/getAllAccount", async (req, res) => {
+router.get("/allAccount", async (req, res) => {
   try {
     const Accounts = await AccountModel.find({});
     res.status(200).json(Accounts);
@@ -30,21 +31,9 @@ router.delete("/acc/:id", async (req, res) => {
   }
 });
 
-router.put("/acc/:id", async (req, res) => {
-  try {
-    await AccountModel.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true }
-    );
-    res.status(200).json("Updated");
-  } catch (err) {
-    res.status(500).json(err.message);
-  }
-});
-
+router.put("/acc/:id", verified , updateAccount);
 router.post('/register',registerUser)
-
+router.get('/me',verified,getMe)
 router.post('/login',userLogin)
 
 module.exports = router;

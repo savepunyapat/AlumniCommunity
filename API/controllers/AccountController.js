@@ -5,7 +5,7 @@ const AccountModel = require("../models/AlumniAccount");
 
 const registerUser = asyncHandler(async (req, res) => {
   const { FirstName, Email, Password } = req.body;
-  console.log(FirstName,Email,Password)
+  console.log(FirstName, Email, Password)
 
   if (!FirstName || !Email || !Password) {
     res.status(400);
@@ -17,7 +17,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (userExists) {
     res.status(400);
     throw new Error("User already exists");
-  } 
+  }
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(Password, salt);
@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
       //_id: Account.id,
       FirstName: Account.FirstName,
       Email: Account.Email,
-      //token: generateToken(user._id),
+      token: generateToken(Account._id),
     });
   } else {
     res.status(400);
@@ -41,23 +41,64 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-const userLogin = asyncHandler(async(req,res)=>{
-    const {Email,Password} = req.body;
-    const Account = await AccountModel.findOne({Email})
+const userLogin = asyncHandler(async (req, res) => {
+  const { Email, Password } = req.body;
+  const Account = await AccountModel.findOne({ Email })
 
-    if(Account && (await bcrypt.compare(Password,Account.Password))){
-        res.json({
-            _id:Account._id,
-            FirstName:Account.FirstName,
-            Email:Account.Email
-        })
-    }else{
-        res.status(400)
-        throw new Error('Invalid credentials')
-    }
+  if (Account && (await bcrypt.compare(Password, Account.Password))) {
+    res.json({
+      _id: Account._id,
+      FirstName: Account.FirstName,
+      Email: Account.Email,
+      token: generateToken(Account._id)
+    })
+  } else {
+    res.status(400)
+    throw new Error('Invalid credentials')
+  }
+})
+
+//Generate Token
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  })
+}
+
+const updateAccount = asyncHandler(async (req, res) => {
+  try {
+    await AccountModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+    res.status(200).json("Updated");
+  } catch (err) {
+    res.status(401).json({
+      msg: "You are not authorized."
+    })
+  }
+})
+
+const getMe = asyncHandler(async (req, res) => {
+  try {
+    const { _id, FirstName, Email } = await AccountModel.findById(req.user.id)
+
+    res.status(200).json({
+      id: _id,
+      FirstName: FirstName,
+      Email: Email,
+    })
+  } catch (err) {
+    res.json(err)
+    res.status(500)
+  }
+
 })
 
 module.exports = {
-    registerUser,
-    userLogin,
+  registerUser,
+  userLogin,
+  getMe,
+  updateAccount
 }

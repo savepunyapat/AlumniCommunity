@@ -27,7 +27,7 @@ app.get('/', (req,res)=>{
 
 app.use(PostRoute);
 app.use(AccountRoute);
-app.listen(3000,()=>{
+app.listen(8000,()=>{
     console.log("listening port 3000")
 })
 
