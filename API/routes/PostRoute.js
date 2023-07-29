@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const PostModel = require("../models/Post");
+const { verified } = require("../middlewares/Auth");
+const { addComment, getPostID } = require("../controllers/PostController");
 
 router.post("/addPost", async (req, res) => {
   try {
@@ -41,5 +43,7 @@ router.put("/post/:id", async (req, res) => {
     res.status(500).json(err.message);
   }
 });
+router.get('/post/:id',getPostID)
+router.put('/comment/:id',verified,addComment)
 
 module.exports = router;

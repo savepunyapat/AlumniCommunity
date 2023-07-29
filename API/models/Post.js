@@ -10,11 +10,16 @@ const PostSchema = mongoose.Schema(
             type:Array,
             require:true
         },
-        PostDetail:{
+        PostDetail:{    
             type:String,
             require:[true],
             default:"-",
         },
+        Comments:{
+            type:JSON,
+            require:true,
+            default:{}
+        }
 
     },
     {
