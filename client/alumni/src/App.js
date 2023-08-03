@@ -4,6 +4,9 @@ import SignUp from './pages/SignUp/SignUp';
 import Navbar from './components/Navbar.tsx';
 import Login from './pages/Login/Login';
 import { BrowserRouter as Router, Routes, Route }from 'react-router-dom';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+
 function App() {
   return (
     <Router>

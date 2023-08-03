@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,26 +8,40 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
+import axios from '../../services/axios';
+import Cookies from 'js-cookie';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    console.log(email,password);
+    
+    try{
+      const response = await axios.post('http://localhost:8000/login',{email,password});
+      console.log(JSON.stringify(response?.data));
+      const accessToken = response?.data?.accessToken;
+      Cookies.set('token',accessToken);
+    }catch(err){
+      console.log(err.message)
+    }
+    
+
+
+
   };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -57,6 +71,7 @@ export default function Login() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -68,6 +83,7 @@ export default function Login() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -75,18 +91,11 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              style={{backgroundColor:"#a73b23"}}
+              style={{ backgroundColor: "#a73b23" }}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <NavLink to="/" variant="body2">
-                  Forget password?
-                </NavLink>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>
