@@ -23,16 +23,16 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
   const handleSubmit = async (event) => {
     event.preventDefault()
     console.log(email,password);
-    
+
     try{
       const response = await axios.post('http://localhost:8000/login',{email,password});
       console.log(JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
       Cookies.set('token',accessToken);
+      navigate('/');
     }catch(err){
       console.log(err.message)
     }

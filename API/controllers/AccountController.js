@@ -42,18 +42,14 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const userLogin = asyncHandler(async (req, res) => {
-  const { Email, Password } = req.body;
+  const Email = req.body.email;
+  const Password = req.body.password
   const Account = await AccountModel.findOne({ Email })
-
   if (Account && (await bcrypt.compare(Password, Account.Password))) {
-    res.json({
-      _id: Account._id,
-      FirstName: Account.FirstName,
-      Email: Account.Email,
-      token: generateToken(Account._id)
-    })
+    const accessToken = generateToken(Account._id)
+    res.status(200).json({accessToken});
   } else {
-    res.status(400)
+    res.status(400).json({message:'invalid user'});
     throw new Error('Invalid credentials')
   }
 })
@@ -61,7 +57,7 @@ const userLogin = asyncHandler(async (req, res) => {
 //Generate Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
+    expiresIn: '1d',
   })
 }
 

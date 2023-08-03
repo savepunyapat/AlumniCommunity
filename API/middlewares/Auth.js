@@ -12,7 +12,7 @@ const verified = asyncHandler(async(req,res,next)=>{
             const decoded = jwt.verify(token,process.env.JWT_SECRET)
 
             req.user = await AccountModel.findById(decoded.id).select('-Password')
-
+            
             next()
         }catch(err){
             res.json(err)
