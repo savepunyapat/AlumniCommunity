@@ -1,0 +1,11 @@
+/* create css file for footer and make it stick with bottom of screen */
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #a73b23;
+  color: white;
+  text-align: center;
+}
+

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const AccountModel = require('../models/AlumniAccount');
-const {userLogin, registerUser, getMe ,updateAccount} = require('../controllers/AccountController')
-const {verified} = require('../middlewares/Auth')
+const {userLogin,userLogout, registerUser, getMe ,updateAccount} = require('../controllers/AccountController')
+const {verified, isAdmin} = require('../middlewares/Auth')
 
 router.post("/addAccount", async (req, res) => {
   try {
@@ -35,5 +35,6 @@ router.put("/acc/:id", verified , updateAccount);
 router.post('/register',registerUser)
 router.get('/me',verified,getMe)
 router.post('/login',userLogin)
-
+router.get('/logout',userLogout)
+router.get('/isAdmin',isAdmin)
 module.exports = router;

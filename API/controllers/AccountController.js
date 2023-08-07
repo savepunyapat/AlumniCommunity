@@ -4,12 +4,11 @@ const asyncHandler = require("express-async-handler");
 const AccountModel = require("../models/AlumniAccount");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { FirstName, Email, Password } = req.body;
-  console.log(FirstName, Email, Password)
-
-  if (!FirstName || !Email || !Password) {
+  const { FirstName, Email, Password,Permission,LastName,PhoneNumber,Address,StdID,Course,Qualification,GraduateYear } = req.body;
+  console.log(req.body);
+  if (!FirstName || !Email || !Password || !Permission || !LastName || !StdID) {
     res.status(400);
-    throw new Error("Please add all fields");
+    throw new Error("Please add all required fields");
   }
 
   const userExists = await AccountModel.findOne({ Email });
@@ -26,6 +25,14 @@ const registerUser = asyncHandler(async (req, res) => {
     FirstName,
     Email,
     Password: hashedPassword,
+    Permission,
+    LastName,
+    PhoneNumber,
+    Address,
+    StdID,
+    Course,
+    Qualification,
+    GraduateYear
   });
 
   if (Account) {
@@ -42,16 +49,20 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const userLogin = asyncHandler(async (req, res) => {
-  const Email = req.body.email;
-  const Password = req.body.password
+  const Email = req.body.Email;
+  const Password = req.body.Password
   const Account = await AccountModel.findOne({ Email })
   if (Account && (await bcrypt.compare(Password, Account.Password))) {
     const accessToken = generateToken(Account._id)
     res.status(200).json({accessToken});
   } else {
-    res.status(400).json({message:'invalid user'});
-    throw new Error('Invalid credentials')
+    res.json({message:'invalid-user'});
+    res.status(401);
   }
+})
+
+const userLogout = asyncHandler(async(req,res)=>{
+  localStorage.removeItem('token');
 })
 
 //Generate Token
@@ -96,5 +107,6 @@ module.exports = {
   registerUser,
   userLogin,
   getMe,
-  updateAccount
+  updateAccount,
+  userLogout
 }

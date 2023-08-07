@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,17 +12,25 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import './Navbar.css'
 import { brown } from '@mui/material/colors';
 import { NavLink } from 'react-router-dom';
+import { logOut } from '../services/service';
+import Cookies from 'js-cookie';
+import './Navbar.css'
 
-const pages = ['News', 'About', 'Contact','Log-in'];
-const links = ['/','/','/','/login','/signup'];
-const settings = ['Profile', 'Dashboard', 'Logout'];
-
+const pages = ['News', 'About', 'Contact', 'Log-in'];
+const links = ['/', '/', '/', '/login', '/signup'];
+const settings = ['Profile', 'Logout'];
+const settingPath = ['/profile', '/logout'];
+const hasToken = () => {
+  const token = Cookies.get('token');
+  return !!token;
+};
 function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [loggedIn, setLoggedIn] = useState(hasToken());
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -39,8 +47,27 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
+  useEffect(() => {
+    // Update the 'loggedIn' state when the component mounts and the token changes
+    setLoggedIn(hasToken());
+
+    // Add an event listener to update the 'loggedIn' state when the token changes in another tab or window
+    const tokenChangeListener = (event: StorageEvent) => {
+      if (event.key === 'token') {
+        setLoggedIn(!!event.newValue);
+      }
+    };
+
+    window.addEventListener('storage', tokenChangeListener);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('storage', tokenChangeListener);
+    };
+  }, []);
+
   return (
-    <AppBar style={{backgroundColor:"#a73b23"}}  position="static">
+    <AppBar style={{ backgroundColor: "#a73b23" }} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -98,6 +125,7 @@ function Navbar() {
               ))}
             </Menu>
           </Box>
+
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -117,28 +145,29 @@ function Navbar() {
           >
             LOGO
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page,index) => (
-              
-              <NavLink to={links[index]}>
+            {pages.map((page, index) => (
+              <NavLink to={links[index]} key={page}>
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white', display: 'block' }}
-              >
+                >
                   {page}
                 </Button>
               </NavLink>
-              
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+            {loggedIn ? (
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+            ) : null}
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -155,9 +184,11 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {settings.map((setting, index) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <NavLink to={settingPath[index]}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </NavLink>
                 </MenuItem>
               ))}
             </Menu>
@@ -167,4 +198,5 @@ function Navbar() {
     </AppBar>
   );
 }
+
 export default Navbar;

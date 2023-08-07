@@ -12,7 +12,6 @@ router.post("/addPost", async (req, res) => {
     res.status(500).json({ messgae: error.message });
   }
 });
-
 router.get("/getAllPosts", async (req, res) => {
   try {
     const Posts = await PostModel.find({});

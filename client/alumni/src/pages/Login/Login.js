@@ -13,33 +13,42 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from '../../services/axios';
+import { axiosReq } from '../../services/service';
 import Cookies from 'js-cookie';
-// TODO remove, this demo shouldn't need to reset the theme.
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
   const navigate = useNavigate();
+  const notify = () => toast.error('Invalid Email or Password!', {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log(email,password);
+    console.log(Email,Password);
 
     try{
-      const response = await axios.post('http://localhost:8000/login',{email,password});
-      console.log(JSON.stringify(response?.data));
+      const response = await axiosReq.post('http://localhost:8000/login',{Email,Password});
+      if(response?.data?.message === 'invalid-user'){
+        notify();
+        return;
+      }
       const accessToken = response?.data?.accessToken;
       Cookies.set('token',accessToken);
       navigate('/');
     }catch(err){
       console.log(err.message)
     }
-    
-
-
-
   };
 
 
@@ -61,15 +70,16 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          <ToastContainer />
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="email"
+                  id="Email"
                   label="Email Address"
-                  name="email"
+                  name="Email"
                   autoComplete="email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -78,10 +88,10 @@ export default function Login() {
                 <TextField
                   required
                   fullWidth
-                  name="password"
+                  name="Password"
                   label="Password"
                   type="password"
-                  id="password"
+                  id="Password"
                   autoComplete="new-password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
