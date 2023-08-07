@@ -89,12 +89,20 @@ const updateAccount = asyncHandler(async (req, res) => {
 
 const getMe = asyncHandler(async (req, res) => {
   try {
-    const { _id, FirstName, Email } = await AccountModel.findById(req.user.id)
+    const user = await AccountModel.findById(req.user.id)
 
     res.status(200).json({
-      id: _id,
-      FirstName: FirstName,
-      Email: Email,
+      id: user._id,
+      FirstName: user.FirstName,
+      Email: user.Email,
+      Permission: user.Permission,
+      LastName: user.LastName,
+      PhoneNumber: user.PhoneNumber,
+      Address: user.Address,
+      StdID: user.StdID,
+      Course: user.Course,
+      Qualification: user.Qualification,
+      GraduateYear: user.GraduateYear
     })
   } catch (err) {
     res.json(err)
@@ -103,7 +111,27 @@ const getMe = asyncHandler(async (req, res) => {
 
 })
 
+ const changePassword = asyncHandler(async (req, res) => {
+   try {
+     const { oldPassword, newPassword } = req.body
+     const { _id, Password } = await AccountModel.findById(req.user.id)
+     const isMatch = await bcrypt.compare(oldPassword, Password)
+     if (!isMatch) {
+       res.status(400).json("Old password is incorrect")
+     }
+     const salt = await bcrypt.genSalt(10)
+     const hashedPassword = await bcrypt.hash(newPassword, salt)
+     await AccountModel.findByIdAndUpdate(_id, { Password: hashedPassword })
+     res.status(200).json("Password changed")
+   } catch (err) {
+     res.json(err)
+     res.status(500)
+   }
+ })
+
+
 module.exports = {
+  changePassword,
   registerUser,
   userLogin,
   getMe,
