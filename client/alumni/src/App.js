@@ -8,6 +8,8 @@ import { BrowserRouter as Router, Routes, Route }from 'react-router-dom';
 import axios from 'axios';
 import Profile from './pages/Profile/Profile';
 import Footer from './components/Footer/Footer';
+import UserManage from './AdminPages/UserManage/UserManage';
+import PostManage from './AdminPages/PostManage/PostManage';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -20,8 +22,9 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/logout' exact element={<Logout/>}/>
+        <Route path='/admin/users' element={<UserManage/>}/>
+        <Route path='/admin/posts' element={<PostManage/>}/>
       </Routes>
-      <Footer/>
     </Router>
     
   );

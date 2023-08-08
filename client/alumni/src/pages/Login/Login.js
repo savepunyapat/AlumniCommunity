@@ -104,7 +104,7 @@ export default function Login() {
               style={{ backgroundColor: "#a73b23" }}
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Sign In
             </Button>
           </Box>
         </Box>
