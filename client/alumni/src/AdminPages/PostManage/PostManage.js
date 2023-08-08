@@ -1,45 +1,47 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { axiosReq } from '../../services/service';
-
+import { Button } from "@mui/material";
 
 function PostManage() {
     const [posts, setPosts] = useState([]);
+    const commentExist = (comments) => {
+        if (comments && Object.keys(comments).length > 0) {
+            return (
+                <div>
+                    <h4>Comments:</h4>
+                    {Object.values(comments).map((comment, index) => (
+                        <p key={index}>{comment.comment}</p>
+                    ))}
+                </div>
+            );
+        }
+        return null;
+    };
+
     useEffect(() => {
-        axiosReq.get("http//localhost:8000/getAllPosts").then((res) => {
-            setPosts(res.data);
-        });
+        const fetchData = async () => {
+            try {
+                const response = await axiosReq.get('http://localhost:8000/getAllPosts');
+                setPosts(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
     }, []);
-  return (
-    <div>
-        <h1>PostManage</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Content</th>
-                    <th>Author</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {posts.map((post, index) => (
-                    <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{post.content}</td>
-                        <td>{post.author}</td>
-                        <td>{post.createdAt}</td>
-                        <td>{post.updatedAt}</td>
-                        <td>
-                            <button>Edit</button>
-                            <button>Delete</button>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-    </div>
+    
+    return (
+        <div>
+            {posts.map((post) => (
+                <div key={post._id}>
+                    <h2>{post.PostSubject}</h2>
+                    <p>{post.PostDetail}</p>
+                    <Button>Delete</Button>
+                    <Button>Edit</Button>
+                </div>
+            ))}
+        </div>
     );
 }
 
