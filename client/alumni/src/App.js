@@ -10,6 +10,7 @@ import Profile from './pages/Profile/Profile';
 import Footer from './components/Footer/Footer';
 import UserManage from './AdminPages/UserManage/UserManage';
 import PostManage from './AdminPages/PostManage/PostManage';
+import AddPost from './AdminPages/PostManage/AddPost';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path='/logout' exact element={<Logout/>}/>
         <Route path='/admin/users' element={<UserManage/>}/>
         <Route path='/admin/posts' element={<PostManage/>}/>
+        <Route path='/admin/addPost' element={<AddPost/>}/>
       </Routes>
     </Router>
     
