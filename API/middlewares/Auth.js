@@ -37,8 +37,8 @@ const isAdmin = asyncHandler(async(req,res,next)=>{
             req.user = await AccountModel.findById(decoded.id).select('-Password')
             
             if(req.user.Permission !== 'admin'){
-                res.status(401).json('You are not admin')
-                throw new Error('Not Authorized')
+                res.status(401).json('not-admin')
+                
             }
             next()
             res.status(200).json("You are admin")
@@ -49,7 +49,7 @@ const isAdmin = asyncHandler(async(req,res,next)=>{
         }
     }
     if(!token){
-        res.status(401)
+        res.status(401).json('no-token')
         throw new Error('No token')
     }
 })

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { axiosReq } from '../../services/service';
 import { Button } from "@mui/material";
+import Cookies from "js-cookie";
 
 function PostManage() {
     const [posts, setPosts] = useState([]);
@@ -17,8 +18,22 @@ function PostManage() {
         }
         return null;
     };
-
+    
     useEffect(() => {
+        const isAdmin = async () => {
+            try {
+                const accessToken = Cookies.get('token');
+                if (!accessToken) {
+                    window.location.href = '/login';
+                }
+                const response = await axiosReq.get('http://localhost:8000/isAdmin');
+                if (response.data === 'not-admin') {
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
         const fetchData = async () => {
             try {
                 const response = await axiosReq.get('http://localhost:8000/getAllPosts');
@@ -27,7 +42,7 @@ function PostManage() {
                 console.error('Error fetching data:', error);
             }
         };
-
+        isAdmin();
         fetchData();
     }, []);
     
