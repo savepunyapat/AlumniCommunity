@@ -18,7 +18,7 @@ function PostManage() {
         }
         return null;
     };
-
+    
     useEffect(() => {
         const isAdmin = async () => {
             try {

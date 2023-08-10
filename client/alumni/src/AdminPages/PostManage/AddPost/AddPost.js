@@ -3,6 +3,9 @@ import JoditEditor from 'jodit-react';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
+import './AddPost.css'
+import { axiosReq } from '../../../services/service';
+import Cookies from "js-cookie";
 function AddPost({ placeholder }) {
     const [PostDetail, setPostDetail] = useState('')
     const [PostSubject, setPostSubject] = useState('')
@@ -11,18 +14,43 @@ function AddPost({ placeholder }) {
     const handleChange = (event) => {
         setPostCategory(event.target.value);
     };
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = async (e) => {
+        try {
+            e.preventDefault()
+            const response = await axiosReq.post('http://localhost:8000/addPost',{PostSubject,PostDetail,PostCategory});
+            console.log(response.data)
+        }catch(error){
+            console.error('Error fetching data:', error);
+        }
+        
         console.log(PostDetail)
         console.log(PostSubject)
         console.log(PostCategory)
     }
+    useEffect(() => {
+        const isAdmin = async () => {
+            try {
+                const accessToken = Cookies.get('token');
+                if (!accessToken) {
+                    window.location.href = '/login';
+                }
+                const response = await axiosReq.get('http://localhost:8000/isAdmin');
+                if (response.data === 'not-admin') {
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        isAdmin();
+    }, []);
+
     return (
         <div className='container'>
             <div className='container' id='form-box'>
                 <form onSubmit={handleSubmit} defaultValue="" required>
                     <label>หัวข้อ</label><br />
-                    <input onChange={handleChange} name='PostSubject' placeholder="ชื่อหัวข้อ" /><br />
+                    <input onChange={e=>{setPostSubject(e.target.value)}} name='PostSubject' placeholder="ชื่อหัวข้อ" /><br />
                     <InputLabel id="demo-simple-select-label">หมวดหมู่</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -36,7 +64,7 @@ function AddPost({ placeholder }) {
                         <MenuItem value={'activity'}>กิจกรรม</MenuItem>
                         <MenuItem value={'work'}>รับสมัครงาน</MenuItem>
                     </Select>
-
+                    <br/>
                     <label>Details</label><br />
                     <JoditEditor
                         value={PostDetail}
