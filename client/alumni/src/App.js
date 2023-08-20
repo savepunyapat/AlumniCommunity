@@ -31,7 +31,6 @@ function App() {
         <Route path='/admin/addPost' element={<AddPost/>}/>
         <Route path='/admin/editPost/:id' element={<UpdatePost/>}/>
       </Routes>
-      <Footer/>
     </Router>
     
   );

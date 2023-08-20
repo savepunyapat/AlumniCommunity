@@ -65,7 +65,11 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container sx={{
+        boxShadow : 2,
+        marginTop: 20,
+        borderRadius:2,
+      }} component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
@@ -112,7 +116,7 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              style={{ backgroundColor: "#a73b23" }}
+              style={{ backgroundColor: "#0776bc" }}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In

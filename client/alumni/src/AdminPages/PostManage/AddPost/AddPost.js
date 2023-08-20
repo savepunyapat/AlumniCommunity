@@ -6,6 +6,10 @@ import Select from '@mui/material/Select';
 import './AddPost.css'
 import { axiosReq } from '../../../services/service';
 import Cookies from "js-cookie";
+import { Button } from '@mui/material';
+import { NavLink } from 'react-router-dom';
+
+
 function AddPost({ placeholder }) {
     const [PostDetail, setPostDetail] = useState('')
     const [PostSubject, setPostSubject] = useState('')
@@ -22,7 +26,6 @@ function AddPost({ placeholder }) {
         }catch(error){
             console.error('Error fetching data:', error);
         }
-        
         console.log(PostDetail)
         console.log(PostSubject)
         console.log(PostCategory)
@@ -48,10 +51,11 @@ function AddPost({ placeholder }) {
     return (
         <div id="addpost-box" className='addpost-container'>
             <div className='addpost-container' id='form-box'>
+                <h1>เพิ่มโพสต์</h1>
                 <form onSubmit={handleSubmit} defaultValue="" required>
                     <label>หัวข้อ</label><br />
-                    <input onChange={e=>{setPostSubject(e.target.value)}} name='PostSubject' placeholder="ชื่อหัวข้อ" /><br />
-                    <InputLabel id="demo-simple-select-label">หมวดหมู่</InputLabel>
+                    <input onChange={e=>{setPostSubject(e.target.value)}} name='PostSubject' placeholder="ชื่อหัวข้อ" /><br /><br />
+                    <label>หมวดหมู่</label><br />
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -64,15 +68,21 @@ function AddPost({ placeholder }) {
                         <MenuItem value={'activity'}>กิจกรรม</MenuItem>
                         <MenuItem value={'work'}>รับสมัครงาน</MenuItem>
                     </Select>
-                    <br/>
-                    <label>Details</label><br />
+                    <br/><br />
+                    <label>รูปภาพหน้าปก</label><br />
+                    <input type="file" name="file" id="file" class="inputfile" /><br /><br />
+                    <label>เนื้อหาข่าว</label><br />
                     <JoditEditor
                         value={PostDetail}
                         tabIndex={1} // tabIndex of textarea
                         onBlur={newContent => setPostDetail(newContent)} // preferred to use only this option to update the content for performance reasons
                         onChange={newContent => { }} />
-                    <input type="submit" value="Submit" />
+                    <Button sx={{marginTop:'1vh',marginRight:"1vw"}} color='success' variant='contained' className='addpostBTN' type="submit" value="" >โพสต์</Button>
+                    <NavLink to="/admin/posts">
+                        <Button sx={{marginTop:'1vh'}} color='error' variant='contained' className='addpostBTN'>กลับ</Button>
+                    </NavLink>
                 </form>
+                
             </div>
         </div>
 
