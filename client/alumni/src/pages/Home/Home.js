@@ -14,6 +14,8 @@ import {
 import { axiosReq } from "../../services/service";
 import NewsCard from "../../components/NewsCard/NewsCard";
 import "./Home.css";
+import parse from "html-react-parser";
+import cslogo from "../../img/logo/cs_logo.png";
 
 function Home() {
     const [posts, setPosts] = useState([]);
@@ -30,14 +32,20 @@ function Home() {
             }
         };
         fetchData();
-        
+
     }, []);
-    
+    const truncateText = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        }
+        return text;
+    };
     return (
         <div className="home-container">
             <Card
                 sx={{
                     p: 2,
+                    marginTop:10,
                 }}
             >
                 <ButtonGroup
@@ -54,37 +62,43 @@ function Home() {
                 <List
                     sx={{
                         width: "100%",
-                        maxWidth: 360,
+                        height: '100%',
+                        maxWidth: 500,
                         bgcolor: "background.paper",
                     }}
                 >
-                    <ListItem alignItems="flex-start">
-                        <ListItemAvatar>
-                            <Avatar
-                                alt="Remy Sharp"
-                                src="/static/images/avatar/1.jpg"
-                            />
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary="Brunch this weekend?"
-                            secondary={
-                                <React.Fragment>
-                                    <Typography
-                                        sx={{ display: "inline" }}
-                                        component="span"
-                                        variant="body2"
-                                        color="text.primary"
-                                    >
-                                        Ali Connors
-                                    </Typography>
-                                    {
-                                        " — I'll be in your neighborhood doing errands this…"
+                    {posts.map((post, index) => (
+                        <div>
+                            <ListItem className="home-news-lists" alignItems="flex-start">
+                                <ListItemAvatar sx={{paddingRight:4}}>
+                                    <img className="home-news-photo" src={cslogo}/>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={post.PostSubject}
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography
+                                                sx={{ display: "inline" }}
+                                                component="span"
+                                                variant="body2"
+                                                color="text.primary"
+                                            >
+                                                Ali Connors
+                                            </Typography>
+                                            
+                                            <p className="home-postdetail">{post.PostSubject}</p>
+
+                                            
+                                        </React.Fragment>
                                     }
-                                </React.Fragment>
-                            }
-                        />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
+                                />
+                            </ListItem>
+                            <Divider variant="inset" component="li" />
+                        </div>
+                    ))
+                        
+                    }
+
                 </List>
             </Card>
         </div>

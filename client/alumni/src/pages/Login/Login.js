@@ -32,32 +32,32 @@ export default function Login() {
     draggable: true,
     progress: undefined,
     theme: "light",
-    });
-    const notifySuccess = () => toast.success('🦄 Wow so easy!', {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      });
+  });
+  const notifySuccess = () => toast.success('Login Success!', {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log(Email,Password);
+    console.log(Email, Password);
 
-    try{
-      const response = await axiosReq.post('http://localhost:8000/login',{Email,Password});
-      if(response?.data?.message === 'invalid-user'){
+    try {
+      const response = await axiosReq.post('http://localhost:8000/login', { Email, Password });
+      if (response?.data?.message === 'invalid-user') {
         notifyError();
         return;
       }
       const accessToken = response?.data?.accessToken;
-      Cookies.set('token',accessToken);
+      Cookies.set('token', accessToken);
       notifySuccess();
       navigate('/');
-    }catch(err){
+    } catch (err) {
       console.log(err.message)
     }
   };
@@ -66,9 +66,9 @@ export default function Login() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container sx={{
-        boxShadow : 2,
+        boxShadow: 2,
         marginTop: 20,
-        borderRadius:2,
+        borderRadius: 2,
       }} component="main" maxWidth="xs">
         <CssBaseline />
         <Box

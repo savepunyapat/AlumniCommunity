@@ -8,13 +8,23 @@ import { axiosReq } from '../../../services/service';
 import Cookies from "js-cookie";
 import { Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddPost({ placeholder }) {
     const [PostDetail, setPostDetail] = useState('')
     const [PostSubject, setPostSubject] = useState('')
     const [PostCategory, setPostCategory] = useState('')
-
+    const notifySuccess = () => toast.success('โพสต์ สำเร็จ!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     const handleChange = (event) => {
         setPostCategory(event.target.value);
     };
@@ -22,6 +32,7 @@ function AddPost({ placeholder }) {
         try {
             e.preventDefault()
             const response = await axiosReq.post('http://localhost:8000/addPost',{PostSubject,PostDetail,PostCategory});
+            notifySuccess();
             console.log(response.data)
         }catch(error){
             console.error('Error fetching data:', error);
@@ -50,6 +61,7 @@ function AddPost({ placeholder }) {
 
     return (
         <div id="addpost-box" className='addpost-container'>
+            <ToastContainer />
             <div className='addpost-container' id='form-box'>
                 <h1>เพิ่มโพสต์</h1>
                 <form onSubmit={handleSubmit} defaultValue="" required>

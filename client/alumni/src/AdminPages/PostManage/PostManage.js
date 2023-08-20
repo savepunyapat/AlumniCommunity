@@ -69,7 +69,7 @@ function PostManage() {
             </Grid>
             <Grid item xs={8}>
               <h2>{post.PostSubject}</h2>
-              <p id="postmanager-post-detail">{parse(post.PostDetail)}</p>
+              <p className="postmanager-post-detail">{parse(post.PostDetail)}</p>
               <Button variant="contained" color="error">
                 Delete
               </Button>

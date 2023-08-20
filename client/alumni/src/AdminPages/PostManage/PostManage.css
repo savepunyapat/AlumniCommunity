@@ -24,8 +24,10 @@
 #addBtn {
   margin: 2vw;
 }
-#postmanager-postdetail {
-  word-wrap: break-word;
-  width: 50px;
+.postmanager-post-detail {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 700px;
   height: 50px;
 }
