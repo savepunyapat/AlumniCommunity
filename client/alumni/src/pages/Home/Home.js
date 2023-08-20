@@ -11,11 +11,28 @@ import {
     ListItemAvatar,
     Avatar,
 } from "@mui/material";
-import axios, { axiosWithTokenReq } from "../../services/service";
+import { axiosReq } from "../../services/service";
 import NewsCard from "../../components/NewsCard/NewsCard";
 import "./Home.css";
 
 function Home() {
+    const [posts, setPosts] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axiosReq.get(
+                    "http://localhost:8000/getAllPosts"
+                );
+                setPosts(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+        
+    }, []);
+    
     return (
         <div className="home-container">
             <Card
