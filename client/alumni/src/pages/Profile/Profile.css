@@ -1,0 +1,14 @@
+.profile-admin-div {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+#profile-box {
+    padding: 10px;
+    box-shadow : rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.profile-header {
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    width: 100%;
+    text-align: center;
+}

@@ -4,6 +4,8 @@
 }
 #form-box {
     align-items: center;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
     justify-content: center;
     width: 50%;
     height: 100%;
@@ -11,4 +13,9 @@
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+#addpost-box {
+    display: flex;
+    align-items: center;
+    justify-content: center
 }

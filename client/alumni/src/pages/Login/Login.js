@@ -23,7 +23,7 @@ export default function Login() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const navigate = useNavigate();
-  const notify = () => toast.error('Invalid Email or Password!', {
+  const notifyError = () => toast.error('Invalid Email or Password!', {
     position: "top-right",
     autoClose: 5000,
     hideProgressBar: false,
@@ -33,6 +33,16 @@ export default function Login() {
     progress: undefined,
     theme: "light",
     });
+    const notifySuccess = () => toast.success('🦄 Wow so easy!', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
   const handleSubmit = async (event) => {
     event.preventDefault()
     console.log(Email,Password);
@@ -40,11 +50,12 @@ export default function Login() {
     try{
       const response = await axiosReq.post('http://localhost:8000/login',{Email,Password});
       if(response?.data?.message === 'invalid-user'){
-        notify();
+        notifyError();
         return;
       }
       const accessToken = response?.data?.accessToken;
       Cookies.set('token',accessToken);
+      notifySuccess();
       navigate('/');
     }catch(err){
       console.log(err.message)

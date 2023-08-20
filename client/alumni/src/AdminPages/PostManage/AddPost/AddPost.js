@@ -46,8 +46,8 @@ function AddPost({ placeholder }) {
     }, []);
 
     return (
-        <div className='container'>
-            <div className='container' id='form-box'>
+        <div id="addpost-box" className='addpost-container'>
+            <div className='addpost-container' id='form-box'>
                 <form onSubmit={handleSubmit} defaultValue="" required>
                     <label>หัวข้อ</label><br />
                     <input onChange={e=>{setPostSubject(e.target.value)}} name='PostSubject' placeholder="ชื่อหัวข้อ" /><br />

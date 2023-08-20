@@ -7,7 +7,7 @@ const PostSchema = mongoose.Schema(
             require:true
         },
         PostCategory:{
-            type:Array,
+            type:String,
             require:true
         },
         PostDetail:{    
@@ -19,6 +19,11 @@ const PostSchema = mongoose.Schema(
             type:JSON,
             require:true,
             default:{}
+        },
+        Pic_url:{
+            type:String,
+            require:true,
+            default:"https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
         }
 
     },

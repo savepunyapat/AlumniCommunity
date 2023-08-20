@@ -2,3 +2,7 @@
     list-style: none;
     text-decoration: none;
 }
+#logo {
+    width: 7vw;
+    padding-right: 2vw;
+}
