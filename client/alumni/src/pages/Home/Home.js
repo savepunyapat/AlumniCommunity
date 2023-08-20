@@ -127,4 +127,8 @@ function Home() {
     );
 }
 
+<<<<<<< HEAD
 export default Home;
+=======
+export default Home;
+>>>>>>> 22782a80c1e44c546a205ce712fc00329802180d
