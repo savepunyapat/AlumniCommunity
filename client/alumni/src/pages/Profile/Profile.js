@@ -76,25 +76,25 @@ const Profile = () => {
               </Grid>
               <Grid item xs={5}>
                 <p>เบอร์โทรศัพท์</p>
-                <TextField disabled placeholder={user.FirstName}>
+                <TextField disabled placeholder={user.PhoneNumber}>
                   ชื่อ: {user.FirstName}
                 </TextField>
               </Grid>
               <Grid item xs={5}>
                 <p>สาขาวิชา</p>
-                <TextField disabled placeholder={user.LastName}>
+                <TextField disabled placeholder={user.Course}>
                   นามสกุล{" "}
                 </TextField>
               </Grid>
               <Grid item xs={5}>
                 <p>วุฒิการศึกษา</p>
-                <TextField disabled placeholder={user.StdID}>
+                <TextField disabled placeholder={user.Qualification}>
                   รหัสนักศึกษา: {user.StdID}
                 </TextField>
               </Grid>
               <Grid item xs={5}>
                 <p>ปีที่สำเร็จการศึกษา</p>
-                <TextField disabled placeholder={user.FirstName}>
+                <TextField disabled placeholder={user.GraduateYear}>
                   ชื่อ: {user.FirstName}
                 </TextField>
               </Grid>

@@ -77,14 +77,7 @@ function Home() {
                                     primary={post.PostSubject}
                                     secondary={
                                         <React.Fragment>
-                                            <Typography
-                                                sx={{ display: "inline" }}
-                                                component="span"
-                                                variant="body2"
-                                                color="text.primary"
-                                            >
-                                                Ali Connors
-                                            </Typography>
+                                           
                                             
                                             <p className="home-postdetail">{post.PostSubject}</p>
 
