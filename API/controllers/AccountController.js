@@ -48,6 +48,36 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+const addWorkPlace = asyncHandler(async (req, res) => {
+  const { WorkPlace } = req.body;
+  const user = await AccountModel.findById(req.user.id)
+  if (user) {
+    user.WorkPlace.push(WorkPlace)
+    await user.save()
+    res.status(201).json({
+      WorkPlace: user.WorkPlace
+    })
+  } else {
+    res.status(400)
+    throw new Error('Invalid user data')
+  }
+})
+
+const addEducation = asyncHandler(async (req, res) => {
+  const { Education } = req.body;
+  const user = await AccountModel.findById(req.user.id)
+  if (user) {
+    user.Education.push(Education)
+    await user.save()
+    res.status(201).json({
+      Education: user.Education
+    })
+  } else {
+    res.status(400)
+    throw new Error('Invalid user data')
+  }
+})
+
 const userLogin = asyncHandler(async (req, res) => {
   const Email = req.body.Email;
   const Password = req.body.Password
@@ -136,5 +166,7 @@ module.exports = {
   userLogin,
   getMe,
   updateAccount,
-  userLogout
+  userLogout,
+  addEducation,
+  addWorkPlace
 }

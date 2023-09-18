@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const AccountModel = require('../models/AlumniAccount');
-const {userLogin,userLogout,changePassword, registerUser, getMe ,updateAccount} = require('../controllers/AccountController')
+const {userLogin,userLogout,changePassword, registerUser, getMe ,updateAccount,addEducation,addWorkPlace} = require('../controllers/AccountController')
 const {verified, isAdmin} = require('../middlewares/Auth')
 
 router.post("/addAccount", async (req, res) => {
@@ -12,6 +12,7 @@ router.post("/addAccount", async (req, res) => {
     res.status(500).json({ messgae: error.message });
   }
 });
+
 
 router.get("/allAccount", async (req, res) => {
   try {
@@ -31,6 +32,8 @@ router.delete("/acc/:id", async (req, res) => {
   }
 });
 
+router.put("/addEducation",verified,addEducation);
+router.put("/addWorkPlace",verified,addWorkPlace);
 router.post("/changePassword",verified,changePassword);
 router.put("/acc/:id", verified , updateAccount);
 router.post('/register',registerUser)

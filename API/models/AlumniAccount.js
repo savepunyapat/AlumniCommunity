@@ -23,7 +23,7 @@ const AlumniAccountSchema = mongoose.Schema(
             type:String,
             default:"0",
             //require:[true,"Enter Your Student ID"],
-        },  
+        },/*  
         Course:{
             type:String,
             default:"CS",
@@ -35,6 +35,13 @@ const AlumniAccountSchema = mongoose.Schema(
         GraduateYear:{
             type:String,
             default:'0'
+        },*/
+        Education:{
+            type:Array
+            
+        },
+        WorkPlace:{
+            type:Array
         },
         Permission:{
             type:String,
