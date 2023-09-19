@@ -72,7 +72,7 @@ function Navbar() {
     return () => {
       window.removeEventListener("storage", tokenChangeListener);
     };
-  }, []);
+  }, [loggedIn]);
   
   return (
     <AppBar style={{ backgroundColor: "#C1C1C1" }} position="static">

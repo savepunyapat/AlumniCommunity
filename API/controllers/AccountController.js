@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 const AccountModel = require("../models/AlumniAccount");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { FirstName, Email, Password,Permission,LastName,PhoneNumber,Address,StdID,Course,Qualification,GraduateYear } = req.body;
+  const { FirstName, Email, Password,Permission,LastName,PhoneNumber,Address,StdID,Education,WorkPlace } = req.body;
   console.log(req.body);
   if (!FirstName || !Email || !Password || !Permission || !LastName || !StdID) {
     res.status(400);
@@ -30,9 +30,8 @@ const registerUser = asyncHandler(async (req, res) => {
     PhoneNumber,
     Address,
     StdID,
-    Course,
-    Qualification,
-    GraduateYear
+    Education,
+    WorkPlace
   });
 
   if (Account) {
@@ -130,9 +129,8 @@ const getMe = asyncHandler(async (req, res) => {
       PhoneNumber: user.PhoneNumber,
       Address: user.Address,
       StdID: user.StdID,
-      Course: user.Course,
-      Qualification: user.Qualification,
-      GraduateYear: user.GraduateYear
+      Education: user.Education,
+      WorkPlace: user.WorkPlace,
     })
   } catch (err) {
     res.json(err)

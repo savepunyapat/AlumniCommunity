@@ -7,6 +7,7 @@ import cslogo from "../../img/logo/cs_logo.png";
 import { NavLink } from "react-router-dom";
 import parse from 'html-react-parser';
 
+
 function PostManage() {
   const [posts, setPosts] = useState([]);
   const commentExist = (comments) => {
@@ -65,7 +66,7 @@ function PostManage() {
         <div className="postmanage-container">
           <Grid container spacing={2}>
             <Grid item xs={4}>
-              <img src={cslogo} />
+              <img className="postmanage-post-logo" src={post.Pic_url} />
             </Grid>
             <Grid item xs={8}>
               <h2>{post.PostSubject}</h2>
