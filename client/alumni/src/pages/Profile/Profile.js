@@ -13,9 +13,9 @@ const Profile = () => {
   const [permission, setPermission] = useState(false);
   const [education, setEducation] = useState({});
   const [workplace, setWorkplace] = useState({});
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openEducationModal, setOpenEducationModal] = React.useState(false);
+  const handleEducationOpen = () => setOpenEducationModal(true);
+  const handleEducationClose = () => setOpenEducationModal(false);
 
 
   const style = {
@@ -23,14 +23,18 @@ const Profile = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    height: 300,
     width: 400,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    borderRadius: "10px",
   };
 
-
+  const closeEducationModal = () => {
+    setOpenEducationModal(false);
+  }
   const handleDelete = async (index) => {
     try {
       const response = await axiosWithTokenReq.delete(
@@ -46,7 +50,7 @@ const Profile = () => {
       const response = await axiosWithTokenReq.get("http://localhost:8000/me");
       setUser(response?.data);
       setEducation(response?.data?.Education);
-      setWorkplace(response?.data?.Workplace);
+      setWorkplace(response?.data?.WorkPlace);
       console.log(education);
       console.log(workplace);
       console.log(user.Permission);
@@ -106,42 +110,24 @@ const Profile = () => {
             >
               <Grid item xs={5}>
                 <p>รหัสนักศึกษา</p>
-                <TextField disabled placeholder={user.StdID}>
+                <TextField disabled value={user.StdID}>
                   รหัสนักศึกษา: {user.StdID}
                 </TextField>
               </Grid>
               <Grid item xs={5}>
                 <p>เบอร์โทรศัพท์</p>
-                <TextField disabled placeholder={user.PhoneNumber}>
-                  ชื่อ: {user.FirstName}
-                </TextField>
-              </Grid>
-              <Grid item xs={5}>
-                <p>สาขาวิชา</p>
-                <TextField disabled placeholder={user.Course}>
-                  นามสกุล{" "}
-                </TextField>
-              </Grid>
-              <Grid item xs={5}>
-                <p>วุฒิการศึกษา</p>
-                <TextField disabled placeholder={user.Qualification}>
-                  รหัสนักศึกษา: {user.StdID}
-                </TextField>
-              </Grid>
-              <Grid item xs={5}>
-                <p>ปีที่สำเร็จการศึกษา</p>
-                <TextField disabled placeholder={user.GraduateYear}>
+                <TextField disabled value={user.PhoneNumber}>
                   ชื่อ: {user.FirstName}
                 </TextField>
               </Grid>
               <Grid item xs={5}>
                 <p>สถานะ</p>
-                <TextField disabled placeholder={user.Permission}></TextField>
+                <TextField disabled value={user.Permission}></TextField>
               </Grid>
             </Grid>
             <Box id="profile-address-box">
               <p>ที่อยู่</p>
-              <TextField placeholder={user.Address}></TextField>
+              <TextField value={user.Address}></TextField>
             </Box>
           </Box>
         </div>
@@ -151,22 +137,22 @@ const Profile = () => {
         <ul>
           {Array.isArray(education)
             ? education.map((edu, index) => (
-                <div key={edu}>
-                  <li>{index}</li>
-                  <li>{edu.Course}</li>
-                  <li>{edu.Qualification}</li>
-                  <li>{edu.GraduateYear}</li>
-                </div>
-              ))
+              <div key={edu}>
+                <li>{index}</li>
+                <li>{edu.Course}</li>
+                <li>{edu.Qualification}</li>
+                <li>{edu.GraduateYear}</li>
+              </div>
+            ))
             : null}
         </ul>
 
-        <Button variant="contained" onClick={handleOpen} color="success">
+        <Button variant="contained" onClick={handleEducationOpen} color="success">
           Add education
         </Button>
         <Modal
-          open={open}
-          onClose={handleClose}
+          open={openEducationModal}
+          onClose={handleEducationClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -192,11 +178,28 @@ const Profile = () => {
               <Button variant="contained" color="success">
                 Add
               </Button>
+              <Button onClick={closeEducationModal} variant="contained" color="error">
+                Close
+              </Button>
             </form>
           </Box>
         </Modal>
       </div>
-      <div className="profile-workplace-div"></div>
+      <div className="profile-workplace-div">
+        <h2>Work Place</h2>
+        <ul>
+          {Array.isArray(workplace)
+            ? workplace.map((work, index) => (
+              <div key={work}>
+                <li>{index}</li>
+                <li>{work.Company}</li>
+                <li>{work.Role}</li>
+                <li>{work.WorkDetail}</li>
+              </div>
+            ))
+            : null}
+        </ul>
+      </div>
       {permission ? (
         <div className="profile-admin-div">
           <Grid

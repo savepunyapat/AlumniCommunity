@@ -45,7 +45,7 @@ function Home() {
             <Card
                 sx={{
                     p: 2,
-                    marginTop:10,
+                    marginTop: 10,
                 }}
             >
                 <ButtonGroup
@@ -70,18 +70,24 @@ function Home() {
                     {posts.map((post, index) => (
                         <div>
                             <ListItem className="home-news-lists" alignItems="flex-start">
-                                <ListItemAvatar sx={{paddingRight:4}}>
-                                    <img className="home-news-photo" src={cslogo}/>
+                                <ListItemAvatar sx={{ paddingRight: 4 }}>
+                                    <img className="home-news-photo" src={cslogo} />
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={post.PostSubject}
                                     secondary={
                                         <React.Fragment>
-                                           
+                                            <Typography
+                                                sx={{ display: "inline" }}
+                                                component="span"
+                                                variant="body2"
+                                                color="text.primary"
+                                            >
                                             
+                                            </Typography>
                                             <p className="home-postdetail">{post.PostSubject}</p>
 
-                                            
+
                                         </React.Fragment>
                                     }
                                 />
@@ -89,7 +95,7 @@ function Home() {
                             <Divider variant="inset" component="li" />
                         </div>
                     ))
-                        
+
                     }
 
                 </List>
