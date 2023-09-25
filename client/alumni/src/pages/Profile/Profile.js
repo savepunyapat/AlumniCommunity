@@ -23,7 +23,43 @@ const Profile = () => {
   const [openWorkPlaceModal, setOpenWorkPlaceModal] = React.useState(false);
   const handleWorkPlaceOpen = () => setOpenWorkPlaceModal(true);
   const handleWorkPlaceClose = () => setOpenWorkPlaceModal(false);
+  const [newAddress, setNewAddress] = useState("");
 
+  const handleNewAddress = (e) => {
+    setNewAddress(e.target.value);
+    console.log(newAddress);
+  };
+
+  const handleEducationSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const Education = {
+        Course: e.target.Course.value,
+        Qualification: e.target.Qualification.value,
+        GraduateYear: e.target.GraduateYear.value,
+      };
+      const response = await axiosWithTokenReq.put("http://localhost:8000/addEducation", Education);
+  
+      
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+  const handleWorkPlaceSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const WorkPlace = {
+        CompanyName: e.target.CompanyName.value,
+        Position: e.target.Position.value,
+        StartDate: e.target.StartDate.value,
+        EndDate: e.target.EndDate.value,
+      };
+      const response = await axiosWithTokenReq.put("http://localhost:8000/addWorkPlace", WorkPlace);
+
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   const style = {
     position: 'absolute',
@@ -94,7 +130,11 @@ const Profile = () => {
     console.log(permission);
     getMe();
     console.log(permission);
-  }, user);
+  }, user,openEducationModal,openWorkPlaceModal);
+
+  useEffect(() => { 
+    
+  },);
 
   return (
     <Container maxWidth="sm">
@@ -148,12 +188,12 @@ const Profile = () => {
               </Grid>
               <Grid item xs={5}>
                 <p>สถานะ</p>
-                <TextField disabled value={user.Permission}></TextField>
+                <TextField value={user.Permission}></TextField>
               </Grid>
             </Grid>
             <Box id="profile-address-box">
               <p>ที่อยู่</p>
-              <TextField value={user.Address}></TextField>
+              <TextField onChange={handleNewAddress} defaultValue={user.Address}></TextField>
             </Box>
           </Box>
         </div>
@@ -184,9 +224,9 @@ const Profile = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <form>
+            <form onSubmit={handleEducationSubmit}>
               <label>Course</label>
-              <input type="text" name="Course" placeholder="Course" />
+              <input type="text"  name="Course" placeholder="Course" />
               <br />
               <label>Qualification</label>
               <input
@@ -202,7 +242,7 @@ const Profile = () => {
                 placeholder="GraduateYear"
               />
               <br />
-              <Button variant="contained" color="success">
+              <Button type="submit" variant="contained" color="success">
                 Add
               </Button>
               <Button onClick={closeEducationModal} variant="contained" color="error">
@@ -237,7 +277,7 @@ const Profile = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <form>
+            <form onSubmit={handleWorkPlaceSubmit}>
               <label>CompanyName</label>
               <input type="text" name="CompanyName" placeholder="CompanyName" />
               <br />
@@ -250,7 +290,7 @@ const Profile = () => {
               <label>EndDate</label>
               <input type="date" name="EndDate" placeholder="EndDate" />
               <br />
-              <Button variant="contained" color="success">
+              <Button type="submit" variant="contained" color="success">
                 Add
               </Button>
               <Button variant="contained" onClick={closeWorkPlaceModal} color="error">

@@ -48,7 +48,8 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const addWorkPlace = asyncHandler(async (req, res) => {
-  const { WorkPlace } = req.body;
+  const { CompanyName , Position ,StartDate,EndDate} = req.body;
+  const WorkPlace = { CompanyName , Position ,StartDate,EndDate};
   const user = await AccountModel.findById(req.user.id)
   if (user) {
     user.WorkPlace.push(WorkPlace)
@@ -63,7 +64,8 @@ const addWorkPlace = asyncHandler(async (req, res) => {
 })
 
 const addEducation = asyncHandler(async (req, res) => {
-  const { Education } = req.body;
+  const { Course , Qualification ,GraduateYear} = req.body;
+  const Education = { Course , Qualification ,GraduateYear}
   const user = await AccountModel.findById(req.user.id)
   if (user) {
     user.Education.push(Education)
