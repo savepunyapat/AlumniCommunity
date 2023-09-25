@@ -1,8 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const AccountModel = require('../models/AlumniAccount');
-const {userLogin,userLogout,changePassword, registerUser, getMe ,updateAccount,addEducation,addWorkPlace} = require('../controllers/AccountController')
-const {verified, isAdmin} = require('../middlewares/Auth')
+const AccountModel = require("../models/AlumniAccount");
+const {
+  userLogin,
+  userLogout,
+  changePassword,
+  registerUser,
+  getMe,
+  updateAccount,
+  deleteWorkPlaceByIndex,
+  addEducation,
+  addWorkPlace,
+  deleteEducationByIndex,
+} = require("../controllers/AccountController");
+const { verified, isAdmin } = require("../middlewares/Auth");
 
 router.post("/addAccount", async (req, res) => {
   try {
@@ -12,7 +23,6 @@ router.post("/addAccount", async (req, res) => {
     res.status(500).json({ messgae: error.message });
   }
 });
-
 
 router.get("/allAccount", async (req, res) => {
   try {
@@ -32,13 +42,15 @@ router.delete("/acc/:id", async (req, res) => {
   }
 });
 
-router.put("/addEducation",verified,addEducation);
-router.put("/addWorkPlace",verified,addWorkPlace);
-router.post("/changePassword",verified,changePassword);
-router.put("/acc/:id", verified , updateAccount);
-router.post('/register',registerUser)
-router.get('/me',verified,getMe)
-router.post('/login',userLogin)
-router.get('/logout',userLogout)
-router.get('/isAdmin',isAdmin)
+router.delete("/deleteWorkPlace", verified, deleteWorkPlaceByIndex)
+router.delete("/deleteEducation", verified, deleteEducationByIndex);
+router.put("/addEducation", verified, addEducation);
+router.put("/addWorkPlace", verified, addWorkPlace);
+router.post("/changePassword", verified, changePassword);
+router.put("/acc/:id", verified, updateAccount);
+router.post("/register", registerUser);
+router.get("/me", verified, getMe);
+router.post("/login", userLogin);
+router.get("/logout", userLogout);
+router.get("/isAdmin", isAdmin);
 module.exports = router;

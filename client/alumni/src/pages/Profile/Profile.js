@@ -8,14 +8,21 @@ import Cookies from "js-cookie";
 import Modal from "@mui/material/Modal";
 import "./Profile.css";
 import { NavLink } from "react-router-dom";
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
+import AddHomeIcon from '@mui/icons-material/AddHome';
+
 const Profile = () => {
   const [user, setUser] = useState();
   const [permission, setPermission] = useState(false);
   const [education, setEducation] = useState({});
   const [workplace, setWorkplace] = useState({});
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openEducationModal, setOpenEducationModal] = React.useState(false);
+  const handleEducationOpen = () => setOpenEducationModal(true);
+  const handleEducationClose = () => setOpenEducationModal(false);
+  const [openWorkPlaceModal, setOpenWorkPlaceModal] = React.useState(false);
+  const handleWorkPlaceOpen = () => setOpenWorkPlaceModal(true);
+  const handleWorkPlaceClose = () => setOpenWorkPlaceModal(false);
 
 
   const style = {
@@ -23,24 +30,47 @@ const Profile = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    height: 300,
     width: 400,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    borderRadius: "10px",
   };
 
-
-  const handleDelete = async (index) => {
+  const deleteEducation = async (index) => {
     try {
-      const response = await axiosWithTokenReq.delete(
-        `http://localhost:8000/education/${index}`
-      );
-      console.log(response);
-    } catch (err) {
+      const response = await axiosWithTokenReq.delete("http://localhost:8000/deleteEducation", {index});
+      window.location.reload();
+    }catch(err) {
       console.log(err.message);
-    }
+    };
+  }
+
+  const deleteWorkPlace = async (index) => {
+    try {
+      const response = await axiosWithTokenReq.delete("http://localhost:8000/deleteWorkPlace", {index});
+      window.location.reload();
+    }catch(err) {
+      console.log(err.message);
+    };
+  }
+
+  const handleDeleteWorkPlaceClick = (index) => {
+    deleteWorkPlace(index);
+  }
+  const handleDeleteEducaitonClick = (index) => {
+    deleteEducation(index);
   };
+
+  const closeEducationModal = () => {
+    setOpenEducationModal(false);
+  }
+  const closeWorkPlaceModal = () => {
+    setOpenWorkPlaceModal(false);
+  }
+  
   const getMe = async () => {
     try {
       const response = await axiosWithTokenReq.get("http://localhost:8000/me");
@@ -106,42 +136,24 @@ const Profile = () => {
             >
               <Grid item xs={5}>
                 <p>รหัสนักศึกษา</p>
-                <TextField disabled placeholder={user.StdID}>
+                <TextField disabled value={user.StdID}>
                   รหัสนักศึกษา: {user.StdID}
                 </TextField>
               </Grid>
               <Grid item xs={5}>
                 <p>เบอร์โทรศัพท์</p>
-                <TextField disabled placeholder={user.PhoneNumber}>
-                  ชื่อ: {user.FirstName}
-                </TextField>
-              </Grid>
-              <Grid item xs={5}>
-                <p>สาขาวิชา</p>
-                <TextField disabled placeholder={user.Course}>
-                  นามสกุล{" "}
-                </TextField>
-              </Grid>
-              <Grid item xs={5}>
-                <p>วุฒิการศึกษา</p>
-                <TextField disabled placeholder={user.Qualification}>
-                  รหัสนักศึกษา: {user.StdID}
-                </TextField>
-              </Grid>
-              <Grid item xs={5}>
-                <p>ปีที่สำเร็จการศึกษา</p>
-                <TextField disabled placeholder={user.GraduateYear}>
+                <TextField disabled value={user.PhoneNumber}>
                   ชื่อ: {user.FirstName}
                 </TextField>
               </Grid>
               <Grid item xs={5}>
                 <p>สถานะ</p>
-                <TextField disabled placeholder={user.Permission}></TextField>
+                <TextField disabled value={user.Permission}></TextField>
               </Grid>
             </Grid>
             <Box id="profile-address-box">
               <p>ที่อยู่</p>
-              <TextField placeholder={user.Address}></TextField>
+              <TextField value={user.Address}></TextField>
             </Box>
           </Box>
         </div>
@@ -151,22 +163,23 @@ const Profile = () => {
         <ul>
           {Array.isArray(education)
             ? education.map((edu, index) => (
-                <div key={edu}>
-                  <li>{index}</li>
-                  <li>{edu.Course}</li>
-                  <li>{edu.Qualification}</li>
-                  <li>{edu.GraduateYear}</li>
-                </div>
-              ))
+              <div key={edu}>
+                <li>{edu.Course}</li>
+                <li>{edu.Qualification}</li>
+                <li>{edu.GraduateYear}</li>
+                <Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><DeleteIcon/></Button>
+                
+              </div>
+            ))
             : null}
         </ul>
 
-        <Button variant="contained" onClick={handleOpen} color="success">
-          Add education
+        <Button variant="contained" onClick={handleEducationOpen} color="success">
+          <AddHomeIcon/>
         </Button>
         <Modal
-          open={open}
-          onClose={handleClose}
+          open={openEducationModal}
+          onClose={handleEducationClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -192,6 +205,9 @@ const Profile = () => {
               <Button variant="contained" color="success">
                 Add
               </Button>
+              <Button onClick={closeEducationModal} variant="contained" color="error">
+                Close
+              </Button>
             </form>
           </Box>
         </Modal>
@@ -202,18 +218,47 @@ const Profile = () => {
           {Array.isArray(workplace)
             ? workplace.map((work, index) => (
                 <div key={work}>
-                  <li>{index}</li>
                   <li>{work.CompanyName}</li>
                   <li>{work.Position}</li>
                   <li>{work.StartDate}</li>
                   <li>{work.EndDate}</li>
+                  <Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><DeleteIcon/></Button>
                 </div>
               ))
             : null}
         </ul>
-        <Button variant="contained" color="success">
-          Add workplace
+        <Button variant="contained" onClick={handleWorkPlaceOpen} color="success">
+          <AddHomeWorkIcon/>
         </Button>
+        <Modal
+          open={openWorkPlaceModal}
+          onClose={handleWorkPlaceClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <form>
+              <label>CompanyName</label>
+              <input type="text" name="CompanyName" placeholder="CompanyName" />
+              <br />
+              <label>Position</label>
+              <input type="text" name="Position" placeholder="Position" />
+              <br />
+              <label>StartDate</label>
+              <input type="date" name="StartDate" placeholder="StartDate" />
+              <br />
+              <label>EndDate</label>
+              <input type="date" name="EndDate" placeholder="EndDate" />
+              <br />
+              <Button variant="contained" color="success">
+                Add
+              </Button>
+              <Button variant="contained" onClick={closeWorkPlaceModal} color="error">
+                Close
+              </Button>
+            </form>
+          </Box>
+        </Modal>
       </div>
 
 

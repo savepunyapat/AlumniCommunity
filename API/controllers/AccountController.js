@@ -77,6 +77,36 @@ const addEducation = asyncHandler(async (req, res) => {
   }
 })
 
+const deleteEducationByIndex = asyncHandler(async (req, res) => {
+  const { index } = req.body
+  const user = await AccountModel.findById(req.user.id)
+  if (user) {
+    user.Education.splice(index, 1)
+    await user.save()
+    res.status(201).json({
+      Education: user.Education
+    })
+  } else {
+    res.status(400)
+    throw new Error('Invalid user data')
+  }
+})
+
+const deleteWorkPlaceByIndex = asyncHandler(async (req,res)=> {
+  const { index } = req.body
+  const user = await AccountModel.findById(req.user.id)
+  if (user) {
+    user.WorkPlace.splice(index, 1)
+    await user.save()
+    res.status(201).json({
+      WorkPlace: user.WorkPlace
+    })
+  }else {
+    res.status(400)
+    throw new Error('Invalid user data')
+  }
+})
+
 const userLogin = asyncHandler(async (req, res) => {
   const Email = req.body.Email;
   const Password = req.body.Password
@@ -166,5 +196,7 @@ module.exports = {
   updateAccount,
   userLogout,
   addEducation,
-  addWorkPlace
+  addWorkPlace,
+  deleteEducationByIndex,
+  deleteWorkPlaceByIndex
 }
