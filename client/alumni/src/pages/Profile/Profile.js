@@ -46,7 +46,7 @@ const Profile = () => {
       const response = await axiosWithTokenReq.get("http://localhost:8000/me");
       setUser(response?.data);
       setEducation(response?.data?.Education);
-      setWorkplace(response?.data?.Workplace);
+      setWorkplace(response?.data?.WorkPlace);
       console.log(education);
       console.log(workplace);
       console.log(user.Permission);
@@ -196,7 +196,28 @@ const Profile = () => {
           </Box>
         </Modal>
       </div>
-      <div className="profile-workplace-div"></div>
+      <div className="profile-workplace-div">
+        <h2>Workplace</h2>
+        <ul>
+          {Array.isArray(workplace)
+            ? workplace.map((work, index) => (
+                <div key={work}>
+                  <li>{index}</li>
+                  <li>{work.CompanyName}</li>
+                  <li>{work.Position}</li>
+                  <li>{work.StartDate}</li>
+                  <li>{work.EndDate}</li>
+                </div>
+              ))
+            : null}
+        </ul>
+        <Button variant="contained" color="success">
+          Add workplace
+        </Button>
+      </div>
+
+
+
       {permission ? (
         <div className="profile-admin-div">
           <Grid
