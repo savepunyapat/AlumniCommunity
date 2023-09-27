@@ -11,6 +11,7 @@ import { NavLink } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
 import AddHomeIcon from '@mui/icons-material/AddHome';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Profile = () => {
   const [user, setUser] = useState();
@@ -155,6 +156,7 @@ const Profile = () => {
               {user.FirstName + "    " + user.LastName}
             </Typography>
             <Typography className="profile-user-info">{user.Email}</Typography>
+            <div>เปลี่ยนรหัสผ่าน <EditIcon/> </div>
           </Box>
           <Box
             id="profile-box"
@@ -188,13 +190,14 @@ const Profile = () => {
               </Grid>
               <Grid item xs={5}>
                 <p>สถานะ</p>
-                <TextField value={user.Permission}></TextField>
+                <TextField disabled value={user.Permission}></TextField>
               </Grid>
             </Grid>
             <Box id="profile-address-box">
               <p>ที่อยู่</p>
-              <TextField onChange={handleNewAddress} defaultValue={user.Address}></TextField>
+              <TextField disabled defaultValue={user.Address}></TextField>
             </Box>
+            <Box>แก้ไขข้อมูลส่วนตัว<EditIcon/></Box>
           </Box>
         </div>
       )}
