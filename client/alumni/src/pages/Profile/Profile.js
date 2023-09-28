@@ -24,12 +24,30 @@ const Profile = () => {
   const [openWorkPlaceModal, setOpenWorkPlaceModal] = React.useState(false);
   const handleWorkPlaceOpen = () => setOpenWorkPlaceModal(true);
   const handleWorkPlaceClose = () => setOpenWorkPlaceModal(false);
-  const [newAddress, setNewAddress] = useState("");
+  const [Address, setAddress] = useState("");
 
-  const handleNewAddress = (e) => {
-    setNewAddress(e.target.value);
-    console.log(newAddress);
+  const [openPasswordModal, setOpenPasswordModal] = React.useState(false);
+  const handlePasswordOpen = () => setOpenPasswordModal(true);
+  const handlePasswordClose = () => setOpenPasswordModal(false);
+
+  const [openBioModal, setOpenBioModal] = React.useState(false);
+  const handleBioOpen = () => setOpenBioModal(true);
+  const handleBioClose = () => setOpenBioModal(false);
+
+
+  const handleUpdateBioSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      setAddress(e.target.Address.value)
+      console.log(user.id)
+      const response = await axiosWithTokenReq.put(`http://localhost:8000/acc/${user.id}`, {Address: Address});
+      console.log(response?.data);
+      console.log(Address);
+    } catch (err) {
+      console.log(err.message);
+    }
   };
+
 
   const handleEducationSubmit = async (e) => {
     try {
@@ -101,12 +119,33 @@ const Profile = () => {
     deleteEducation(index);
   };
 
+  const closePasswordModal = () => {
+    setOpenPasswordModal(false);
+  }
+
   const closeEducationModal = () => {
     setOpenEducationModal(false);
   }
   const closeWorkPlaceModal = () => {
     setOpenWorkPlaceModal(false);
   }
+  const closeBioModal = () => {
+    setOpenBioModal(false);
+  }
+  const handleChangePasswordSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const Password = {
+        oldPassword: e.target.oldPassword.value,
+        newPassword: e.target.newPassword.value,
+        confirmPassword: e.target.confirmPassword.value,
+      };
+      const response = await axiosWithTokenReq.post("http://localhost:8000/changePassword", Password);
+      console.log(response?.data);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   
   const getMe = async () => {
     try {
@@ -156,7 +195,31 @@ const Profile = () => {
               {user.FirstName + "    " + user.LastName}
             </Typography>
             <Typography className="profile-user-info">{user.Email}</Typography>
-            <div>เปลี่ยนรหัสผ่าน <EditIcon/> </div>
+            <div><Button variant="outlined" onClick={handlePasswordOpen} color="success"> เปลี่ยนรหัสผ่าน <EditIcon/>  </Button></div>
+            <Modal
+              open={openPasswordModal}
+              onClose={handlePasswordClose}
+            >
+              <Box sx={style}>
+                <form onSubmit={handleChangePasswordSubmit}>
+                  <label>รหัสผ่านปัจจุบัน</label>
+                  <input type="password"  name="oldPassword" placeholder="รหัสผ่าน" />
+                  <br />
+                  <label>รหัสผ่านใหม่</label>
+                  <input type="password" name="newPassword" placeholder="รหัสผ่านใหม่" />
+                  <br />
+                  <label>ยืนยันรหัสผ่านใหม่</label>
+                  <input type="password" name="confirmPassword" placeholder="ยืนยันรหัสผ่านใหม่" />
+                  <br />
+                  <Button type="submit" variant="contained" color="success">
+                    Add
+                  </Button>
+                  <Button onClick={closePasswordModal} variant="contained" color="error">
+                    Close
+                  </Button>
+                </form>
+              </Box>
+            </Modal>
           </Box>
           <Box
             id="profile-box"
@@ -197,7 +260,27 @@ const Profile = () => {
               <p>ที่อยู่</p>
               <TextField disabled defaultValue={user.Address}></TextField>
             </Box>
-            <Box>แก้ไขข้อมูลส่วนตัว<EditIcon/></Box>
+            <Box>
+              <Button variant="outlined" color="success" onClick={handleBioOpen} ><EditIcon/></Button>
+              <Modal
+                open={openBioModal}
+                onClose={handleBioClose}
+              >
+                <Box sx={style}>
+                  <form onSubmit={handleUpdateBioSubmit}>
+                    <label>ที่อยู่</label>
+                    <input type="text"  name="Address" placeholder="ที่อยู่" />
+                    <br />
+                    <Button type="submit" variant="contained" color="success">
+                      Add
+                    </Button>
+                    <Button onClick={closeBioModal} variant="contained" color="error">
+                      Close
+                    </Button>
+                  </form>
+                </Box>
+              </Modal>
+            </Box>
           </Box>
         </div>
       )}

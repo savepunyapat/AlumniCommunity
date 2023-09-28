@@ -144,8 +144,10 @@ const generateToken = (id) => {
   });
 };
 
+
 const updateAccount = asyncHandler(async (req, res) => {
   try {
+    console.log(req.body);
     await AccountModel.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
@@ -184,11 +186,12 @@ const getMe = asyncHandler(async (req, res) => {
 const changePassword = asyncHandler(async (req, res) => {
   try {
     const { oldPassword, confirmPassword, newPassword } = req.body;
-    if (oldPassword === confirmPassword) {
+    console.log(req.body);
+    if (newPassword === confirmPassword) {
       const { _id, Password } = await AccountModel.findById(req.user.id);
       const isMatch = await bcrypt.compare(oldPassword, Password);
       if (!isMatch) {
-        res.status(400).json("Old password is incorrect");
+        res.status(200).json("invalid new password");
       }
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(newPassword, salt);
