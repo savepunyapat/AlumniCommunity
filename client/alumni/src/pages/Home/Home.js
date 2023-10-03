@@ -16,6 +16,7 @@ import NewsCard from "../../components/NewsCard/NewsCard";
 import "./Home.css";
 import parse from "html-react-parser";
 import cslogo from "../../img/logo/cs_logo.png";
+import { NavLink } from "react-router-dom";
 
 function Home() {
     const [posts, setPosts] = useState([]);
@@ -69,30 +70,33 @@ function Home() {
                 >
                     {posts.map((post, index) => (
                         <div>
-                            <ListItem className="home-news-lists" alignItems="flex-start">
-                                <ListItemAvatar sx={{ paddingRight: 4 }}>
-                                    <img className="home-news-photo" src={cslogo} />
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={post.PostSubject}
-                                    secondary={
-                                        <React.Fragment>
-                                            <Typography
-                                                sx={{ display: "inline" }}
-                                                component="span"
-                                                variant="body2"
-                                                color="text.primary"
-                                            >
-                                            
-                                            </Typography>
-                                            <p className="home-postdetail">{post.PostSubject}</p>
+                            <NavLink to={`/post/${post._id}`}>
+                                <ListItem className="home-news-lists" alignItems="flex-start">
+                                    <ListItemAvatar sx={{ paddingRight: 4 }}>
+                                        <img className="home-news-photo" src={post.Pic_url} />
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={post.PostSubject}
+                                        secondary={
+                                            <React.Fragment>
+                                                <Typography
+                                                    sx={{ display: "inline" }}
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="text.primary"
+                                                >
+
+                                                </Typography>
+                                                <p className="home-postdetail">{post.PostSubject}</p>
 
 
-                                        </React.Fragment>
-                                    }
-                                />
-                            </ListItem>
-                            <Divider variant="inset" component="li" />
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </ListItem>
+                                <Divider variant="inset" component="li" />
+                            </NavLink>
+
                         </div>
                     ))
 

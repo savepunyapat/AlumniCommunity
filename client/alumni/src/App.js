@@ -12,7 +12,7 @@ import UserManage from './AdminPages/UserManage/UserManage';
 import PostManage from './AdminPages/PostManage/PostManage';
 import AddPost from './AdminPages/PostManage/AddPost/AddPost';
 import UpdatePost from './AdminPages/PostManage/UpdatePost/UpdatePost';
-
+import PostDetail from './pages/News/PostDetail';
 
 axios.defaults.withCredentials = true;
 
@@ -30,6 +30,7 @@ function App() {
         <Route path='/admin/posts' element={<PostManage/>}/>
         <Route path='/admin/addPost' element={<AddPost/>}/>
         <Route path='/admin/editPost/:id' element={<UpdatePost/>}/>
+        <Route path='/post/:id' exact element={<PostDetail/>}/>
       </Routes>
     </Router>
     
