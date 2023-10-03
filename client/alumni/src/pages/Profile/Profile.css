@@ -35,3 +35,63 @@
     margin-top: 1vh;
     margin-bottom: 1vh;
 }
+.profile-edit-btn {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 3vh;
+    margin-bottom: 2vh;
+}
+.profile-edu-items {
+    display: flex;
+    float: left;
+}
+.profile-edu-items p {
+    margin-right: 2vw;
+    
+}
+.profile-edu-container {
+    margin-bottom: 3vh;
+    display: flex;
+    cursor: pointer;
+}
+
+
+.profile-h2-title {
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    width: 100%;
+    text-align: left;
+}
+.profile-workplace-items {
+    display: flex;
+    float: left;
+    cursor: pointer;
+}
+.profile-workplace-items p {
+    margin-right: 2vw;
+    
+}
+.profile-workplace-label p{
+    display: flex;
+    float: left;
+    margin-right: 4vw;
+    margin-bottom: 3vh;
+}
+.profile-items-list {
+    margin-bottom: 4vh;
+    
+}
+.profile-education-workplace-wrap {
+    margin-top: 3vh;
+    padding: 2vh;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow : rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.profile-modals {
+    display: flex;
+}
+.profile-modals input{
+    float: right;
+}

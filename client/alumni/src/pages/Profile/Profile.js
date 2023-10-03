@@ -40,7 +40,7 @@ const Profile = () => {
       e.preventDefault();
       setAddress(e.target.Address.value)
       console.log(user.id)
-      const response = await axiosWithTokenReq.put(`http://localhost:8000/acc/${user.id}`, {Address: Address});
+      const response = await axiosWithTokenReq.put(`http://localhost:8000/acc/${user.id}`, { Address: Address });
       console.log(response?.data);
       console.log(Address);
     } catch (err) {
@@ -58,8 +58,8 @@ const Profile = () => {
         GraduateYear: e.target.GraduateYear.value,
       };
       const response = await axiosWithTokenReq.put("http://localhost:8000/addEducation", Education);
-  
-      
+
+
     } catch (err) {
       console.log(err.message);
     }
@@ -80,34 +80,35 @@ const Profile = () => {
     }
   };
 
+  
   const style = {
     position: 'absolute',
+
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     height: 300,
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: 10,
     borderRadius: "10px",
   };
 
   const deleteEducation = async (index) => {
     try {
-      const response = await axiosWithTokenReq.delete("http://localhost:8000/deleteEducation", {index});
+      const response = await axiosWithTokenReq.delete("http://localhost:8000/deleteEducation", { index });
       window.location.reload();
-    }catch(err) {
+    } catch (err) {
       console.log(err.message);
     };
   }
 
   const deleteWorkPlace = async (index) => {
     try {
-      const response = await axiosWithTokenReq.delete("http://localhost:8000/deleteWorkPlace", {index});
+      const response = await axiosWithTokenReq.delete("http://localhost:8000/deleteWorkPlace", { index });
       window.location.reload();
-    }catch(err) {
+    } catch (err) {
       console.log(err.message);
     };
   }
@@ -146,7 +147,7 @@ const Profile = () => {
       console.log(err.message);
     }
   };
-  
+
   const getMe = async () => {
     try {
       const response = await axiosWithTokenReq.get("http://localhost:8000/me");
@@ -170,10 +171,10 @@ const Profile = () => {
     console.log(permission);
     getMe();
     console.log(permission);
-  }, user,openEducationModal,openWorkPlaceModal);
+  }, user, openEducationModal, openWorkPlaceModal);
 
-  useEffect(() => { 
-    
+  useEffect(() => {
+
   },);
 
   return (
@@ -195,22 +196,24 @@ const Profile = () => {
               {user.FirstName + "    " + user.LastName}
             </Typography>
             <Typography className="profile-user-info">{user.Email}</Typography>
-            <div><Button variant="outlined" onClick={handlePasswordOpen} color="success"> เปลี่ยนรหัสผ่าน <EditIcon/>  </Button></div>
-            <Modal
+            <div><Button variant="text" startIcon={<EditIcon />} onClick={handlePasswordOpen} color="success"> เปลี่ยนรหัสผ่าน </Button></div>
+            <Modal 
               open={openPasswordModal}
               onClose={handlePasswordClose}
+              className="profile-modals"
+              
             >
               <Box sx={style}>
                 <form onSubmit={handleChangePasswordSubmit}>
                   <label>รหัสผ่านปัจจุบัน</label>
-                  <input type="password"  name="oldPassword" placeholder="รหัสผ่าน" />
-                  <br />
+                  <input type="password" name="oldPassword" placeholder="รหัสผ่าน" />
+                  <br /><br />
                   <label>รหัสผ่านใหม่</label>
                   <input type="password" name="newPassword" placeholder="รหัสผ่านใหม่" />
-                  <br />
+                  <br /><br />
                   <label>ยืนยันรหัสผ่านใหม่</label>
                   <input type="password" name="confirmPassword" placeholder="ยืนยันรหัสผ่านใหม่" />
-                  <br />
+                  <br /><br />
                   <Button type="submit" variant="contained" color="success">
                     Add
                   </Button>
@@ -261,17 +264,20 @@ const Profile = () => {
               <TextField disabled defaultValue={user.Address}></TextField>
             </Box>
             <Box>
-              <Button variant="outlined" color="success" onClick={handleBioOpen} ><EditIcon/></Button>
+              <div className="profile-edit-btn">
+                <Button variant="text" color="success" onClick={handleBioOpen} startIcon={<EditIcon />}>แก้ไข</Button>
+              </div>
               <Modal
                 open={openBioModal}
                 onClose={handleBioClose}
+                className="profile-modals"
               >
                 <Box sx={style}>
                   <form onSubmit={handleUpdateBioSubmit}>
                     <label>ที่อยู่</label>
-                    <input type="text"  name="Address" placeholder="ที่อยู่" />
-                    <br />
-                    <Button type="submit" variant="contained" color="success">
+                    <input type="text" name="Address" placeholder="ที่อยู่" />
+                    <br /><br />
+                    <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
                       Add
                     </Button>
                     <Button onClick={closeBioModal} variant="contained" color="error">
@@ -284,107 +290,114 @@ const Profile = () => {
           </Box>
         </div>
       )}
-      <div className="profile-education-div">
-        <h2>Education</h2>
-        <ul>
-          {Array.isArray(education)
-            ? education.map((edu, index) => (
-              <div key={edu}>
-                <li>{edu.Course}</li>
-                <li>{edu.Qualification}</li>
-                <li>{edu.GraduateYear}</li>
-                <Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><DeleteIcon/></Button>
-                
-              </div>
-            ))
-            : null}
-        </ul>
+      <div className="profile-education-workplace-wrap">
 
-        <Button variant="contained" onClick={handleEducationOpen} color="success">
-          <AddHomeIcon/>
-        </Button>
-        <Modal
-          open={openEducationModal}
-          onClose={handleEducationClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <form onSubmit={handleEducationSubmit}>
-              <label>Course</label>
-              <input type="text"  name="Course" placeholder="Course" />
-              <br />
-              <label>Qualification</label>
-              <input
-                type="text"
-                name="Qualification"
-                placeholder="Qualification"
-              />
-              <br />
-              <label>GraduateYear</label>
-              <input
-                type="text"
-                name="GraduateYear"
-                placeholder="GraduateYear"
-              />
-              <br />
-              <Button type="submit" variant="contained" color="success">
-                Add
-              </Button>
-              <Button onClick={closeEducationModal} variant="contained" color="error">
-                Close
-              </Button>
-            </form>
-          </Box>
-        </Modal>
-      </div>
-      <div className="profile-workplace-div">
-        <h2>Workplace</h2>
-        <ul>
-          {Array.isArray(workplace)
-            ? workplace.map((work, index) => (
-                <div key={work}>
-                  <li>{work.CompanyName}</li>
-                  <li>{work.Position}</li>
-                  <li>{work.StartDate}</li>
-                  <li>{work.EndDate}</li>
-                  <Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><DeleteIcon/></Button>
+
+        <div className="profile-education-div">
+          <h2 className="profile-h2-title">ประวัติการศึกษา</h2>
+          <div>
+            {Array.isArray(education)
+              ? education.map((edu, index) => (
+                <div className="profile-edu-container" key={edu}>
+                  <div className="profile-edu-items"><p>{edu.Course}</p><p>{edu.Qualification}</p><p>{edu.GraduateYear}</p></div>
+
+                  <Button className="profile-edu-delbtn" variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><DeleteIcon /></Button>
+
                 </div>
               ))
-            : null}
-        </ul>
-        <Button variant="contained" onClick={handleWorkPlaceOpen} color="success">
-          <AddHomeWorkIcon/>
-        </Button>
-        <Modal
-          open={openWorkPlaceModal}
-          onClose={handleWorkPlaceClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <form onSubmit={handleWorkPlaceSubmit}>
-              <label>CompanyName</label>
-              <input type="text" name="CompanyName" placeholder="CompanyName" />
-              <br />
-              <label>Position</label>
-              <input type="text" name="Position" placeholder="Position" />
-              <br />
-              <label>StartDate</label>
-              <input type="date" name="StartDate" placeholder="StartDate" />
-              <br />
-              <label>EndDate</label>
-              <input type="date" name="EndDate" placeholder="EndDate" />
-              <br />
-              <Button type="submit" variant="contained" color="success">
-                Add
-              </Button>
-              <Button variant="contained" onClick={closeWorkPlaceModal} color="error">
-                Close
-              </Button>
-            </form>
-          </Box>
-        </Modal>
+              : null}
+          </div>
+
+          <Button variant="contained" onClick={handleEducationOpen} color="success">
+            <AddHomeIcon />
+          </Button>
+          <Modal
+            open={openEducationModal}
+            onClose={handleEducationClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            className="profile-modals"
+          >
+            <Box sx={style}>
+              <form onSubmit={handleEducationSubmit}>
+                <label>Course</label>
+                <input type="text" name="Course" placeholder="Course" />
+                <br /><br />
+                <label>Qualification</label>
+                <input
+                  type="text"
+                  name="Qualification"
+                  placeholder="Qualification"
+                />
+                <br /><br />
+                <label>GraduateYear</label>
+                <input
+                  type="text"
+                  name="GraduateYear"
+                  placeholder="GraduateYear"
+                />
+                <br /><br />
+                <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
+                  Add
+                </Button>
+                <Button onClick={closeEducationModal} variant="contained" color="error">
+                  Close
+                </Button>
+              </form>
+            </Box>
+          </Modal>
+        </div>
+        <div className="profile-workplace-div">
+          <h2 className="profile-h2-title">ประวัติการทำงาน</h2>
+          <div className="profile-items-list">
+            <div className="profile-workplace-label"><p>หน่วยงาน/บริษัท</p><p>ตำแหน่ง</p><p>วันที่เริ่มงาน</p><p>วันที่ออก</p></div>
+            {Array.isArray(workplace)
+              ? workplace.map((work, index) => (
+                <div>
+                  <div key={work}>
+                    <div className="profile-workplace-items"><p>{work.CompanyName}</p><p>{work.Position}</p><p>{work.StartDate}</p><p>{work.EndDate}</p></div>
+
+                    <Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><DeleteIcon /></Button>
+                  </div>
+                </div>
+
+              ))
+              : null}
+          </div>
+          <Button variant="contained" onClick={handleWorkPlaceOpen} color="success">
+            <AddHomeWorkIcon />
+          </Button>
+          <Modal
+            open={openWorkPlaceModal}
+            onClose={handleWorkPlaceClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            className="profile-modals"
+          >
+            <Box sx={style}>
+              <form onSubmit={handleWorkPlaceSubmit}>
+                <label>CompanyName</label>
+                <input type="text" name="CompanyName" placeholder="CompanyName" />
+                <br /><br />
+                <label>Position</label>
+                <input type="text" name="Position" placeholder="Position" />
+                <br /><br />
+                <label>StartDate</label>
+                <input type="date" name="StartDate" placeholder="StartDate" />
+                <br /><br />
+                <label>EndDate</label>
+                <input type="date" name="EndDate" placeholder="EndDate" />
+                <br /><br />
+                <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
+                  Add
+                </Button>
+                <Button variant="contained" onClick={closeWorkPlaceModal} color="error">
+                  Close
+                </Button>
+              </form>
+            </Box>
+          </Modal>
+        </div>
       </div>
 
 
