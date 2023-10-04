@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function AddPost({ placeholder }) {
+function AddPost() {
   const [PostDetail, setPostDetail] = useState("");
   const [PostSubject, setPostSubject] = useState("");
   const [PostCategory, setPostCategory] = useState("");

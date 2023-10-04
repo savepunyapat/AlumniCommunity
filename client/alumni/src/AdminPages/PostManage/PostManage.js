@@ -24,6 +24,27 @@ function PostManage() {
     return null;
   };
 
+  const handleDeleteClick = (id) => {
+    deletePost(id);
+  }
+  const deletePost = async (id) => {
+    try {
+      const response = await axiosReq.delete(`http://localhost:8000/post/${id}`);
+      fetchData()
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+  const fetchData = async () => {
+    try {
+      const response = await axiosReq.get(
+        "http://localhost:8000/getAllPosts"
+      );
+      setPosts(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
     const isAdmin = async () => {
       try {
@@ -39,16 +60,7 @@ function PostManage() {
         console.error("Error fetching data:", error);
       }
     };
-    const fetchData = async () => {
-      try {
-        const response = await axiosReq.get(
-          "http://localhost:8000/getAllPosts"
-        );
-        setPosts(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+
     isAdmin();
     fetchData();
   }, []);
@@ -63,22 +75,25 @@ function PostManage() {
         </NavLink>
       </div>
       {posts.map((post) => (
-        <div className="postmanage-container">
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
-              <img className="postmanage-post-logo" src={post.Pic_url} />
+        <NavLink className="postmanage-link" to={`/post/${post._id}`}>
+          <div className="postmanage-container">
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <img className="postmanage-post-logo" src={post.Pic_url} />
+              </Grid>
+              <Grid item xs={8}>
+                <h2>{post.PostSubject}</h2>
+                <Button onClick={() => handleDeleteClick(post._id)} variant="contained" color="error">
+                  Delete
+                </Button>
+                <NavLink to={`/admin/editPost/${post._id}`}>
+                  <Button variant="contained">Edit</Button>
+                </NavLink>
+              </Grid>
             </Grid>
-            <Grid item xs={8}>
-              <h2>{post.PostSubject}</h2>
-              <p className="postmanager-post-detail">{parse(post.PostDetail)}</p>
-              <Button variant="contained" color="error">
-                Delete
-              </Button>
-              <Button variant="contained">Edit</Button>
-            </Grid>
-          </Grid>
-          <div className="posts" key={post._id}></div>
-        </div>
+            <div className="posts" key={post._id}></div>
+          </div>
+        </NavLink>
       ))}
     </div>
   );

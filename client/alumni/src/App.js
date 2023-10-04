@@ -11,9 +11,8 @@ import Footer from './components/Footer/Footer';
 import UserManage from './AdminPages/UserManage/UserManage';
 import PostManage from './AdminPages/PostManage/PostManage';
 import AddPost from './AdminPages/PostManage/AddPost/AddPost';
-import UpdatePost from './AdminPages/PostManage/UpdatePost/UpdatePost';
 import PostDetail from './pages/News/PostDetail';
-
+import EditPost from './AdminPages/EditPost/EditPost';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -29,8 +28,8 @@ function App() {
         <Route path='/admin/users' element={<UserManage/>}/>
         <Route path='/admin/posts' element={<PostManage/>}/>
         <Route path='/admin/addPost' element={<AddPost/>}/>
-        <Route path='/admin/editPost/:id' element={<UpdatePost/>}/>
         <Route path='/post/:id' exact element={<PostDetail/>}/>
+        <Route path='/admin/editPost/:id' element={<EditPost/>}/>
       </Routes>
     </Router>
     

@@ -56,8 +56,8 @@ function Home() {
                     <Button>หน้าหลัก</Button>
                     <Button>ข่าวประชาสัมพันธ์</Button>
                     <Button>แนะนำศิษย์เก่า</Button>
+                    <Button>กิจกรรม</Button>
                     <Button>รับสมัครงาน</Button>
-                    <Button>การบริจาค</Button>
                 </ButtonGroup>
                 <Divider sx={{ my: 2 }} />
                 <List

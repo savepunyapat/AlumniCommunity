@@ -177,10 +177,6 @@ const Profile = () => {
     console.log(permission);
   }, user, openEducationModal, openWorkPlaceModal);
 
-  useEffect(() => {
-
-  },);
-
   return (
     <Container maxWidth="sm">
       <div className="profile-header">
@@ -420,7 +416,7 @@ const Profile = () => {
               </NavLink>
             </Grid>
             <Grid item xs={6}>
-              <NavLink>
+              <NavLink to="/admin/users">
                 <Button variant="contained">Account Manager</Button>
               </NavLink>
             </Grid>
