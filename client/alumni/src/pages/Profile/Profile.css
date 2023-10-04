@@ -95,3 +95,17 @@
 .profile-modals input{
     float: right;
 }
+#profile-address-box {
+    width: 100%;
+    height: 25vh;
+}
+#profile-address-text {
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    padding: 2vw;
+    width: 30vw;
+    height: 10vh;
+    text-wrap: wrap;
+    word-break: break-all;
+    white-space: normal;
+}

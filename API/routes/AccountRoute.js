@@ -42,8 +42,8 @@ router.delete("/acc/:id", async (req, res) => {
   }
 });
 
-router.delete("/deleteWorkPlace", verified, deleteWorkPlaceByIndex)
-router.delete("/deleteEducation", verified, deleteEducationByIndex);
+router.delete("/deleteWorkPlace/:index", verified, deleteWorkPlaceByIndex)
+router.delete("/deleteEducation/:index", verified, deleteEducationByIndex);
 router.put("/addEducation", verified, addEducation);
 router.put("/addWorkPlace", verified, addWorkPlace);
 router.post("/changePassword", verified, changePassword);

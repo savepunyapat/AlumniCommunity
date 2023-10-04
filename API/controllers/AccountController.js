@@ -91,7 +91,9 @@ const addEducation = asyncHandler(async (req, res) => {
 });
 
 const deleteEducationByIndex = asyncHandler(async (req, res) => {
-  const { index } = req.body;
+  const { index } = req.params;
+  console.log(index);
+
   const user = await AccountModel.findById(req.user.id);
   if (user) {
     user.Education.splice(index, 1);
@@ -106,7 +108,7 @@ const deleteEducationByIndex = asyncHandler(async (req, res) => {
 });
 
 const deleteWorkPlaceByIndex = asyncHandler(async (req, res) => {
-  const { index } = req.body;
+  const { index } = req.params;
   const user = await AccountModel.findById(req.user.id);
   if (user) {
     user.WorkPlace.splice(index, 1);

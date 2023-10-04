@@ -12,8 +12,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from "react-router-dom";
+
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState();
   const [permission, setPermission] = useState(false);
   const [education, setEducation] = useState({});
@@ -25,7 +28,7 @@ const Profile = () => {
   const handleWorkPlaceOpen = () => setOpenWorkPlaceModal(true);
   const handleWorkPlaceClose = () => setOpenWorkPlaceModal(false);
   const [Address, setAddress] = useState("");
-
+  
   const [openPasswordModal, setOpenPasswordModal] = React.useState(false);
   const handlePasswordOpen = () => setOpenPasswordModal(true);
   const handlePasswordClose = () => setOpenPasswordModal(false);
@@ -38,11 +41,12 @@ const Profile = () => {
   const handleUpdateBioSubmit = async (e) => {
     try {
       e.preventDefault();
-      setAddress(e.target.Address.value)
-      console.log(user.id)
-      const response = await axiosWithTokenReq.put(`http://localhost:8000/acc/${user.id}`, { Address: Address });
-      console.log(response?.data);
+      console.log(e.target.newAddress.value);
+      const newAddress = e.target.newAddress.value;
+      setAddress(newAddress);
       console.log(Address);
+      const response = await axiosWithTokenReq.put(`http://localhost:8000/acc/${user.id}`, { Address: Address });
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }
@@ -58,7 +62,7 @@ const Profile = () => {
         GraduateYear: e.target.GraduateYear.value,
       };
       const response = await axiosWithTokenReq.put("http://localhost:8000/addEducation", Education);
-
+      window.location.reload();
 
     } catch (err) {
       console.log(err.message);
@@ -74,7 +78,7 @@ const Profile = () => {
         EndDate: e.target.EndDate.value,
       };
       const response = await axiosWithTokenReq.put("http://localhost:8000/addWorkPlace", WorkPlace);
-
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }
@@ -97,7 +101,7 @@ const Profile = () => {
 
   const deleteEducation = async (index) => {
     try {
-      const response = await axiosWithTokenReq.delete("http://localhost:8000/deleteEducation", { index });
+      const response = await axiosWithTokenReq.delete(`http://localhost:8000/deleteEducation/${index}`);
       window.location.reload();
     } catch (err) {
       console.log(err.message);
@@ -106,7 +110,7 @@ const Profile = () => {
 
   const deleteWorkPlace = async (index) => {
     try {
-      const response = await axiosWithTokenReq.delete("http://localhost:8000/deleteWorkPlace", { index });
+      const response = await axiosWithTokenReq.delete(`http://localhost:8000/deleteWorkPlace/${index}`);
       window.location.reload();
     } catch (err) {
       console.log(err.message);
@@ -261,7 +265,7 @@ const Profile = () => {
             </Grid>
             <Box id="profile-address-box">
               <p>ที่อยู่</p>
-              <TextField disabled defaultValue={user.Address}></TextField>
+              <p id="profile-address-text" >{user.Address}</p>
             </Box>
             <Box>
               <div className="profile-edit-btn">
@@ -275,7 +279,7 @@ const Profile = () => {
                 <Box sx={style}>
                   <form onSubmit={handleUpdateBioSubmit}>
                     <label>ที่อยู่</label>
-                    <input type="text" name="Address" placeholder="ที่อยู่" />
+                    <input type="text" name="newAddress" placeholder="ที่อยู่" />
                     <br /><br />
                     <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
                       Add
