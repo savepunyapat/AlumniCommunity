@@ -13,6 +13,13 @@ import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from "react-router-dom";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 
 const Profile = () => {
@@ -151,7 +158,9 @@ const Profile = () => {
       console.log(err.message);
     }
   };
-
+  const handleAddressChange = (e) => {
+    setAddress(e.target.value);
+  };
   const getMe = async () => {
     try {
       const response = await axiosWithTokenReq.get("http://localhost:8000/me");
@@ -275,7 +284,7 @@ const Profile = () => {
                 <Box sx={style}>
                   <form onSubmit={handleUpdateBioSubmit}>
                     <label>ที่อยู่</label>
-                    <input type="text" name="newAddress" placeholder="ที่อยู่" />
+                    <input type="text" onChange={handleAddressChange} name="newAddress" placeholder="ที่อยู่" />
                     <br /><br />
                     <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
                       Add
@@ -296,7 +305,37 @@ const Profile = () => {
         <div className="profile-education-div">
           <h2 className="profile-h2-title">ประวัติการศึกษา</h2>
           <div>
-            {Array.isArray(education)
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 400 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Course</TableCell>
+                    <TableCell align="right">Qualification</TableCell>
+                    <TableCell align="right">GraduateYear</TableCell>
+                    <TableCell align="right">Delete</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {Array.isArray(education)
+                    ? education.map((edu, index) => (
+                      <TableRow
+                        key={edu}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {edu.Course}
+                        </TableCell>
+                        <TableCell align="right">{edu.Qualification}</TableCell>
+                        <TableCell align="right">{edu.GraduateYear}</TableCell>
+                        <TableCell align="right"><Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><DeleteIcon /></Button></TableCell>
+                      </TableRow>
+                    ))
+                    : null}
+                </TableBody>
+              </Table>  
+            </TableContainer>
+
+            {/*{Array.isArray(education)
               ? education.map((edu, index) => (
                 <div className="profile-edu-container" key={edu}>
                   <div className="profile-edu-items"><p>{edu.Course}</p><p>{edu.Qualification}</p><p>{edu.GraduateYear}</p></div>
@@ -305,10 +344,10 @@ const Profile = () => {
 
                 </div>
               ))
-              : null}
+              : null}*/}
           </div>
 
-          <Button variant="contained" onClick={handleEducationOpen} color="success">
+          <Button id="profile-add-btn" variant="contained" onClick={handleEducationOpen} color="success">
             <AddHomeIcon />
           </Button>
           <Modal
@@ -350,7 +389,39 @@ const Profile = () => {
         <div className="profile-workplace-div">
           <h2 className="profile-h2-title">ประวัติการทำงาน</h2>
           <div className="profile-items-list">
-            <div className="profile-workplace-label"><p>หน่วยงาน/บริษัท</p><p>ตำแหน่ง</p><p>วันที่เริ่มงาน</p><p>วันที่ออก</p></div>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 400 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>CompanyName</TableCell>
+                    <TableCell align="right">Position</TableCell>
+                    <TableCell align="right">StartDate</TableCell>
+                    <TableCell align="right">EndDate</TableCell>
+                    <TableCell align="right">Delete</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {Array.isArray(workplace)
+                    ? workplace.map((work, index) => (
+                      <TableRow
+                        key={work}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {work.CompanyName}
+                        </TableCell>
+                        <TableCell align="right">{work.Position}</TableCell>
+                        <TableCell align="right">{work.StartDate}</TableCell>
+                        <TableCell align="right">{work.EndDate}</TableCell>
+                        <TableCell align="right"><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><DeleteIcon /></Button></TableCell>
+                      </TableRow>
+                    ))
+                    : null}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            {/*<div className="profile-workplace-label"><p>หน่วยงาน/บริษัท</p><p>ตำแหน่ง</p><p>วันที่เริ่มงาน</p><p>วันที่ออก</p></div>
             {Array.isArray(workplace)
               ? workplace.map((work, index) => (
                 <div>
@@ -362,7 +433,7 @@ const Profile = () => {
                 </div>
 
               ))
-              : null}
+              : null}*/}
           </div>
           <Button variant="contained" onClick={handleWorkPlaceOpen} color="success">
             <AddHomeWorkIcon />

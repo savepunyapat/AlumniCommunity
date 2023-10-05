@@ -5,8 +5,7 @@ import Cookies from "js-cookie";
 import "../PostManage/PostManage.css";
 import cslogo from "../../img/logo/cs_logo.png";
 import { NavLink } from "react-router-dom";
-import parse from 'html-react-parser';
-
+import parse from "html-react-parser";
 
 function PostManage() {
   const [posts, setPosts] = useState([]);
@@ -23,23 +22,25 @@ function PostManage() {
     }
     return null;
   };
+  
 
   const handleDeleteClick = (id) => {
     deletePost(id);
-  }
+  };
   const deletePost = async (id) => {
     try {
-      const response = await axiosReq.delete(`http://localhost:8000/post/${id}`);
-      fetchData()
+      const response = await axiosReq.delete(
+        `http://localhost:8000/post/${id}`
+      );
+      fetchData();
     } catch (err) {
       console.error(err.message);
     }
-  }
+  };
+  
   const fetchData = async () => {
     try {
-      const response = await axiosReq.get(
-        "http://localhost:8000/getAllPosts"
-      );
+      const response = await axiosReq.get("http://localhost:8000/getAllPosts");
       setPosts(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -75,25 +76,27 @@ function PostManage() {
         </NavLink>
       </div>
       {posts.map((post) => (
-        <NavLink className="postmanage-link" to={`/post/${post._id}`}>
-          <div className="postmanage-container">
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <img className="postmanage-post-logo" src={post.Pic_url} />
-              </Grid>
-              <Grid item xs={8}>
-                <h2>{post.PostSubject}</h2>
-                <Button onClick={() => handleDeleteClick(post._id)} variant="contained" color="error">
-                  Delete
-                </Button>
-                <NavLink to={`/admin/editPost/${post._id}`}>
-                  <Button variant="contained">Edit</Button>
-                </NavLink>
-              </Grid>
+        <div className="postmanage-container">
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <img className="postmanage-post-logo" src={post.Pic_url} />
             </Grid>
-            <div className="posts" key={post._id}></div>
-          </div>
-        </NavLink>
+            <Grid item xs={8}>
+              <h2>{post.PostSubject}</h2>
+              <Button
+                onClick={() => handleDeleteClick(post._id)}
+                variant="contained"
+                color="error"
+              >
+                Delete
+              </Button>
+              <NavLink to={`/admin/editPost/${post._id}`}>
+                <Button variant="contained">Edit</Button>
+              </NavLink>
+            </Grid>
+          </Grid>
+          <div className="posts" key={post._id}></div>
+        </div>
       ))}
     </div>
   );

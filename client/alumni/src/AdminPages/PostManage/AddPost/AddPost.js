@@ -48,6 +48,8 @@ function AddPost() {
   };
 
   const handleSubmit = async (e) => {
+    console.log(Pic_url)
+
     try {
       e.preventDefault();
       const response = await axiosReq.post("http://localhost:8000/addPost", {

@@ -56,7 +56,9 @@
     cursor: pointer;
 }
 
-
+#profile-add-btn {
+    margin-top: 3vh;
+}
 .profile-h2-title {
     margin-top: 3vh;
     margin-bottom: 3vh;
@@ -103,7 +105,7 @@
     border-radius: 15px;
     border: 1px solid #ccc;
     padding: 2vw;
-    width: 30vw;
+    width: 25vw;
     height: 10vh;
     text-wrap: wrap;
     word-break: break-all;
