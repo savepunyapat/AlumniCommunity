@@ -46,21 +46,22 @@ function PostManage() {
       console.error("Error fetching data:", error);
     }
   };
-  useEffect(() => {
-    const isAdmin = async () => {
-      try {
-        const accessToken = Cookies.get("token");
-        if (!accessToken) {
-          window.location.href = "/login";
-        }
-        const response = await axiosReq.get("http://localhost:8000/isAdmin");
-        if (response.data === "not-admin") {
-          window.location.href = "/";
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const isAdmin = async () => {
+    try {
+      const accessToken = Cookies.get("token");
+      if (!accessToken) {
+        window.location.href = "/login";
       }
-    };
+      const response = await axiosReq.get("http://localhost:8000/isAdmin");
+      if (response.data === "not-admin") {
+        window.location.href = "/";
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    
 
     isAdmin();
     fetchData();

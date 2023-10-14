@@ -187,15 +187,13 @@ const Profile = () => {
   }, user, openEducationModal, openWorkPlaceModal);
 
   return (
-    <Container maxWidth="sm">
-      <div className="profile-header">
-        <h1>โปรไฟล์</h1>
-      </div>
+    <Container maxWidth="lg">
       {user && (
         <div>
           <Box
             id="bio-box"
             sx={{
+              marginTop:"4vh",
               width: "100%",
               height: "20vh",
               borderRadius: "10px",
@@ -248,25 +246,26 @@ const Profile = () => {
               display="flex"
               alignItems="center"
               justifyContent="center"
-              spacing={1}
-              direction="row"
+              spacing={2}
+              direction="collumn"
             >
-              <Grid item xs={5}>
+              <Grid item xs={3}>
                 <p>รหัสนักศึกษา</p>
                 <TextField disabled value={user.StdID}>
                   รหัสนักศึกษา: {user.StdID}
                 </TextField>
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={3}>
                 <p>เบอร์โทรศัพท์</p>
                 <TextField disabled value={user.PhoneNumber}>
                   ชื่อ: {user.FirstName}
                 </TextField>
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={3}>
                 <p>สถานะ</p>
                 <TextField disabled value={user.Permission}></TextField>
               </Grid>
+              
             </Grid>
             <Box id="profile-address-box">
               <p>ที่อยู่</p>
@@ -312,6 +311,7 @@ const Profile = () => {
                     <TableCell>Course</TableCell>
                     <TableCell align="right">Qualification</TableCell>
                     <TableCell align="right">GraduateYear</TableCell>
+                    <TableCell align="right">Edit</TableCell>
                     <TableCell align="right">Delete</TableCell>
                   </TableRow>
                 </TableHead>
@@ -327,6 +327,7 @@ const Profile = () => {
                         </TableCell>
                         <TableCell align="right">{edu.Qualification}</TableCell>
                         <TableCell align="right">{edu.GraduateYear}</TableCell>
+                        <TableCell align="right"><Button variant="contained" color="info" ><EditIcon/></Button></TableCell>
                         <TableCell align="right"><Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><DeleteIcon /></Button></TableCell>
                       </TableRow>
                     ))
@@ -397,6 +398,7 @@ const Profile = () => {
                     <TableCell align="right">Position</TableCell>
                     <TableCell align="right">StartDate</TableCell>
                     <TableCell align="right">EndDate</TableCell>
+                    <TableCell align="right">Edit</TableCell>
                     <TableCell align="right">Delete</TableCell>
                   </TableRow>
                 </TableHead>
@@ -413,6 +415,7 @@ const Profile = () => {
                         <TableCell align="right">{work.Position}</TableCell>
                         <TableCell align="right">{work.StartDate}</TableCell>
                         <TableCell align="right">{work.EndDate}</TableCell>
+                        <TableCell align="right"><Button variant="contained" color="info" ><EditIcon/></Button></TableCell> 
                         <TableCell align="right"><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><DeleteIcon /></Button></TableCell>
                       </TableRow>
                     ))

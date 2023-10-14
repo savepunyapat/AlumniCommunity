@@ -75,7 +75,7 @@ function Navbar() {
   }, [loggedIn]);
   
   return (
-    <AppBar style={{ backgroundColor: "#C1C1C1" }} position="static">
+    <AppBar style={{ backgroundColor: "#0000FF" }} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <NavLink to="/">
