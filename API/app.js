@@ -6,7 +6,7 @@ const PostRoute = require('./routes/PostRoute')
 const AccountRoute = require('./routes/AccountRoute')
 var cors = require('cors')
 app.use(cors())
-
+app.use(express.json({ limit: '50mb' }));
 app.use(express.json())
 require('dotenv').config();
 const mongoKey = process.env.MONGO_KEY;

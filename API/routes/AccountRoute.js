@@ -12,6 +12,8 @@ const {
   addEducation,
   addWorkPlace,
   deleteEducationByIndex,
+  updateEducation,
+  updateWorkPlace
 } = require("../controllers/AccountController");
 const { verified, isAdmin } = require("../middlewares/Auth");
 
@@ -35,6 +37,7 @@ router.get("/allAccount", async (req, res) => {
 
 router.delete("/acc/:id", async (req, res) => {
   try {
+    console.log(req.params)
     await AccountModel.findByIdAndDelete(req.params.id);
     res.status(200).json("Deleted");
   } catch (err) {
@@ -42,6 +45,8 @@ router.delete("/acc/:id", async (req, res) => {
   }
 });
 
+router.put("/updateworkplace/:index",verified,updateWorkPlace);
+router.put("/updateeducation/:index",verified,updateEducation);
 router.delete("/deleteWorkPlace/:index", verified, deleteWorkPlaceByIndex)
 router.delete("/deleteEducation/:index", verified, deleteEducationByIndex);
 router.put("/addEducation", verified, addEducation);

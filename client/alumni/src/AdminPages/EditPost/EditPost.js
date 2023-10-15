@@ -8,8 +8,20 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
 import { NavLink } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function EditPost() {
+    const notifySuccess = () =>
+    toast.success("โพสต์ สำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
     const [PostCategory, setPostCategory] = useState("");
     const [PostDetail, setPostDetail] = useState("");
     const [PostSubject, setPostSubject] = useState("");
@@ -48,6 +60,7 @@ function EditPost() {
                 PostSubject,
                 Pic_url
             });
+            notifySuccess();
             console.log(response.data);
         } catch (err) {
             console.error(err.message);
@@ -77,12 +90,13 @@ function EditPost() {
     }, [])
     return (
         <Container maxWidth="lg" >
+            <ToastContainer />
             <div className="editpost-header">
-                <h1>จัดการบัญชีผู้ใช้</h1>
+                <h1>แก้ไขเนื้อหาข่าว</h1>
             </div>
             <div className="editpost-container">
                 {post && (
-                    <form onSubmit={fakeSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <label>หัวข้อ</label>
                         <br />
                         <input type="text" onChange={(e)=>setPostSubject(e.target.value)} value={post.PostSubject} />

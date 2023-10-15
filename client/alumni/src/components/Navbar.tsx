@@ -5,7 +5,6 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -18,7 +17,7 @@ import { logOut } from "../services/service";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Cookies from "js-cookie";
 import { axiosReq } from "../services/service";
-
+import MenuIcon from '@mui/icons-material/Menu';
 import "./Navbar.css";
 import { Token } from "@mui/icons-material";
 
@@ -160,7 +159,7 @@ function Navbar() {
             {loggedIn ? (
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <AccountCircleIcon/>
+                  <MenuIcon sx={{ color: "white" }} />
                 </IconButton>
               </Tooltip>
             ) : null}

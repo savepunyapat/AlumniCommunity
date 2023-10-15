@@ -57,8 +57,7 @@ function UserManage() {
               <TableCell align="right">นามสกุล</TableCell>
               <TableCell align="right">สถานะ</TableCell>
               <TableCell align="right">อีเมล</TableCell>
-              <TableCell align="right">แก้ไข</TableCell>
-              <TableCell align="right">ลบ</TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -75,8 +74,7 @@ function UserManage() {
                 <TableCell align="right">{user.LastName}</TableCell>
                 <TableCell align="right">{user.Permission}</TableCell>
                 <TableCell align="right">{user.Email}</TableCell>
-                <TableCell align="right"><Button ><EditIcon color='info'/></Button></TableCell>
-                <TableCell align="right"><Button onClick={() => handleDeleteClick(user._id)} startIcon={<DeleteIcon color='error'/>}></Button></TableCell>
+                <TableCell align="right"><Button ><EditIcon color='info'/></Button><Button onClick={() => handleDeleteClick(user._id)} startIcon={<DeleteIcon color='error'/>}></Button></TableCell>
               </TableRow>
             )):null}
           </TableBody>

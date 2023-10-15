@@ -29,10 +29,10 @@ function PostDetail() {
           {post && (
             <div>
               <Container id="postdetail-news-img">
-                <img src={post.Pic_url} alt="" width="500px" height="500px" />
+                <img src={post.Pic_url} alt="" className="postdetail-img-banner" />
               </Container>
-              <h1>{post.PostSubject}</h1>
-              <h3>{post.PostCategory}</h3>
+              <h1 id="postdetail-postsubject">{post.PostSubject}</h1>
+              <h3 id="postdetail-postcategory">{post.PostCategory}</h3>
               <Container id="postdetail-news-detail">
                 <p>{parse(post.PostDetail)}</p>
               </Container>

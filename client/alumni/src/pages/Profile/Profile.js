@@ -35,7 +35,7 @@ const Profile = () => {
   const handleWorkPlaceOpen = () => setOpenWorkPlaceModal(true);
   const handleWorkPlaceClose = () => setOpenWorkPlaceModal(false);
   const [Address, setAddress] = useState("");
-  
+
   const [openPasswordModal, setOpenPasswordModal] = React.useState(false);
   const handlePasswordOpen = () => setOpenPasswordModal(true);
   const handlePasswordClose = () => setOpenPasswordModal(false);
@@ -91,7 +91,7 @@ const Profile = () => {
     }
   };
 
-  
+
   const style = {
     position: 'absolute',
 
@@ -193,7 +193,7 @@ const Profile = () => {
           <Box
             id="bio-box"
             sx={{
-              marginTop:"4vh",
+              marginTop: "4vh",
               width: "100%",
               height: "20vh",
               borderRadius: "10px",
@@ -204,11 +204,11 @@ const Profile = () => {
             </Typography>
             <Typography className="profile-user-info">{user.Email}</Typography>
             <div><Button variant="text" startIcon={<EditIcon />} onClick={handlePasswordOpen} color="success"> เปลี่ยนรหัสผ่าน </Button></div>
-            <Modal 
+            <Modal
               open={openPasswordModal}
               onClose={handlePasswordClose}
               className="profile-modals"
-              
+
             >
               <Box sx={style}>
                 <form onSubmit={handleChangePasswordSubmit}>
@@ -265,7 +265,7 @@ const Profile = () => {
                 <p>สถานะ</p>
                 <TextField disabled value={user.Permission}></TextField>
               </Grid>
-              
+
             </Grid>
             <Box id="profile-address-box">
               <p>ที่อยู่</p>
@@ -283,12 +283,12 @@ const Profile = () => {
                 <Box sx={style}>
                   <form onSubmit={handleUpdateBioSubmit}>
                     <label>ที่อยู่</label>
-                    <input type="text" onChange={handleAddressChange} name="newAddress" placeholder="ที่อยู่" />
+                    <input type="text" id="profile-address-input" onChange={handleAddressChange} name="newAddress" placeholder="ที่อยู่" />
                     <br /><br />
-                    <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
+                    <Button sx={{ marginRight: 2 ,marginTop:10 }} type="submit" variant="contained" color="success">
                       Add
                     </Button>
-                    <Button onClick={closeBioModal} variant="contained" color="error">
+                    <Button sx={{marginTop:10}} onClick={closeBioModal} variant="contained" color="error">
                       Close
                     </Button>
                   </form>
@@ -311,8 +311,7 @@ const Profile = () => {
                     <TableCell>Course</TableCell>
                     <TableCell align="right">Qualification</TableCell>
                     <TableCell align="right">GraduateYear</TableCell>
-                    <TableCell align="right">Edit</TableCell>
-                    <TableCell align="right">Delete</TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -327,13 +326,12 @@ const Profile = () => {
                         </TableCell>
                         <TableCell align="right">{edu.Qualification}</TableCell>
                         <TableCell align="right">{edu.GraduateYear}</TableCell>
-                        <TableCell align="right"><Button variant="contained" color="info" ><EditIcon/></Button></TableCell>
-                        <TableCell align="right"><Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><DeleteIcon /></Button></TableCell>
+                        <TableCell align="right"><Button variant="contained" color="info" ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><DeleteIcon /></Button></TableCell>
                       </TableRow>
                     ))
                     : null}
                 </TableBody>
-              </Table>  
+              </Table>
             </TableContainer>
 
             {/*{Array.isArray(education)
@@ -377,7 +375,7 @@ const Profile = () => {
                   placeholder="GraduateYear"
                 />
                 <br /><br />
-                <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
+                <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
                   Add
                 </Button>
                 <Button onClick={closeEducationModal} variant="contained" color="error">
@@ -398,8 +396,7 @@ const Profile = () => {
                     <TableCell align="right">Position</TableCell>
                     <TableCell align="right">StartDate</TableCell>
                     <TableCell align="right">EndDate</TableCell>
-                    <TableCell align="right">Edit</TableCell>
-                    <TableCell align="right">Delete</TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -415,8 +412,7 @@ const Profile = () => {
                         <TableCell align="right">{work.Position}</TableCell>
                         <TableCell align="right">{work.StartDate}</TableCell>
                         <TableCell align="right">{work.EndDate}</TableCell>
-                        <TableCell align="right"><Button variant="contained" color="info" ><EditIcon/></Button></TableCell> 
-                        <TableCell align="right"><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><DeleteIcon /></Button></TableCell>
+                        <TableCell align="right"><Button variant="contained" color="info" ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><DeleteIcon /></Button></TableCell>
                       </TableRow>
                     ))
                     : null}
@@ -462,7 +458,7 @@ const Profile = () => {
                 <label>EndDate</label>
                 <input type="date" name="EndDate" placeholder="EndDate" />
                 <br /><br />
-                <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
+                <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
                   Add
                 </Button>
                 <Button variant="contained" onClick={closeWorkPlaceModal} color="error">

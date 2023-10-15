@@ -111,3 +111,8 @@
     word-break: break-all;
     white-space: normal;
 }
+#profile-address-input {
+    height: 5vh;
+    padding: 3vh;
+    border-radius: 15px;
+}
