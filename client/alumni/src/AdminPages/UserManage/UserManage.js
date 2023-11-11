@@ -10,12 +10,39 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import InputLabel from '@mui/material/InputLabel';
+import ClearIcon from '@mui/icons-material/Clear';
+import { NavLink } from 'react-router-dom';
 function UserManage() {
-
+  const [openEditUserModal, setOpenEditUserModal] = React.useState(false);
+  const handleEditUserOpen = () => setOpenEditUserModal(true);
+  const handleEditUserClose = () => setOpenEditUserModal(false);
   const [users, setUsers] = useState();
+  const [permission, setPermission] = useState('');
+  const handlePermissionChange = (event) => {
+    setPermission(event.target.value);
+  };
+  const style = {
+    position: 'absolute',
 
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    height: 200,
+    width: 250,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 10,
+    borderRadius: "10px",
+  };
+  const closeEditUserModal = () => {
+    setOpenEditUserModal(false);
+  }
   const handleDeleteClick = (id) => {
     deleteUser(id);
   }
@@ -62,27 +89,59 @@ function UserManage() {
           </TableHead>
           <TableBody>
             {Array.isArray(users)
-            ? users.map((user) => (
-              <TableRow
-                key={user.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {user.StdID}
-                </TableCell>
-                <TableCell align="right">{user.FirstName}</TableCell>
-                <TableCell align="right">{user.LastName}</TableCell>
-                <TableCell align="right">{user.Permission}</TableCell>
-                <TableCell align="right">{user.Email}</TableCell>
-                <TableCell align="right"><Button ><EditIcon color='info'/></Button><Button onClick={() => handleDeleteClick(user._id)} startIcon={<DeleteIcon color='error'/>}></Button></TableCell>
-              </TableRow>
-            )):null}
+              ? users.map((user) => (
+                <TableRow
+                  key={user.id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {user.StdID}
+                  </TableCell>
+                  <TableCell align="right">{user.FirstName}</TableCell>
+                  <TableCell align="right">{user.LastName}</TableCell>
+                  <TableCell align="right">{user.Permission}</TableCell>
+                  <TableCell align="right">{user.Email}</TableCell>
+                  <TableCell align="right"><Button sx={{marginRight:2}} onClick={handleEditUserOpen} variant='contained' color='info' ><EditIcon color='white' /></Button><Button color='error' variant='contained' onClick={() => handleDeleteClick(user._id)}><ClearIcon color='white' /></Button></TableCell>
+                  <Modal
+                    open={openEditUserModal}
+                    onClose={handleEditUserClose}
+                    className="profile-modals"
+                  >
+                    <Box sx={style}>
+                      <form>
+                        
+                        <InputLabel id="demo-simple-select-label">สถานะ</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          label="Age"
+                          value={permission}
+                          onChange={handlePermissionChange}
+                        >
+                          <MenuItem value={"admin"}>Admin</MenuItem>
+                          <MenuItem value={"user"}>User</MenuItem>
+                        </Select>
+                        <Box sx={{marginTop:5}}>
+                          <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
+                            แก้ไข
+                          </Button>
+                          <Button onClick={closeEditUserModal} variant="contained" color="error">
+                            ปิด
+                          </Button>
+                        </Box>
+                      </form>
+                    </Box>
+                  </Modal>
+                </TableRow>
+              )) : null}
           </TableBody>
         </Table>
       </TableContainer>
-      <div className='usermanage-add-user'>
-        <Button variant="contained" color="success" href="/admin/adduser">เพิ่มผู้ใช้</Button>
-      </div>
+      <NavLink to="/admin/adduser">
+        <div className='usermanage-add-user'>
+          <Button variant="contained" color="success">เพิ่มผู้ใช้</Button>
+        </div>
+      </NavLink>
     </Container>
   )
 }

@@ -1,6 +1,6 @@
 import './App.css';
 import Home from './pages/Home/Home';
-import SignUp from './pages/SignUp/SignUp';
+import AddUser from './AdminPages/AddUser/AddUser';
 import Navbar from './components/Navbar.tsx';
 import Login from './pages/Login/Login';
 import Logout from './pages/Logout/Logout';
@@ -21,7 +21,7 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/signup' element={<SignUp/>}/>
+        <Route path='/admin/adduser' element={<AddUser/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/logout' exact element={<Logout/>}/>

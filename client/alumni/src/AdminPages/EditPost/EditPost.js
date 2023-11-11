@@ -12,16 +12,16 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function EditPost() {
     const notifySuccess = () =>
-    toast.success("โพสต์ สำเร็จ!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+        toast.success("โพสต์ สำเร็จ!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     const [PostCategory, setPostCategory] = useState("");
     const [PostDetail, setPostDetail] = useState("");
     const [PostSubject, setPostSubject] = useState("");
@@ -99,7 +99,7 @@ function EditPost() {
                     <form onSubmit={handleSubmit}>
                         <label>หัวข้อ</label>
                         <br />
-                        <input type="text" onChange={(e)=>setPostSubject(e.target.value)} value={post.PostSubject} />
+                        <input type="text" onChange={(e) => setPostSubject(e.target.value)} value={post.PostSubject} />
                         <br /><br />
                         <label>หมวดหมู่</label>
                         <br />
@@ -110,10 +110,10 @@ function EditPost() {
                             label="Age"
                             onChange={handleCategoryChange}
                         >
-                            <MenuItem value={"normal"}>ข่าวทั่วไป</MenuItem>
-                            <MenuItem value={"alumni"}>แนะนำศิษย์เก่า</MenuItem>
-                            <MenuItem value={"activity"}>กิจกรรม</MenuItem>
-                            <MenuItem value={"work"}>รับสมัครงาน</MenuItem>
+                            <MenuItem value={"ข่าวทั่วไป"}>ข่าวทั่วไป</MenuItem>
+                            <MenuItem value={"แนะนำศิษย์เก่า"}>แนะนำศิษย์เก่า</MenuItem>
+                            <MenuItem value={"กิจกรรม"}>กิจกรรม</MenuItem>
+                            <MenuItem value={"รับสมัครงาน"}>รับสมัครงาน</MenuItem>
                         </Select>
                         <br />
                         <br />
@@ -128,7 +128,7 @@ function EditPost() {
                             value={PostDetail}
                             tabIndex={1} // tabIndex of textarea
                             onBlur={(newContent) => setPostDetail(newContent)} // preferred to use only this option to update the content for performance reasons
-                            onChange={(newContent) => {setPostDetail(newContent)}}
+                            onChange={(newContent) => { setPostDetail(newContent) }}
                         />
                         <Button
                             sx={{ marginTop: "1vh", marginRight: "1vw" }}

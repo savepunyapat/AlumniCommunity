@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import Modal from "@mui/material/Modal";
 import "./Profile.css";
 import { NavLink } from "react-router-dom";
-import DeleteIcon from '@mui/icons-material/Delete';
+import ClearIcon from '@mui/icons-material/Clear';
 import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import EditIcon from '@mui/icons-material/Edit';
@@ -203,7 +203,7 @@ const Profile = () => {
               {user.FirstName + "    " + user.LastName}
             </Typography>
             <Typography className="profile-user-info">{user.Email}</Typography>
-            <div><Button variant="text" startIcon={<EditIcon />} onClick={handlePasswordOpen} color="success"> เปลี่ยนรหัสผ่าน </Button></div>
+            <div><Button sx={{marginTop:2}} color="info" variant="text" startIcon={<EditIcon color="info" />} onClick={handlePasswordOpen} > เปลี่ยนรหัสผ่าน </Button></div>
             <Modal
               open={openPasswordModal}
               onClose={handlePasswordClose}
@@ -221,11 +221,11 @@ const Profile = () => {
                   <label>ยืนยันรหัสผ่านใหม่</label>
                   <input type="password" name="confirmPassword" placeholder="ยืนยันรหัสผ่านใหม่" />
                   <br /><br />
-                  <Button type="submit" variant="contained" color="success">
-                    Add
+                  <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
+                    แก้ไข
                   </Button>
                   <Button onClick={closePasswordModal} variant="contained" color="error">
-                    Close
+                    ปิด
                   </Button>
                 </form>
               </Box>
@@ -273,7 +273,7 @@ const Profile = () => {
             </Box>
             <Box>
               <div className="profile-edit-btn">
-                <Button variant="text" color="success" onClick={handleBioOpen} startIcon={<EditIcon />}>แก้ไข</Button>
+                <Button variant="text" color="info" onClick={handleBioOpen} startIcon={<EditIcon color="info" />}>แก้ไข</Button>
               </div>
               <Modal
                 open={openBioModal}
@@ -286,10 +286,10 @@ const Profile = () => {
                     <input type="text" id="profile-address-input" onChange={handleAddressChange} name="newAddress" placeholder="ที่อยู่" />
                     <br /><br />
                     <Button sx={{ marginRight: 2 ,marginTop:10 }} type="submit" variant="contained" color="success">
-                      Add
+                      แก้ไข
                     </Button>
                     <Button sx={{marginTop:10}} onClick={closeBioModal} variant="contained" color="error">
-                      Close
+                      ปิด
                     </Button>
                   </form>
                 </Box>
@@ -308,9 +308,9 @@ const Profile = () => {
               <Table sx={{ minWidth: 400 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Course</TableCell>
-                    <TableCell align="right">Qualification</TableCell>
-                    <TableCell align="right">GraduateYear</TableCell>
+                    <TableCell>คณะ/สาขา</TableCell>
+                    <TableCell align="right">วุฒิการศึกษา</TableCell>
+                    <TableCell align="right">ปีที่สำเร็จการศึกษา</TableCell>
                     <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
@@ -326,7 +326,7 @@ const Profile = () => {
                         </TableCell>
                         <TableCell align="right">{edu.Qualification}</TableCell>
                         <TableCell align="right">{edu.GraduateYear}</TableCell>
-                        <TableCell align="right"><Button variant="contained" color="info" ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><DeleteIcon /></Button></TableCell>
+                        <TableCell align="right"><Button sx={{marginRight:2}} variant="contained" color="info" ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><ClearIcon /></Button></TableCell>
                       </TableRow>
                     ))
                     : null}
@@ -358,17 +358,17 @@ const Profile = () => {
           >
             <Box sx={style}>
               <form onSubmit={handleEducationSubmit}>
-                <label>Course</label>
+                <label>คณะ/สาขา</label>
                 <input type="text" name="Course" placeholder="Course" />
                 <br /><br />
-                <label>Qualification</label>
+                <label>วุฒิการศึกษา</label>
                 <input
                   type="text"
                   name="Qualification"
                   placeholder="Qualification"
                 />
                 <br /><br />
-                <label>GraduateYear</label>
+                <label>ปีที่สำเร็จการศึกษา</label>
                 <input
                   type="text"
                   name="GraduateYear"
@@ -376,10 +376,10 @@ const Profile = () => {
                 />
                 <br /><br />
                 <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
-                  Add
+                  เพิ่ม
                 </Button>
                 <Button onClick={closeEducationModal} variant="contained" color="error">
-                  Close
+                  ปิด
                 </Button>
               </form>
             </Box>
@@ -388,14 +388,14 @@ const Profile = () => {
         <div className="profile-workplace-div">
           <h2 className="profile-h2-title">ประวัติการทำงาน</h2>
           <div className="profile-items-list">
-            <TableContainer component={Paper}>
+            <TableContainer  component={Paper}>
               <Table sx={{ minWidth: 400 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>CompanyName</TableCell>
-                    <TableCell align="right">Position</TableCell>
-                    <TableCell align="right">StartDate</TableCell>
-                    <TableCell align="right">EndDate</TableCell>
+                    <TableCell>สถานที่ทำงาน/บริษัท</TableCell>
+                    <TableCell align="right">ตำแหน่ง</TableCell>
+                    <TableCell align="right">วันที่เริ่มงาน</TableCell>
+                    <TableCell align="right">วันที่ออก</TableCell>
                     <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
@@ -412,7 +412,7 @@ const Profile = () => {
                         <TableCell align="right">{work.Position}</TableCell>
                         <TableCell align="right">{work.StartDate}</TableCell>
                         <TableCell align="right">{work.EndDate}</TableCell>
-                        <TableCell align="right"><Button variant="contained" color="info" ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><DeleteIcon /></Button></TableCell>
+                        <TableCell align="right"><Button sx={{marginRight:2}} variant="contained" color="info" ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><ClearIcon /></Button></TableCell>
                       </TableRow>
                     ))
                     : null}
@@ -446,23 +446,23 @@ const Profile = () => {
           >
             <Box sx={style}>
               <form onSubmit={handleWorkPlaceSubmit}>
-                <label>CompanyName</label>
+                <label>สถานที่ทำงาน/บริษัท</label>
                 <input type="text" name="CompanyName" placeholder="CompanyName" />
                 <br /><br />
-                <label>Position</label>
+                <label>ตำแหน่ง</label>
                 <input type="text" name="Position" placeholder="Position" />
                 <br /><br />
-                <label>StartDate</label>
+                <label>วันที่เริ่มงาน</label>
                 <input type="date" name="StartDate" placeholder="StartDate" />
                 <br /><br />
-                <label>EndDate</label>
+                <label>วันที่ออก</label>
                 <input type="date" name="EndDate" placeholder="EndDate" />
                 <br /><br />
                 <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
-                  Add
+                  เพิ่ม
                 </Button>
                 <Button variant="contained" onClick={closeWorkPlaceModal} color="error">
-                  Close
+                  ปิด
                 </Button>
               </form>
             </Box>
@@ -482,12 +482,12 @@ const Profile = () => {
           >
             <Grid item xs={6}>
               <NavLink to="/admin/posts">
-                <Button variant="contained">Post Manager</Button>
+                <Button variant="contained">จัดการข่าวสาร</Button>
               </NavLink>
             </Grid>
             <Grid item xs={6}>
               <NavLink to="/admin/users">
-                <Button variant="contained">Account Manager</Button>
+                <Button variant="contained">จัดการบัญชีผู้ใช้</Button>
               </NavLink>
             </Grid>
           </Grid>

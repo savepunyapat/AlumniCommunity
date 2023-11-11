@@ -2,28 +2,34 @@
     margin-top: 2vh;
     margin-bottom: 2vh;
 }
+
 #profile-box {
     padding-top: 3vh;
     height: 60vh;
-    box-shadow : rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
 #bio-box {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-bottom: 5vh;
-    box-shadow : rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+   
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
 .profile-header {
     margin-top: 3vh;
     margin-bottom: 3vh;
     width: 100%;
     text-align: center;
 }
+
 .profile-user-info {
     padding-top: 1vh;
 }
+
 #profile-address-box {
     padding-top: 2vh;
     display: flex;
@@ -31,10 +37,12 @@
     align-items: center;
     justify-content: center;
 }
-#profile-address-box  p {
+
+#profile-address-box p {
     margin-top: 1vh;
     margin-bottom: 1vh;
 }
+
 .profile-edit-btn {
     display: flex;
     width: 100%;
@@ -42,14 +50,17 @@
     margin-top: 3vh;
     margin-bottom: 2vh;
 }
+
 .profile-edu-items {
     display: flex;
     float: left;
 }
+
 .profile-edu-items p {
     margin-right: 2vw;
-    
+
 }
+
 .profile-edu-container {
     margin-bottom: 3vh;
     display: flex;
@@ -59,48 +70,58 @@
 #profile-add-btn {
     margin-top: 3vh;
 }
+
 .profile-h2-title {
     margin-top: 3vh;
     margin-bottom: 3vh;
     width: 100%;
     text-align: left;
 }
+
 .profile-workplace-items {
     display: flex;
     float: left;
     cursor: pointer;
 }
+
 .profile-workplace-items p {
     margin-right: 2vw;
-    
+
 }
-.profile-workplace-label p{
+
+.profile-workplace-label p {
     display: flex;
     float: left;
     margin-right: 4vw;
     margin-bottom: 3vh;
 }
+
 .profile-items-list {
     margin-bottom: 4vh;
-    
+
 }
+
 .profile-education-workplace-wrap {
     margin-top: 3vh;
     padding: 2vh;
     background-color: white;
     border-radius: 10px;
-    box-shadow : rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
 .profile-modals {
     display: flex;
 }
-.profile-modals input{
+
+.profile-modals input {
     float: right;
 }
+
 #profile-address-box {
     width: 100%;
     height: 25vh;
 }
+
 #profile-address-text {
     border-radius: 15px;
     border: 1px solid #ccc;
@@ -111,8 +132,14 @@
     word-break: break-all;
     white-space: normal;
 }
+
 #profile-address-input {
     height: 5vh;
     padding: 3vh;
     border-radius: 15px;
+}
+
+.profile-education-workplace-wrap {
+    background-color: #0f75bc;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }

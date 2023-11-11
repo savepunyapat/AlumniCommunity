@@ -111,10 +111,10 @@ function AddPost() {
             label="Age"
             onChange={handleChange}
           >
-            <MenuItem value={"normal"}>ข่าวทั่วไป</MenuItem>
-            <MenuItem value={"alumni"}>แนะนำศิษย์เก่า</MenuItem>
-            <MenuItem value={"activity"}>กิจกรรม</MenuItem>
-            <MenuItem value={"work"}>รับสมัครงาน</MenuItem>
+            <MenuItem value={"ข่าวทั่วไป"}>ข่าวทั่วไป</MenuItem>
+            <MenuItem value={"แนะนำศิษย์เก่า"}>แนะนำศิษย์เก่า</MenuItem>
+            <MenuItem value={"กิจกรรม"}>กิจกรรม</MenuItem>
+            <MenuItem value={"รับสมัครงาน"}>รับสมัครงาน</MenuItem>
           </Select>
           <br />
           <br />
