@@ -10,8 +10,10 @@ import {
     Container,
     Input,
     InputLabel,
-    FormControl,
+    Radio,
     Button,
+    RadioGroup,
+    FormLabel,
 
 } from '@mui/material';
 
@@ -34,13 +36,18 @@ function AddUser() {
         }));
         console.log(user);
     };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(user);
+    };
+
     return (
         <Container className='adduser-wrap-container'>
             <h1>
                 เพิ่มบัญชีผู้ใช้
             </h1>
-            <form >
-                <Grid sx={{marginTop:5}} className='adduser-grid-container' container spacing={4}>
+            <form onSubmit={handleSubmit}>
+                <Grid sx={{ marginTop: 5 }} className='adduser-grid-container' container spacing={4}>
                     <Grid item xs={10} sm={4}>
                         <TextField
                             required
@@ -91,18 +98,6 @@ function AddUser() {
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <TextField
-                            required
-                            id="Permission"
-                            name="Permission"
-                            label="สถานะ"
-                            fullWidth
-                            variant="standard"
-                            value={user.Permission}
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <TextField
                             id="Password"
                             name="Password"
                             label="รหัสผ่าน"
@@ -112,8 +107,22 @@ function AddUser() {
                             onChange={handleInputChange}
                         />
                     </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+                        <RadioGroup
+                            required
+                            id="Permission"
+                            name="Permission"
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            onChange={handleInputChange}
+                        >
+                            <FormControlLabel value="admin" control={<Radio />} label="Admin" />
+                            <FormControlLabel value="user" control={<Radio />} label="User" />
+                        </RadioGroup>
+                    </Grid>
                 </Grid>
-                <Button sx={{margin:5}} variant='outlined' color="info">เพิ่มบัญชี</Button>
+                <Button sx={{ margin: 5 }} type='submit' variant='contained' color="info">เพิ่มบัญชี</Button>
             </form>
 
         </Container>

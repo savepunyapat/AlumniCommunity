@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const AlumniAccount = require('./models/AlumniAccount')
+const GalleryRoute = require('./routes/GalleryRoute')
 const PostRoute = require('./routes/PostRoute')
 const AccountRoute = require('./routes/AccountRoute')
 var cors = require('cors')
@@ -23,7 +23,7 @@ app.get('/', (req,res)=>{
     res.send("Home")
 })
 
-
+app.use(GalleryRoute);
 app.use(PostRoute);
 app.use(AccountRoute);
 app.listen(8000,()=>{

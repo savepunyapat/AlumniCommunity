@@ -31,6 +31,7 @@ function App() {
         <Route path='/post/:id' exact element={<PostDetail/>}/>
         <Route path='/admin/editPost/:id' element={<EditPost/>}/>
       </Routes>
+      <Footer/>
     </Router>
     
   );
