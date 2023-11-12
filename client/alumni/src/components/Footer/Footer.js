@@ -21,26 +21,25 @@ function Footer() {
       <Container maxWidth="lg">
         <Grid container spacing={5}>
           <Grid item xs={12} sm={4}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
-              About Us
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              We are XYZ company, dedicated to providing the best service to our
-              customers.
-            </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography variant="h6" color="text.primary" gutterBottom>
               Contact Us
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              123 Main Street, Anytown, USA
+              วิทยาลัยการคอมพิวเตอร์
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Email: info@example.com
+              123 ถ.มิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น 40002
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Phone: +1 234 567 8901
+              โทรศัพท์ 043-009700 ต่อ 44456, 44459, 44457
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              โทรศัพท์ 043-009700 ต่อ 44456, 44459, 44457
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Hot Line. 089-7102651, 089-7102645
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>

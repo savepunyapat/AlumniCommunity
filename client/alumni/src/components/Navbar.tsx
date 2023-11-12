@@ -21,8 +21,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import "./Navbar.css";
 import { Token } from "@mui/icons-material";
 
-const pages = ["ข่าวสาร", "เกี่ยวกับ", "ติดต่อ", "เข้าสู่ระบบ"];
-const links = ["/", "/", "/", "/login", "/signup"];
+const pages = ["ข่าวสาร", "แกลเลอรี", "ติดต่อ", "เข้าสู่ระบบ"];
+const links = ["/", "/gallery", "/", "/login"];
 const settings = ["Profile", "Logout"];
 const settingPath = ["/profile", "/logout"];
 const hasToken = () => {

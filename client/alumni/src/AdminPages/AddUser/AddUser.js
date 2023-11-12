@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { axiosReq } from '../../services/service';
+
 import {
     Container,
     Input,
@@ -26,6 +28,7 @@ function AddUser() {
         PhoneNumber: '',
         Permission: '',
         Password: '',
+        Email: '',
 
     });
     const handleInputChange = (e) => {
@@ -39,6 +42,11 @@ function AddUser() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(user);
+        try {
+            const response = axiosReq.post('http://localhost:8000/register', user);
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
     return (
@@ -54,8 +62,7 @@ function AddUser() {
                             id="FirstName"
                             name="FirstName"
                             label="ชื่อ"
-                            fullWidth
-                            variant="standard"
+                            variant="outlined"
                             value={user.FirstName}
                             onChange={handleInputChange}
                         />
@@ -66,10 +73,21 @@ function AddUser() {
                             id="LastName"
                             name="LastName"
                             label="นามสกุล"
-                            fullWidth
-                            variant="standard"
+                            variant="outlined"
                             value={user.LastName}
                             onChange={handleInputChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <TextField
+                            required
+                            id="Email"
+                            name="Email"
+                            label="อีเมล"
+                            variant="outlined"
+                            value={user.Email}
+                            onChange={handleInputChange}
+
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -78,8 +96,7 @@ function AddUser() {
                             id="StdID"
                             name="StdID"
                             label="รหัสนักศึกษา"
-                            fullWidth
-                            variant="standard"
+                            variant="outlined"
                             value={user.StdID}
                             onChange={handleInputChange}
 
@@ -90,8 +107,7 @@ function AddUser() {
                             id="PhoneNumber"
                             name="PhoneNumber"
                             label="เบอร์โทรศัพท์"
-                            fullWidth
-                            variant="standard"
+                            variant="outlined"
                             value={user.PhoneNumber}
                             onChange={handleInputChange}
                         />
@@ -101,8 +117,8 @@ function AddUser() {
                             id="Password"
                             name="Password"
                             label="รหัสผ่าน"
-                            fullWidth
-                            variant="standard"
+                            type='password'
+                            variant="outlined"
                             value={user.Password}
                             onChange={handleInputChange}
                         />
