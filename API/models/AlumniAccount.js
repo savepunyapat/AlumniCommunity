@@ -55,6 +55,10 @@ const AlumniAccountSchema = mongoose.Schema(
         Password:{
             type:String,
             require:true,
+        },
+        BirthDate:{
+            type:String,
+            default:"0"
         }
     },
     {

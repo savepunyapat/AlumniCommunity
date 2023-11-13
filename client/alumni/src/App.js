@@ -14,6 +14,7 @@ import AddPost from './AdminPages/PostManage/AddPost/AddPost';
 import PostDetail from './pages/News/PostDetail';
 import Gallery from './pages/Gallery/Gallery';
 import EditPost from './AdminPages/EditPost/EditPost';
+import EditGallery from './AdminPages/EditGallery/EditGallery';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route path='/post/:id' exact element={<PostDetail/>}/>
         <Route path='/admin/editPost/:id' element={<EditPost/>}/>
         <Route path='/gallery' element={<Gallery/>}/>
+        <Route path='/admin/editGallery/' element={<EditGallery/>}/>
       </Routes>
       <Footer/>
     </Router>

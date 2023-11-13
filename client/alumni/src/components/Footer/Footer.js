@@ -10,13 +10,7 @@ function Footer() {
   return (
     <Box
       component="footer"
-      sx={{
-        backgroundColor: (theme) =>
-          theme.palette.mode === "light"
-            ? theme.palette.grey[200]
-            : theme.palette.grey[800],
-        p: 6,
-      }}
+      sx={{backgroundColor: "#0000FF",color: "#FFFFFF", py: 3, px: 2, mt: 10}}
     >
       <Container maxWidth="lg">
         <Grid container spacing={5}>

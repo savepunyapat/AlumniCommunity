@@ -4,14 +4,17 @@ const GallerySchema = mongoose.Schema(
     {
         ImageDetail:{    
             type:String,
-            require:[true],
+            require:true,
             default:"-",
         },
-        Pic_url:{
+        Image_URL:{
             type:String,
             require:true,
-            default:"https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
-        }
+        },
+        ImageDate:{
+            type:Date,
+            require:true,
+        },
 
     },
     {
