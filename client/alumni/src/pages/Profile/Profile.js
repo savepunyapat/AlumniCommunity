@@ -44,6 +44,44 @@ const Profile = () => {
   const handleBioOpen = () => setOpenBioModal(true);
   const handleBioClose = () => setOpenBioModal(false);
 
+  const [openEditEducationModal, setOpenEditEducationModal] = React.useState(false);
+  const handleEditEducationOpen = () => setOpenEditEducationModal(true);
+  const handleEditEducationClose = () => setOpenEditEducationModal(false);
+
+  const [openEditWorkPlaceModal, setOpenEditWorkPlaceModal] = React.useState(false);
+  const handleEditWorkPlaceOpen = () => setOpenEditWorkPlaceModal(true);
+  const handleEditWorkPlaceClose = () => setOpenEditWorkPlaceModal(false);
+  const [editedEducation, setEditedEducation] = useState({
+    Course: '',
+    Qualification: '',
+    GraduateYear: '',
+  });
+
+  const [editedWorkPlace, setEditedWorkPlace] = useState({
+    CompanyName: '',
+    Position: '',
+    StartDate: '',
+    EndDate: '',
+  });
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedEducation((prevEducation) => ({
+      ...prevEducation,
+      [name]: value,
+    }));
+  };
+
+  const handleWorkplaceInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedWorkPlace((prevWorkPlace) => ({
+      ...prevWorkPlace,
+      [name]: value,
+    }));
+  };
+
+
 
   const handleUpdateBioSubmit = async (e) => {
     try {
@@ -90,6 +128,44 @@ const Profile = () => {
       console.log(err.message);
     }
   };
+
+  const handleEditEducationSubmit = async (e, index) => {
+    e.preventDefault();
+    const Education = {
+      Course: e.target.Course.value,
+      Qualification: e.target.Qualification.value,
+      GraduateYear: e.target.GraduateYear.value,
+    };
+    console.log(Education);
+    try {
+      const response = await axiosWithTokenReq.put(`http://localhost:8000/updateEducation/${index}`, Education);
+      console.log(response?.data);
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleEditWorkPlaceSubmit = async (e, index) => {
+    e.preventDefault();
+    const WorkPlace = {
+      CompanyName: e.target.CompanyName.value,
+      Position: e.target.Position.value,
+      StartDate: e.target.StartDate.value,
+      EndDate: e.target.EndDate.value,
+    };
+    console.log(WorkPlace);
+    try {
+      const response = await axiosWithTokenReq.put(`http://localhost:8000/updateWorkPlace/${index}`, WorkPlace);
+      console.log(response?.data);
+      /*window.location.reload();*/
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+
+
 
 
   const style = {
@@ -203,7 +279,7 @@ const Profile = () => {
               {user.FirstName + "    " + user.LastName}
             </Typography>
             <Typography className="profile-user-info">{user.Email}</Typography>
-            <div><Button sx={{marginTop:2}} color="info" variant="text" startIcon={<EditIcon color="info" />} onClick={handlePasswordOpen} > เปลี่ยนรหัสผ่าน </Button></div>
+            <div><Button sx={{ marginTop: 2 }} color="info" variant="text" startIcon={<EditIcon color="info" />} onClick={handlePasswordOpen} > เปลี่ยนรหัสผ่าน </Button></div>
             <Modal
               open={openPasswordModal}
               onClose={handlePasswordClose}
@@ -221,7 +297,7 @@ const Profile = () => {
                   <label>ยืนยันรหัสผ่านใหม่</label>
                   <input type="password" name="confirmPassword" placeholder="ยืนยันรหัสผ่านใหม่" />
                   <br /><br />
-                  <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
+                  <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
                     แก้ไข
                   </Button>
                   <Button onClick={closePasswordModal} variant="contained" color="error">
@@ -285,10 +361,10 @@ const Profile = () => {
                     <label>ที่อยู่</label>
                     <input type="text" id="profile-address-input" onChange={handleAddressChange} name="newAddress" placeholder="ที่อยู่" />
                     <br /><br />
-                    <Button sx={{ marginRight: 2 ,marginTop:10 }} type="submit" variant="contained" color="success">
+                    <Button sx={{ marginRight: 2, marginTop: 10 }} type="submit" variant="contained" color="success">
                       แก้ไข
                     </Button>
-                    <Button sx={{marginTop:10}} onClick={closeBioModal} variant="contained" color="error">
+                    <Button sx={{ marginTop: 10 }} onClick={closeBioModal} variant="contained" color="error">
                       ปิด
                     </Button>
                   </form>
@@ -326,7 +402,52 @@ const Profile = () => {
                         </TableCell>
                         <TableCell align="right">{edu.Qualification}</TableCell>
                         <TableCell align="right">{edu.GraduateYear}</TableCell>
-                        <TableCell align="right"><Button sx={{marginRight:2}} variant="contained" color="info" ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><ClearIcon /></Button></TableCell>
+                        <TableCell align="right"><Button sx={{ marginRight: 2 }} variant="contained" color="info" onClick={handleEditEducationOpen} ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><ClearIcon /></Button></TableCell>
+                        <Modal
+                          open={openEditEducationModal}
+                          onClose={handleEditEducationClose}
+                          className="profile-modals"
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={style}>
+                            <form onSubmit={(e) => handleEditEducationSubmit(e, index)}>
+                              <label>คณะ/สาขา</label>
+                              <input
+                                value={editedEducation.Course}
+                                type="text"
+                                name="Course"
+                                placeholder="Course"
+                                onChange={handleInputChange}
+                              />
+                              <br /><br />
+                              <label>วุฒิการศึกษา</label>
+                              <input
+                                type="text"
+                                value={editedEducation.Qualification}
+                                name="Qualification"
+                                placeholder="Qualification"
+                                onChange={handleInputChange}
+                              />
+                              <br /><br />
+                              <label>ปีที่สำเร็จการศึกษา</label>
+                              <input
+                                value={editedEducation.GraduateYear}
+                                type="text"
+                                name="GraduateYear"
+                                placeholder="GraduateYear"
+                                onChange={handleInputChange}
+                              />
+                              <br /><br />
+                              <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
+                                แก้ไข
+                              </Button>
+                              <Button onClick={handleEditEducationClose} variant="contained" color="error">
+                                ปิด
+                              </Button>
+                            </form>
+                          </Box>
+                        </Modal>
                       </TableRow>
                     ))
                     : null}
@@ -334,16 +455,6 @@ const Profile = () => {
               </Table>
             </TableContainer>
 
-            {/*{Array.isArray(education)
-              ? education.map((edu, index) => (
-                <div className="profile-edu-container" key={edu}>
-                  <div className="profile-edu-items"><p>{edu.Course}</p><p>{edu.Qualification}</p><p>{edu.GraduateYear}</p></div>
-
-                  <Button className="profile-edu-delbtn" variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><DeleteIcon /></Button>
-
-                </div>
-              ))
-              : null}*/}
           </div>
 
           <Button id="profile-add-btn" variant="contained" onClick={handleEducationOpen} color="success">
@@ -388,7 +499,7 @@ const Profile = () => {
         <div className="profile-workplace-div">
           <h2 className="profile-h2-title">ประวัติการทำงาน</h2>
           <div className="profile-items-list">
-            <TableContainer  component={Paper}>
+            <TableContainer component={Paper}>
               <Table sx={{ minWidth: 400 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
@@ -412,27 +523,67 @@ const Profile = () => {
                         <TableCell align="right">{work.Position}</TableCell>
                         <TableCell align="right">{work.StartDate}</TableCell>
                         <TableCell align="right">{work.EndDate}</TableCell>
-                        <TableCell align="right"><Button sx={{marginRight:2}} variant="contained" color="info" ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><ClearIcon /></Button></TableCell>
+                        <TableCell align="right"><Button sx={{ marginRight: 2 }} variant="contained" color="info" onClick={handleEditWorkPlaceOpen}><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><ClearIcon /></Button></TableCell>
+                        <Modal
+                          open={openEditWorkPlaceModal}
+                          onClose={handleEditWorkPlaceClose}
+                          className="profile-modals"
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={style}>
+                            <form onSubmit={(e)=>handleEditWorkPlaceSubmit(e,index)}>
+                              <label>สถานที่ทำงาน/บริษัท</label>
+                              <input
+                                value={editedWorkPlace.CompanyName}
+                                type="text"
+                                name="CompanyName"
+                                placeholder="CompanyName"
+                                onChange={handleWorkplaceInputChange}
+                              />
+                              <br /><br />
+                              <label>ตำแหน่ง</label>
+                              <input
+                                type="text"
+                                value={editedWorkPlace.Position}
+                                name="Position"
+                                placeholder="Position"
+                                onChange={handleWorkplaceInputChange}
+                              />
+                              <br /><br />
+                              <label>วันที่เริ่มงาน</label>
+                              <input
+                                value={editedWorkPlace.StartDate}
+                                type="date"
+                                name="StartDate"
+                                placeholder="StartDate"
+                                onChange={handleWorkplaceInputChange}
+                              />
+                              <br /><br />
+                              <label>วันที่ออก</label>
+                              <input
+                                value={editedWorkPlace.EndDate}
+                                type="date"
+                                name="EndDate"
+                                placeholder="EndDate"
+                                onChange={handleWorkplaceInputChange}
+                              />
+                              <br /><br />
+                              <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
+                                แก้ไข
+                              </Button>
+                              <Button onClick={handleEditWorkPlaceClose} variant="contained" color="error">
+                                ปิด
+                              </Button>
+                            </form>
+                          </Box>
+                        </Modal>
                       </TableRow>
                     ))
                     : null}
                 </TableBody>
               </Table>
             </TableContainer>
-
-            {/*<div className="profile-workplace-label"><p>หน่วยงาน/บริษัท</p><p>ตำแหน่ง</p><p>วันที่เริ่มงาน</p><p>วันที่ออก</p></div>
-            {Array.isArray(workplace)
-              ? workplace.map((work, index) => (
-                <div>
-                  <div key={work}>
-                    <div className="profile-workplace-items"><p>{work.CompanyName}</p><p>{work.Position}</p><p>{work.StartDate}</p><p>{work.EndDate}</p></div>
-
-                    <Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><DeleteIcon /></Button>
-                  </div>
-                </div>
-
-              ))
-              : null}*/}
           </div>
           <Button variant="contained" onClick={handleWorkPlaceOpen} color="success">
             <AddHomeWorkIcon />

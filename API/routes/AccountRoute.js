@@ -12,8 +12,8 @@ const {
   addEducation,
   addWorkPlace,
   deleteEducationByIndex,
-  updateEducation,
-  updateWorkPlace
+  updateEducationByIndex,
+  updateWorkPlaceByIndex
 } = require("../controllers/AccountController");
 const { verified, isAdmin } = require("../middlewares/Auth");
 
@@ -45,14 +45,14 @@ router.delete("/acc/:id", async (req, res) => {
   }
 });
 
-router.put("/updateworkplace/:index",verified,updateWorkPlace);
-router.put("/updateeducation/:index",verified,updateEducation);
+router.put("/updateWorkPlace/:index", verified, updateWorkPlaceByIndex);
+router.put("/updateEducation/:index", verified, updateEducationByIndex);
 router.delete("/deleteWorkPlace/:index", verified, deleteWorkPlaceByIndex)
 router.delete("/deleteEducation/:index", verified, deleteEducationByIndex);
 router.put("/addEducation", verified, addEducation);
 router.put("/addWorkPlace", verified, addWorkPlace);
 router.post("/changePassword", verified, changePassword);
-router.put("/acc/:id", verified, updateAccount);
+router.put("/acc/:id", updateAccount);
 router.post("/register", registerUser);
 router.get("/me", verified, getMe);
 router.post("/login", userLogin);

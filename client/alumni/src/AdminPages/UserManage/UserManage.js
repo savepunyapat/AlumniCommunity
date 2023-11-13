@@ -26,6 +26,7 @@ function UserManage() {
   const [permission, setPermission] = useState('');
   const handlePermissionChange = (event) => {
     setPermission(event.target.value);
+    console.log(permission);
   };
   const style = {
     position: 'absolute',
@@ -40,6 +41,17 @@ function UserManage() {
     p: 10,
     borderRadius: "10px",
   };
+
+  const handleEditPermissonSubmit = async (userID) => {
+    try {
+      const response = await axiosReq.put(`http://localhost:8000/acc/${userID}`, { Permission: permission });
+      getUsers();
+      closeEditUserModal();
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   const closeEditUserModal = () => {
     setOpenEditUserModal(false);
   }
@@ -60,7 +72,6 @@ function UserManage() {
     try {
       const response = await axiosReq.get("http://localhost:8000/allAccount");
       setUsers(response?.data);
-      console.log(users);
     } catch (err) {
       console.error(err.message);
     }
@@ -91,7 +102,7 @@ function UserManage() {
             {Array.isArray(users)
               ? users.map((user) => (
                 <TableRow
-                  key={user.id}
+                  key={user._id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
@@ -108,21 +119,20 @@ function UserManage() {
                     className="profile-modals"
                   >
                     <Box sx={style}>
-                      <form>
+                      <form onSubmit={()=>handleEditPermissonSubmit(user._id)} >
                         
                         <InputLabel id="demo-simple-select-label">สถานะ</InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          label="Age"
-                          value={permission}
+                          label="status"
                           onChange={handlePermissionChange}
                         >
                           <MenuItem value={"admin"}>Admin</MenuItem>
                           <MenuItem value={"user"}>User</MenuItem>
                         </Select>
                         <Box sx={{marginTop:5}}>
-                          <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
+                          <Button sx={{ marginRight: 2 }} type='submit' variant="contained" color="success">
                             แก้ไข
                           </Button>
                           <Button onClick={closeEditUserModal} variant="contained" color="error">

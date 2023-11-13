@@ -121,7 +121,10 @@ const deleteWorkPlaceByIndex = asyncHandler(async (req, res) => {
     throw new Error("Invalid user data");
   }
 });
-const updateEducation = asyncHandler(async (req, res) => {
+
+const updateEducationByIndex = asyncHandler(async (req, res) => {
+  console.log(req.body)
+  console.log(req.params)
   const { index } = req.params;
   const { Course, Qualification, GraduateYear } = req.body;
   const Education = { Course, Qualification, GraduateYear };
@@ -138,13 +141,9 @@ const updateEducation = asyncHandler(async (req, res) => {
   }
 });
 
-
-const updateWorkPlace = asyncHandler(async (req, res) => {
-
+const updateWorkPlaceByIndex = asyncHandler(async (req, res) => {
   const { index } = req.params;
   const { CompanyName, Position, StartDate, EndDate } = req.body;
-  console.log(index);
-  console.log(req.body);
   const WorkPlace = { CompanyName, Position, StartDate, EndDate };
   const user = await AccountModel.findById(req.user.id);
   if (user) {
@@ -158,6 +157,9 @@ const updateWorkPlace = asyncHandler(async (req, res) => {
     throw new Error("Invalid user data");
   }
 });
+
+
+
 
 
 const userLogin = asyncHandler(async (req, res) => {
@@ -258,6 +260,6 @@ module.exports = {
   addWorkPlace,
   deleteEducationByIndex,
   deleteWorkPlaceByIndex,
-  updateEducation,
-  updateWorkPlace,
+  updateEducationByIndex,
+  updateWorkPlaceByIndex
 };
