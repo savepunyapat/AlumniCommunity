@@ -5,9 +5,8 @@ const Item = (item) => {
     console.log(item);
     return (
         <Paper>
-            <img src={item.item.image} alt={item.title} style={{width:"100%",height:"45vh"}} />
+            <img src={item.item.Pic_url} alt={item.item.PostSubject} style={{width:"100%",height:"80vh"}} />
             <h2>{item.title}</h2>
-
         </Paper>
     )
 }
