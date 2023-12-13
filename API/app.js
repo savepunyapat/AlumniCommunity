@@ -4,6 +4,11 @@ const mongoose = require('mongoose');
 const GalleryRoute = require('./routes/GalleryRoute')
 const PostRoute = require('./routes/PostRoute')
 const AccountRoute = require('./routes/AccountRoute')
+const nodemailer = require('nodemailer');
+const schedule = require('node-schedule');
+const User = require('./models/AlumniAccount')
+
+
 var cors = require('cors')
 app.use(cors())
 app.use(express.json({ limit: '50mb' }));
@@ -12,21 +17,98 @@ require('dotenv').config();
 const mongoKey = process.env.MONGO_KEY;
 mongoose.set("strictQuery", false)
 mongoose.connect(mongoKey)
-.then(()=> {
-    console.log("MongoDB connected")
-}).catch((error) =>{
-    console.log(error);
-})
+    .then(() => {
+        console.log("MongoDB connected")
+    }).catch((error) => {
+        console.log(error);
+    })
+
+//mail sending
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.MAIL_PASSWORD,
+    },
+});
+
+const sendBirthdayPostcard = (recipientEmail, postcardContent) => {
+    const mailOptions = {
+        from: 'punyapat810@gmail.com',
+        to: recipientEmail,
+        subject: 'Birthday Postcard',
+        html: postcardContent,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+};
+schedule.scheduleJob('0 0 * * *', async () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const usersWithBirthday = await User.find({
+        Birthday: {
+            $gte: today,
+            $lt: tomorrow,
+        },
+    });
+    usersWithBirthday.forEach(user => {
+        const postcardContent = `<p>Happy Birthday, ${user.name}!</p>`; // Customize the postcard content
+        sendBirthdayPostcard(user.Email, postcardContent);
+    });
+});
+
+/*  
+const testsending = async () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const usersWithBirthday = await User.find({
+        Birthday: {
+            $gte: today,
+            $lt: tomorrow,
+        },
+    });
+    console.log(usersWithBirthday)
+    console.log(today)
+    usersWithBirthday.forEach(user => {
+        const postcardContent = `<p>Happy Birthday, ${user.name}!</p>`; // Customize the postcard content
+        sendBirthdayPostcard(user.Email, postcardContent);
+    });
+}
+*/
+
+
+
+
 //Routes
 
-app.get('/', (req,res)=>{
+app.post('/send-birthday-postcard', (req, res) => {
+    const { recipientEmail, postcardContent } = req.body;
+
+    sendPostcard(recipientEmail, postcardContent);
+
+    res.status(200).json({ success: true });
+});
+
+
+app.get('/', (req, res) => {
     res.send("Home")
 })
 
 app.use(GalleryRoute);
 app.use(PostRoute);
 app.use(AccountRoute);
-app.listen(8000,()=>{
+app.listen(8000, () => {
     console.log("listening port 3000")
 })
 
