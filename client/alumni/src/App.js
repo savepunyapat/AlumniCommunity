@@ -33,7 +33,7 @@ function App() {
         <Route path='/post/:id' exact element={<PostDetail/>}/>
         <Route path='/admin/editPost/:id' element={<EditPost/>}/>
         <Route path='/gallery' element={<Gallery/>}/>
-        <Route path='/admin/editGallery/' element={<EditGallery/>}/>
+        <Route path='/admin/editGallery' element={<EditGallery/>}/>
       </Routes>
       <Footer/>
     </Router>

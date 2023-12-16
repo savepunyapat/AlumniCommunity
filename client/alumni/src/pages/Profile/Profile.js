@@ -631,14 +631,19 @@ const Profile = () => {
             justifyContent="center"
             spacing={2}
           >
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <NavLink to="/admin/posts">
                 <Button variant="contained">จัดการข่าวสาร</Button>
               </NavLink>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <NavLink to="/admin/users">
                 <Button variant="contained">จัดการบัญชีผู้ใช้</Button>
+              </NavLink>
+            </Grid>
+            <Grid item xs={4}>
+              <NavLink to="/admin/editGallery">
+                <Button variant="contained">จัดการแกลเลอรี</Button>
               </NavLink>
             </Grid>
           </Grid>

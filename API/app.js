@@ -33,6 +33,23 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+const sendEventPostcard = (recipientEmail, postcardContent, eventSubject) => {
+    const mailOptions = {
+        from: 'punyapat810@gmail.com',
+        to: recipientEmail,
+        subject: eventSubject,
+        html: postcardContent,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+};
+
+
 const sendBirthdayPostcard = (recipientEmail, postcardContent) => {
     const mailOptions = {
         from: 'punyapat810@gmail.com',
@@ -96,6 +113,13 @@ app.post('/send-birthday-postcard', (req, res) => {
     const { recipientEmail, postcardContent } = req.body;
 
     sendPostcard(recipientEmail, postcardContent);
+
+    res.status(200).json({ success: true });
+});
+app.post('/send-event-postcard', (req, res) => {
+    const { recipientEmail, postcardContent, eventSubject } = req.body;
+
+    sendEventPostcard(recipientEmail, postcardContent, eventSubject);
 
     res.status(200).json({ success: true });
 });

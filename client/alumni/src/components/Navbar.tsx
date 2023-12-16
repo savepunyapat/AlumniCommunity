@@ -20,6 +20,7 @@ import { axiosReq } from "../services/service";
 import MenuIcon from '@mui/icons-material/Menu';
 import "./Navbar.css";
 import { Token } from "@mui/icons-material";
+import {createTheme, ThemeProvider } from "@mui/material";
 
 const pages = ["ข่าวสาร", "แกลเลอรี", "ติดต่อ", "เข้าสู่ระบบ"];
 const links = ["/", "/gallery", "/", "/login"];
@@ -35,7 +36,7 @@ function Navbar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [loggedIn, setLoggedIn] = useState(hasToken());
 
-  
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -50,12 +51,16 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  
 
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Kanit, sans-serif",// Change this to your desired font
+    },
+  });
 
   useEffect(() => {
-    
-    
+
+
     // Update the 'loggedIn' state when the component mounts and the token changes
     setLoggedIn(hasToken());
     // Add an event listener to update the 'loggedIn' state when the token changes in another tab or window
@@ -72,8 +77,9 @@ function Navbar() {
       window.removeEventListener("storage", tokenChangeListener);
     };
   }, [loggedIn]);
-  
+
   return (
+    <ThemeProvider theme={theme}>
     <AppBar style={{ backgroundColor: "#0000FF" }} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -93,7 +99,7 @@ function Navbar() {
               onClick={handleOpenNavMenu}
               color="primary"
             >
-              
+
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -191,6 +197,7 @@ function Navbar() {
         </Toolbar>
       </Container>
     </AppBar>
+    </ThemeProvider>
   );
 }
 
