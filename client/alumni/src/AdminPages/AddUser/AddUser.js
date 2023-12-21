@@ -8,6 +8,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { axiosReq } from '../../services/service';
 
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 import {
     Container,
     Input,
@@ -31,6 +36,8 @@ function AddUser() {
         Email: '',
 
     });
+    const [selectedDate, setSelectedDate] = useState(null);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUser((prevData) => ({
@@ -39,16 +46,23 @@ function AddUser() {
         }));
         console.log(user);
     };
-    const handleSubmit = (e) => {
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user);
+        const userData = { ...user, Birthday: selectedDate }; // Add selected date to user data
         try {
-            const response = axiosReq.post('http://localhost:8000/register', user);
+            const response = await axiosReq.post('http://localhost:8000/register', userData);
+            console.log('User added:', response.data);
         } catch (error) {
-            console.log(error.message);
+            console.log('Error adding user:', error.message);
         }
     };
 
+    useEffect(() => {
+        console.log(user); // Log changes to user state
+    }, [user]);
     return (
         <Container className='adduser-wrap-container'>
             <h1>
@@ -124,7 +138,18 @@ function AddUser() {
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                label="Basic date picker"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                renderInput={(params) => <TextField {...params} />}
+                            />
+                        </LocalizationProvider>
+                    </Grid>
+
+                    <Grid item xs={12} sm={4}>
+                        <FormLabel id="demo-row-radio-buttons-group-label">สถานะ</FormLabel>
                         <RadioGroup
                             required
                             id="Permission"

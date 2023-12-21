@@ -7,10 +7,22 @@ const AccountRoute = require('./routes/AccountRoute')
 const nodemailer = require('nodemailer');
 const schedule = require('node-schedule');
 const User = require('./models/AlumniAccount')
+const passport = require('passport');
+const facebookStrategy = require('passport-facebook').Strategy;
+const cors = require('cors')
+const allowedOrigins = ['http://localhost:3000'];
 
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+};
 
-var cors = require('cors')
-app.use(cors())
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.json())
 require('dotenv').config();
@@ -22,6 +34,20 @@ mongoose.connect(mongoKey)
     }).catch((error) => {
         console.log(error);
     })
+//facebook sharing
+passport.use(new facebookStrategy({
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    callbackURL: "http://localhost:8000/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'photos', 'email']
+},
+    function (accessToken, refreshToken, profile, cb) {
+        User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+            return cb(err, user);
+        });
+    }
+));
+
 
 //mail sending
 
@@ -108,7 +134,27 @@ const testsending = async () => {
 
 
 //Routes
+app.get('/auth/facebook', (req, res, next) => {
+    console.log("auth")
+    passport.authenticate('facebook', (err, user, info) => {
+        if (err) {
+            // Log the error here
+            console.error('Error during Facebook authentication:', err);
+            return next(err); // Pass the error to the next middleware
+        }
+        // Continue with your authentication logic if needed
+        // This block may vary based on your application's requirements
+        // For example, redirecting the user or sending a response
+    })(req, res, next);
+});
 
+
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/' }),
+    function (req, res) {
+        // Successful authentication, redirect or handle as needed
+        res.redirect('/');
+    });
 app.post('/send-birthday-postcard', (req, res) => {
     const { recipientEmail, postcardContent } = req.body;
 
@@ -133,7 +179,7 @@ app.use(GalleryRoute);
 app.use(PostRoute);
 app.use(AccountRoute);
 app.listen(8000, () => {
-    console.log("listening port 3000")
+    console.log("listening port 8000")
 })
 
 

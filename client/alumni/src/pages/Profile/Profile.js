@@ -20,6 +20,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import dayjs from "dayjs";
+
 
 
 const Profile = () => {
@@ -243,9 +245,6 @@ const Profile = () => {
       setUser(response?.data);
       setEducation(response?.data?.Education);
       setWorkplace(response?.data?.WorkPlace);
-      console.log(education);
-      console.log(workplace);
-      console.log(user.Permission);
       if (user.Permission === "admin") {
         setPermission(true);
       } else {
@@ -257,9 +256,7 @@ const Profile = () => {
     }
   };
   useEffect(() => {
-    console.log(permission);
     getMe();
-    console.log(permission);
   }, user, openEducationModal, openWorkPlaceModal);
 
   return (
@@ -328,18 +325,15 @@ const Profile = () => {
               <Grid item xs={3}>
                 <p>รหัสนักศึกษา</p>
                 <TextField disabled value={user.StdID}>
-                  รหัสนักศึกษา: {user.StdID}
                 </TextField>
               </Grid>
               <Grid item xs={3}>
                 <p>เบอร์โทรศัพท์</p>
-                <TextField disabled value={user.PhoneNumber}>
-                  ชื่อ: {user.FirstName}
-                </TextField>
+                <TextField disabled value={user.PhoneNumber}></TextField>
               </Grid>
               <Grid item xs={3}>
-                <p>สถานะ</p>
-                <TextField disabled value={user.Permission}></TextField>
+                <p>วันเกิด</p>
+                <TextField disabled value={dayjs(user.Birthday).format("YYYY-MM-DD")}></TextField>
               </Grid>
 
             </Grid>

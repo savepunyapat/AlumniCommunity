@@ -56,8 +56,8 @@ const AlumniAccountSchema = mongoose.Schema(
             type:String,
             require:true,
         },
-        BirthDate:{
-            type:String,
+        Birthday:{
+            type:Date,
             default:"0"
         }
     },

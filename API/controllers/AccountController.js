@@ -15,6 +15,7 @@ const registerUser = asyncHandler(async (req, res) => {
     StdID,
     Education,
     WorkPlace,
+    Birthday,
   } = req.body;
   console.log(req.body);
   if (!FirstName || !Email || !Password || !Permission || !LastName || !StdID) {
@@ -43,6 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
     StdID,
     Education,
     WorkPlace,
+    Birthday,
   });
 
   if (Account) {
@@ -219,6 +221,7 @@ const getMe = asyncHandler(async (req, res) => {
       StdID: user.StdID,
       Education: user.Education,
       WorkPlace: user.WorkPlace,
+      Birthday: user.Birthday,
     });
   } catch (err) {
     res.json(err);
