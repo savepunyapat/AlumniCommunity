@@ -28,8 +28,20 @@ const addImage = asyncHandler(async (req, res) => {
     }
 );
 
+const deleteImageById = asyncHandler(async (req, res) => {
+    try {
+        const {id} = req.params;
+        await GalleryModel.findByIdAndDelete(id);
+        res.status(200).json('image deleted');
+    } catch (err) {
+        res.status(500).json(err.message);
+    }
+    }
+);
+
 
 module.exports = {
     getAllImages,
-    addImage
+    addImage,
+    deleteImageById
 }

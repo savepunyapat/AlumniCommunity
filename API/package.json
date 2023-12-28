@@ -12,8 +12,7 @@
     "nodemailer": "^6.9.7",
     "nodemon": "^3.0.1",
     "passport": "^0.7.0",
-    "passport-facebook": "^3.0.0",
-    "proxy": "http://localhost:8000"
+    "passport-facebook": "^3.0.0"
 
   },
   "scripts": {
