@@ -45,9 +45,6 @@ function Home() {
       <Carousel />
       <div className="home-container">
         <Card
-          sx={{
-            p: 2,
-          }}
         >
           <ButtonGroup variant="outlined" aria-label="outlined button group">
             <Button onClick={() => setSelectedCategory("")}>หน้าหลัก</Button>
@@ -64,7 +61,7 @@ function Home() {
               รับสมัครงาน
             </Button>
           </ButtonGroup>
-          <Divider sx={{ my: 2 }} />
+          <Divider />
           <List
             sx={{
               width: "100%",

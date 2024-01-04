@@ -22,7 +22,7 @@ import "./Navbar.css";
 import { Token } from "@mui/icons-material";
 import {createTheme, ThemeProvider } from "@mui/material";
 
-const pages = ["ข่าวสาร", "แกลเลอรี", "ติดต่อ", "เข้าสู่ระบบ"];
+const pages = ["ข่าวสาร", "แกลเลอรี", "เว็บบอร์ด", "เข้าสู่ระบบ"];
 const links = ["/", "/gallery", "/", "/login"];
 const settings = ["Profile", "Logout"];
 const settingPath = ["/profile", "/logout"];
@@ -80,7 +80,7 @@ function Navbar() {
 
   return (
     <ThemeProvider theme={theme}>
-    <AppBar style={{ backgroundColor: "#0000FF" }} position="static">
+    <AppBar style={{ backgroundColor: "#0b76bc" }} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <NavLink to="/">

@@ -5,7 +5,7 @@ const Item = (item) => {
     console.log(item);
     return (
         <Paper>
-            <img src={item.item.Pic_url} alt={item.item.PostSubject} style={{width:"100%",height:"80vh"}} />
+            <img src={item.item.Pic_url} alt={item.item.PostSubject} style={{width:"100%",height:"65vh"}} />
             <div className='component-carousel-desc' style={{display:"flex",justifyContent:"center"}}>
             <h2>{item.item.PostSubject}</h2>
             </div>
