@@ -123,7 +123,7 @@ const testsending = async () => {
 app.post('/send-birthday-postcard', (req, res) => {
     const { recipientEmail, postcardContent } = req.body;
 
-    sendPostcard(recipientEmail, postcardContent);
+    sendBirthdayPostcard(recipientEmail, postcardContent);
 
     res.status(200).json({ success: true });
 });
