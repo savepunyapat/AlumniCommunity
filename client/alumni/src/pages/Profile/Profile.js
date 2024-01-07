@@ -47,12 +47,30 @@ const Profile = () => {
   const handleBioClose = () => setOpenBioModal(false);
 
   const [openEditEducationModal, setOpenEditEducationModal] = React.useState(false);
-  const handleEditEducationOpen = () => setOpenEditEducationModal(true);
-  const handleEditEducationClose = () => setOpenEditEducationModal(false);
+  const handleEditEducationOpen = (index) => {
+    setEditedEducationIndex(index);
+    setOpenEditEducationModal(true);
+  };
+  const handleEditEducationClose = () => {
+    setOpenEditEducationModal(false);
+    setEditedEducationIndex(null);
+  };
+  const [editedEducationIndex, setEditedEducationIndex] = useState(null);
+  const [editedEducations, setEditedEducations] = useState([]);
+
 
   const [openEditWorkPlaceModal, setOpenEditWorkPlaceModal] = React.useState(false);
-  const handleEditWorkPlaceOpen = () => setOpenEditWorkPlaceModal(true);
-  const handleEditWorkPlaceClose = () => setOpenEditWorkPlaceModal(false);
+  const handleEditWorkPlaceOpen = (index) => {
+    setEditedWorkPlaceIndex(index);
+    setOpenEditWorkPlaceModal(true);
+  };
+  const handleEditWorkPlaceClose = () => {
+    setOpenEditWorkPlaceModal(false);
+    setEditedWorkPlaceIndex(null); 
+  };
+  const [editedWorkPlaceIndex, setEditedWorkPlaceIndex] = React.useState(null);
+
+
   const [editedEducation, setEditedEducation] = useState({
     Course: '',
     Qualification: '',
@@ -160,7 +178,7 @@ const Profile = () => {
     try {
       const response = await axiosWithTokenReq.put(`http://localhost:8000/updateWorkPlace/${index}`, WorkPlace);
       console.log(response?.data);
-      /*window.location.reload();*/
+      window.location.reload();
     } catch (error) {
       console.log(error.message);
     }
@@ -396,9 +414,9 @@ const Profile = () => {
                         </TableCell>
                         <TableCell align="right">{edu.Qualification}</TableCell>
                         <TableCell align="right">{edu.GraduateYear}</TableCell>
-                        <TableCell align="right"><Button sx={{ marginRight: 2 }} variant="contained" color="info" onClick={handleEditEducationOpen} ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><ClearIcon /></Button></TableCell>
+                        <TableCell align="right"><Button sx={{ marginRight: 2 }} variant="contained" color="info" onClick={() => handleEditEducationOpen(index)} ><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteEducaitonClick(index)} color="error" ><ClearIcon /></Button></TableCell>
                         <Modal
-                          open={openEditEducationModal}
+                          open={openEditEducationModal && editedEducationIndex === index} // Check if the index matches the edited index
                           onClose={handleEditEducationClose}
                           className="profile-modals"
                           aria-labelledby="modal-modal-title"
@@ -517,16 +535,16 @@ const Profile = () => {
                         <TableCell align="right">{work.Position}</TableCell>
                         <TableCell align="right">{work.StartDate}</TableCell>
                         <TableCell align="right">{work.EndDate}</TableCell>
-                        <TableCell align="right"><Button sx={{ marginRight: 2 }} variant="contained" color="info" onClick={handleEditWorkPlaceOpen}><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><ClearIcon /></Button></TableCell>
+                        <TableCell align="right"><Button sx={{ marginRight: 2 }} variant="contained" color="info" onClick={() => handleEditWorkPlaceOpen(index)}><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><ClearIcon /></Button></TableCell>
                         <Modal
-                          open={openEditWorkPlaceModal}
+                          open={openEditWorkPlaceModal && editedWorkPlaceIndex === index} 
                           onClose={handleEditWorkPlaceClose}
                           className="profile-modals"
                           aria-labelledby="modal-modal-title"
                           aria-describedby="modal-modal-description"
                         >
                           <Box sx={style}>
-                            <form onSubmit={(e)=>handleEditWorkPlaceSubmit(e,index)}>
+                            <form onSubmit={(e) => handleEditWorkPlaceSubmit(e, index)}>
                               <label>สถานที่ทำงาน/บริษัท</label>
                               <input
                                 value={editedWorkPlace.CompanyName}

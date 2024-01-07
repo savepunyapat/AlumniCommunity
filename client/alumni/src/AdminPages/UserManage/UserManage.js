@@ -18,6 +18,9 @@ import Box from "@mui/material/Box";
 import InputLabel from '@mui/material/InputLabel';
 import ClearIcon from '@mui/icons-material/Clear';
 import { NavLink } from 'react-router-dom';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
 function UserManage() {
   const [openEditUserModal, setOpenEditUserModal] = React.useState(false);
   const handleEditUserOpen = () => setOpenEditUserModal(true);
@@ -28,6 +31,18 @@ function UserManage() {
     setPermission(event.target.value);
     console.log(permission);
   };
+  const notifyDeleteSuccess = () =>
+    toast.success("ลบบัญชีสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
   const style = {
     position: 'absolute',
 
@@ -59,6 +74,7 @@ function UserManage() {
     deleteUser(id);
   }
   const deleteUser = async (id) => {
+    notifyDeleteSuccess();
     try {
       console.log(id);
       const response = await axiosReq.delete(`http://localhost:8000/acc/${id}`);
@@ -83,6 +99,7 @@ function UserManage() {
 
   return (
     <Container maxWidth="lg">
+      <ToastContainer />
       <div className="usermanage-header">
         <h1>จัดการบัญชีผู้ใช้</h1>
       </div>
@@ -112,15 +129,15 @@ function UserManage() {
                   <TableCell align="right">{user.LastName}</TableCell>
                   <TableCell align="right">{user.Permission}</TableCell>
                   <TableCell align="right">{user.Email}</TableCell>
-                  <TableCell align="right"><Button sx={{marginRight:2}} onClick={handleEditUserOpen} variant='contained' color='info' ><EditIcon color='white' /></Button><Button color='error' variant='contained' onClick={() => handleDeleteClick(user._id)}><ClearIcon color='white' /></Button></TableCell>
+                  <TableCell align="right"><Button sx={{ marginRight: 2 }} onClick={handleEditUserOpen} variant='contained' color='info' ><EditIcon color='white' /></Button><Button color='error' variant='contained' onClick={() => handleDeleteClick(user._id)}><ClearIcon color='white' /></Button></TableCell>
                   <Modal
                     open={openEditUserModal}
                     onClose={handleEditUserClose}
                     className="profile-modals"
                   >
                     <Box sx={style}>
-                      <form onSubmit={()=>handleEditPermissonSubmit(user._id)} >
-                        
+                      <form onSubmit={() => handleEditPermissonSubmit(user._id)} >
+
                         <InputLabel id="demo-simple-select-label">สถานะ</InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
@@ -131,7 +148,7 @@ function UserManage() {
                           <MenuItem value={"admin"}>Admin</MenuItem>
                           <MenuItem value={"user"}>User</MenuItem>
                         </Select>
-                        <Box sx={{marginTop:5}}>
+                        <Box sx={{ marginTop: 5 }}>
                           <Button sx={{ marginRight: 2 }} type='submit' variant="contained" color="success">
                             แก้ไข
                           </Button>

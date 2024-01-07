@@ -18,6 +18,9 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ClearIcon from "@mui/icons-material/Clear";
 import CloseIcon from "@mui/icons-material/Close";
 import { axiosReq } from "../../services/service";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
 const EditGallery = () => {
   const [images, setImages] = React.useState([]);
   const [imageModals, setImageModals] = React.useState({});
@@ -25,6 +28,18 @@ const EditGallery = () => {
   const [openAddImageModal, setOpenAddImageModal] = React.useState(false);
   const handleAddImageOpen = () => setOpenAddImageModal(true);
   const handleAddImageClose = () => setOpenAddImageModal(false);
+
+  const notifySuccess = () =>
+    toast.success("เพิ่มรูปสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const toggleImageModal = (imageId) => {
     setImageModals((prevState) => ({
@@ -54,7 +69,7 @@ const EditGallery = () => {
       console.log(error.message);
     }
   };
-  
+
   const sortImagesByDate = (imageData) => {
     return imageData.sort((a, b) => {
       const dateA = new Date(a.ImageDate);
@@ -86,6 +101,8 @@ const EditGallery = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    notifySuccess();
+    setOpenAddImageModal(false);
     const base64 = await convertBase64(pickImage);
     const data = {
       Image_URL: base64,
@@ -97,6 +114,7 @@ const EditGallery = () => {
         "http://localhost:8000/gallery/addImage",
         data
       );
+      getImages();
       console.log(response.data);
     } catch (error) {
       console.log(error.message);
@@ -136,7 +154,8 @@ const EditGallery = () => {
   }, []);
   return (
     <Container>
-      <Container sx={{ marginTop: 10, marginBottom: 5, width: "100%" }}>
+        <ToastContainer />
+      <Container sx={{ marginTop: 10, marginBottom: 20, width: "100%" }}>
         <Button
           sx={{ float: "right" }}
           variant="contained"
@@ -163,7 +182,7 @@ const EditGallery = () => {
               />
               <br />
               <br />
-              <label>ยืนยันรหัสผ่านใหม่</label>
+              <label>วันที่  </label>
               <input type="date" name="ImageDate" />
               <br />
               <br />
@@ -207,7 +226,7 @@ const EditGallery = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  <Button variant="contained" 
+                  <Button variant="contained"
                     onClick={() => toggleImageModal(image._id)}
                   >
                     <PlayArrowIcon />

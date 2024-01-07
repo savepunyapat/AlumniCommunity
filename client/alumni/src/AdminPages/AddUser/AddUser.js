@@ -12,6 +12,8 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 import {
     Container,
@@ -24,6 +26,17 @@ import {
 
 } from '@mui/material';
 
+const notifySuccess = () =>
+    toast.success("เพิ่มบัญชีสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
 function AddUser() {
     const [user, setUser] = useState({
@@ -51,9 +64,12 @@ function AddUser() {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
+        notifySuccess();
         const userData = { ...user, Birthday: selectedDate }; // Add selected date to user data
         try {
             const response = await axiosReq.post('http://localhost:8000/register', userData);
+            
+
             console.log('User added:', response.data);
         } catch (error) {
             console.log('Error adding user:', error.message);
@@ -64,7 +80,8 @@ function AddUser() {
         console.log(user); // Log changes to user state
     }, [user]);
     return (
-        <Container className='adduser-wrap-container'>
+        <Container className='adduser-wrap-container' sx={{marginTop:5}}>
+            <ToastContainer />
             <h1>
                 เพิ่มบัญชีผู้ใช้
             </h1>
