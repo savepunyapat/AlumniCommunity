@@ -7,7 +7,8 @@ import { useEffect } from 'react'
 
 
 
-const Carouselimg = () => {
+const 
+Carouselimg = () => {
     const [images, setImages] = React.useState([]);
 
     const getNewsImage = async () => {

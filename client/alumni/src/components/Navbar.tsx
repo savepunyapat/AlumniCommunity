@@ -21,6 +21,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import "./Navbar.css";
 import { Token } from "@mui/icons-material";
 import {createTheme, ThemeProvider } from "@mui/material";
+import logo from "../img/logo/logo.png";
 
 const pages = ["ข่าวสาร", "แกลเลอรี", "เว็บบอร์ด", "เข้าสู่ระบบ"];
 const links = ["/", "/gallery", "/", "/login"];
@@ -86,7 +87,7 @@ function Navbar() {
           <NavLink to="/">
             <img
               id="logo"
-              src="https://upload.wikimedia.org/wikipedia/th/thumb/c/ce/Computing_KKU.svg/1200px-Computing_KKU.svg.png"
+              src={logo}
             />
           </NavLink>
 
@@ -165,7 +166,7 @@ function Navbar() {
             {loggedIn ? (
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <MenuIcon sx={{ color: "white" }} />
+                  <AccountCircleIcon sx={{ color: "white" }} />
                 </IconButton>
               </Tooltip>
             ) : null}

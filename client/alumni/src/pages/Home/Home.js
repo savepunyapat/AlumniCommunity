@@ -41,8 +41,12 @@ function Home() {
   }, []);
 
   return (
-    <div>
-      <Carousel />
+    <div className="wrapped">
+      <div className="carousel-container">
+      <div className="home-carousel-container">
+        <Carousel />
+      </div>
+      </div>
       <div className="home-container">
         <Card
         >
