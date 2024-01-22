@@ -15,6 +15,7 @@ import PostDetail from './pages/News/PostDetail';
 import Gallery from './pages/Gallery/Gallery';
 import EditPost from './AdminPages/EditPost/EditPost';
 import EditGallery from './AdminPages/EditGallery/EditGallery';
+import SendPostcard from './AdminPages/SendPostcard/SendPostcard.js';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path='/admin/editPost/:id' element={<EditPost/>}/>
         <Route path='/gallery' element={<Gallery/>}/>
         <Route path='/admin/editGallery' element={<EditGallery/>}/>
+        <Route path='/admin/sendPostcard' element={<SendPostcard/>}/>
       </Routes>
       <Footer/>
     </Router>
