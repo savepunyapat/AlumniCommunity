@@ -61,6 +61,28 @@ const sendEventPostcard = (recipientEmail, postcardContent, eventSubject) => {
     });
 };
 
+const sendEventPostcardToAllAccount = async (postcardContent, eventSubject) => {
+
+    const allUsers = await User.find({});
+
+    allUsers.forEach((user) => {
+        const mailOptions = {
+            from: 'punyapat810@gmail.com',
+            to: user.Email,
+            subject: eventSubject || 'Default Event Subject',
+            html: postcardContent,
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error(`Error sending postcard to ${user.email}:`, error);
+            } else {
+                console.log(`Postcard sent to ${user.email}: ${info.response}`);
+            }
+        });
+    });
+};
+
 
 const sendBirthdayPostcard = (recipientEmail, postcardContent) => {
     const mailOptions = {
@@ -120,6 +142,15 @@ const testsending = async () => {
 
 
 //Routes
+
+app.post('/send-event-postcard-to-all-account', (req, res) => {
+    const { postcardContent, eventSubject } = req.body;
+
+    sendEventPostcardToAllAccount(postcardContent, eventSubject);
+
+    res.status(200).json({ success: true });
+});
+
 app.post('/send-birthday-postcard', (req, res) => {
     const { recipientEmail, postcardContent } = req.body;
 
