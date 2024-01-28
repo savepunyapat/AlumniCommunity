@@ -60,6 +60,11 @@ const AlumniAccountSchema = mongoose.Schema(
             type:Date,
             default:"0"
         }
+        ,
+        DiscordKey:{
+            type:String,
+            default:"0"
+        },
     },
     {
         timestamps:true

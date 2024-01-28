@@ -4,6 +4,11 @@ const asyncHandler = require("express-async-handler");
 const AccountModel = require("../models/AlumniAccount");
 
 const registerUser = asyncHandler(async (req, res) => {
+  const batchToDiscordKeyMap = {
+    "63": process.env.BATCH_63_DISCORD_KEY,
+    "64": process.env.BATCH_64_DISCORD_KEY,
+  }
+  const defaultDiscordKey = "0";
   const {
     FirstName,
     Email,
@@ -18,6 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
     Birthday,
   } = req.body;
   console.log(req.body);
+
   if (!FirstName || !Email || !Password || !Permission || !LastName || !StdID) {
     res.status(400);
     throw new Error("Please add all required fields");
@@ -29,9 +35,13 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User already exists");
   }
-
+  
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(Password, salt);
+
+  const classBatch = StdID.substring(0, 2);
+
+  const DiscordKey = batchToDiscordKeyMap[classBatch] || defaultDiscordKey;
 
   const Account = await AccountModel.create({
     FirstName,
@@ -45,6 +55,7 @@ const registerUser = asyncHandler(async (req, res) => {
     Education,
     WorkPlace,
     Birthday,
+    DiscordKey,
   });
 
   if (Account) {
@@ -52,6 +63,7 @@ const registerUser = asyncHandler(async (req, res) => {
       //_id: Account.id,
       FirstName: Account.FirstName,
       Email: Account.Email,
+      DiscordKey: Account.DiscordKey,
       token: generateToken(Account._id),
     });
   } else {
