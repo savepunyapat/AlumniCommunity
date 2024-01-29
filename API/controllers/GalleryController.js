@@ -1,47 +1,96 @@
 const GalleryModel = require("../models/Gallery");
 const asyncHandler = require("express-async-handler");
-const AccountModel = require("../models/AlumniAccount");
 
-const getAllImages = asyncHandler(async (req, res) => {
-    try {
-        const Images = await GalleryModel.find({});
-        res.status(200).json(Images);
-    } catch (err) {
-        res.status(500).json(err.message);
-    }
-    }
-);
+const getAllAlbums = asyncHandler(async (req, res) => {
+  try {
+    const albums = await GalleryModel.find({});
+    res.status(200).json(albums);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
 
-const addImage = asyncHandler(async (req, res) => {
-    try {
-        const {Image_URL, ImageDetail, ImageDate} = req.body;
-        const Image = new GalleryModel({
-            Image_URL,
-            ImageDetail,
-            ImageDate
-        });
-        await Image.save();
-        res.status(200).json('image added');
-    } catch (err) {
-        res.status(500).json(err.message);
-    }
-    }
-);
+const addAlbum = asyncHandler(async (req, res) => {
+  try {
+    const { AlbumTitle, AlbumDescription, AlbumImages } = req.body;
+    const album = new GalleryModel({
+      AlbumTitle,
+      AlbumDescription,
+      AlbumImages, // Assuming you want to add the first image while creating the album
+    });
+    await album.save();
+    res.status(200).json("album added");
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+const deleteAlbumById = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    await GalleryModel.findByIdAndDelete(id);
+    res.status(200).json("album deleted");
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+const addToAlbum = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { Image_URL, ImageDate, ImageTitle } = req.body;
+    const album = await GalleryModel.findById(id);
+    const imageData = { Image_URL, ImageDate, ImageTitle };
+    album.AlbumImages.push(imageData);
+    await album.save();
+    res.status(200).json("image added");
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+const getAlbumById = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const album = await GalleryModel.findById(id);
+    res.status(200).json(album);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
 
 const deleteImageById = asyncHandler(async (req, res) => {
     try {
-        const {id} = req.params;
-        await GalleryModel.findByIdAndDelete(id);
-        res.status(200).json('image deleted');
-    } catch (err) {
+        const { albumId, imageId } = req.params;
+    
+        // Find the album by its ID
+        const album = await GalleryModel.findById(albumId);
+    
+        if (!album) {
+          return res.status(404).json({ message: "Album not found" });
+        }
+    
+        // Use $pull to remove the image from AlbumImages array based on its _id
+        album.AlbumImages = album.AlbumImages.filter(
+          (image) => image._id.toString() !== imageId
+        );
+    
+        // Save the updated album
+        await album.save();
+    
+        res.status(200).json({ message: "Image deleted from album" });
+      } catch (err) {
         res.status(500).json(err.message);
-    }
-    }
-);
+      }
+});
+
 
 
 module.exports = {
-    getAllImages,
-    addImage,
-    deleteImageById
-}
+  getAllAlbums,
+  addAlbum,
+  deleteAlbumById,
+  addToAlbum,
+  getAlbumById,
+  deleteImageById,
+};
