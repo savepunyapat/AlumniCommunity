@@ -30,6 +30,7 @@ const Profile = () => {
   const [permission, setPermission] = useState(false);
   const [education, setEducation] = useState({});
   const [workplace, setWorkplace] = useState({});
+  const [discordKey, setDiscordKey] = useState("");
   const [openEducationModal, setOpenEducationModal] = React.useState(false);
   const handleEducationOpen = () => setOpenEducationModal(true);
   const handleEducationClose = () => setOpenEducationModal(false);
@@ -187,7 +188,6 @@ const Profile = () => {
 
 
 
-
   const style = {
     position: 'absolute',
 
@@ -263,6 +263,7 @@ const Profile = () => {
       setUser(response?.data);
       setEducation(response?.data?.Education);
       setWorkplace(response?.data?.WorkPlace);
+      setDiscordKey(response?.data?.DiscordKey);
       if (user.Permission === "admin") {
         setPermission(true);
       } else {
@@ -294,6 +295,7 @@ const Profile = () => {
               {user.FirstName + "    " + user.LastName}
             </Typography>
             <Typography className="profile-user-info">{user.Email}</Typography>
+            <Typography className="profile-user-discordkey">{user.DiscordKey}</Typography>
             <div><Button sx={{ marginTop: 2 }} color="info" variant="text" startIcon={<EditIcon color="info" />} onClick={handlePasswordOpen} > เปลี่ยนรหัสผ่าน </Button></div>
             <Modal
               open={openPasswordModal}

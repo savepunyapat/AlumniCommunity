@@ -234,6 +234,7 @@ const getMe = asyncHandler(async (req, res) => {
       Education: user.Education,
       WorkPlace: user.WorkPlace,
       Birthday: user.Birthday,
+      DiscordKey: user.DiscordKey,
     });
   } catch (err) {
     res.json(err);
