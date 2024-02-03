@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { axiosReq, axiosWithTokenReq } from "../../services/service";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Grid, Stack, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Button } from "@mui/material";
@@ -21,7 +21,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import dayjs from "dayjs";
-
+import DiscordIcon from "../../components/DiscordIcon";
 
 
 const Profile = () => {
@@ -287,15 +287,24 @@ const Profile = () => {
             sx={{
               marginTop: "4vh",
               width: "100%",
-              height: "20vh",
+              height: "25vh",
               borderRadius: "10px",
+              textAlign: "center",
+              alignContent: "center",
+              alignItems: "center",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            <Typography className="profile-user-info">
+            <Typography className="profile-user-info" sx={{fontWeight:"bold",fontSize:"1.5rem"}}>
               {user.FirstName + "    " + user.LastName}
             </Typography>
             <Typography className="profile-user-info">{user.Email}</Typography>
-            <Typography className="profile-user-discordkey">{user.DiscordKey}</Typography>
+            <Stack direction={"row"} sx={{width:300}}>
+            <DiscordIcon />
+            <Typography  className="profile-user-discordkey">{"Discord Key : "+user.DiscordKey}</Typography>
+            </Stack>
             <div><Button sx={{ marginTop: 2 }} color="info" variant="text" startIcon={<EditIcon color="info" />} onClick={handlePasswordOpen} > เปลี่ยนรหัสผ่าน </Button></div>
             <Modal
               open={openPasswordModal}

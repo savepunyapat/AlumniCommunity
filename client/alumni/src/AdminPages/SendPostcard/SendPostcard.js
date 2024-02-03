@@ -1,45 +1,75 @@
 import React from "react";
 import "./SendPostcard.css";
-import { Container, Box, Typography, Button, TextField } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+} from "@mui/material";
 import JoditEditor from "jodit-react";
 import { NavLink } from "react-router-dom";
 import { axiosReq } from "../../services/service";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
 
 function SendPostcard() {
   const [postcardContent, setPostcardContent] = React.useState("");
   const [eventSubject, setEventSubject] = React.useState("");
+  const [stdBatch, setStdBatch] = React.useState("");
+  const handleChange = (event) => {
+    setStdBatch(event.target.value);
+  };
+  const notifySuccess = () =>
+    toast.success("ส่งโปสการ์ดสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(postcardContent);
-    
+    console.log(postcardContent, eventSubject, stdBatch);
     try {
       const response = await axiosReq.post(
         `http://localhost:8000/send-event-postcard-to-all-account`,
         {
           postcardContent,
           eventSubject,
+          stdBatch,
         }
       );
       console.log(response.data);
       if (response.data.success) {
-        alert("ส่งโปสการ์ดสำเร็จ");
-        window.location.reload();
+        notifySuccess();
       } else {
         alert("ส่งโปสการ์ดไม่สำเร็จ");
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     }
   };
+  React.useEffect(() => {
+    setStdBatch(""); 
+  }, []);
 
   return (
     <Container>
+      <ToastContainer/>
       <Box
         sx={{ display: "flex", justifyContent: "center", minHeight: "80vh" }}
       >
-        <div style={{marginTop:'5vh'}}>
+        <div style={{ marginTop: "5vh" }}>
           <form onSubmit={handleSubmit} className="send-postcard-form">
             <label>ส่งโปสการ์ด</label>
             <br />
@@ -59,6 +89,22 @@ function SendPostcard() {
               onChange={(e) => setEventSubject(e.target.value)}
               value={eventSubject}
             ></input>
+            <br />
+            <br />
+            <label>รุ่นที่ต้องการส่ง</label>
+            <br />
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={stdBatch}
+              label="รุ่นที่ต้องการส่ง"
+              onChange={handleChange}
+              sx={{ marginTop: "1vh" }}
+            >
+              <MenuItem value="e">ทุกรุ่น</MenuItem>
+              <MenuItem value="64">64</MenuItem>
+              <MenuItem value="63">63</MenuItem>
+            </Select>
             <br />
             <br />
             <label>เนื้อหา</label>
