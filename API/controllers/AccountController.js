@@ -5,8 +5,14 @@ const AccountModel = require("../models/AlumniAccount");
 
 const registerUser = asyncHandler(async (req, res) => {
   const batchToDiscordKeyMap = {
+    "60": process.env.BATCH_60_DISCORD_KEY,
+    "61": process.env.BATCH_61_DISCORD_KEY,
+    "62": process.env.BATCH_62_DISCORD_KEY,
     "63": process.env.BATCH_63_DISCORD_KEY,
     "64": process.env.BATCH_64_DISCORD_KEY,
+    "65": process.env.BATCH_65_DISCORD_KEY,
+    "66": process.env.BATCH_66_DISCORD_KEY,
+    "67": process.env.BATCH_67_DISCORD_KEY,
   }
   const defaultDiscordKey = "0";
   const {

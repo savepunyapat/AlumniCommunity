@@ -4,20 +4,24 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { axiosReq } from "../../services/service";
-import { Box, Modal, IconButton } from "@mui/material";
+import {
+  Box,
+  Modal,
+  IconButton,
+  Container,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  Button,
+  Typography,
+  CardActions,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-
+import { NavLink } from "react-router-dom";
 
 const Gallery = () => {
-  const [images, setImages] = React.useState([]);
-  const [imageModals, setImageModals] = React.useState({});
-
-  const toggleImageModal = (imageId) => {
-    setImageModals((prevState) => ({
-      ...prevState,
-      [imageId]: !prevState[imageId],
-    }));
-  };
+  const [albums, setAlbums] = React.useState([]);
 
   const previewStyle = {
     position: "absolute",
@@ -30,70 +34,56 @@ const Gallery = () => {
     borderRadius: "10px",
   };
 
-  const getImages = async () => {
+  const getAlbums = async () => {
     try {
       const response = await axiosReq.get(
-        "http://localhost:8000/gallery/getGalleryImages"
+        "http://localhost:8000/gallery/getAllAlbums"
       );
-      setImages(sortImagesByDate(response.data));
+      setAlbums(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }
   };
-  const sortImagesByDate = (imageData) => {
-    return imageData.sort((a, b) => {
-      const dateA = new Date(a.ImageDate);
-      const dateB = new Date(b.ImageDate);
-      return dateB - dateA;
-    });
-  };
-
   useEffect(() => {
-    getImages();
+    getAlbums();
   }, []);
 
   return (
-    <ImageList cols={4} gap={8}>
-      {images.map((image) => (
-        <ImageListItem key={image._id}>
-          <img
-            srcSet={`${image.Image_URL}`}
-            src={`${image.Image_URL}?w=248&fit=crop&auto=format`}
-            alt={image.ImageDetail}
-            loading="lazy"
-            onClick={() => toggleImageModal(image._id)}
-          />
-          <ImageListItemBar
-            title={image.ImageDetail}
-            subtitle={
-              <span>
-                Date: {new Date(image.ImageDate).toISOString().split("T")[0]}
-              </span>
-            }
-            position="below"
-          />
-          <Modal
-            open={imageModals[image._id]}
-            onClose={() => toggleImageModal(image._id)}
-            className="profile-modals"
-          >
-            <Box sx={previewStyle}>
-              <IconButton
-                style={{ position: "absolute", top: 5, right: 5 , color: "white",cursor: "pointer" }}
-                onClick={() => toggleImageModal(image._id)}
-              >
-                <CloseIcon />
-              </IconButton>
-              <img
-                style={{ width: "100%", height: "100%" }}
-                src={image.Image_URL}
-                alt=""
+    <Container maxWidth="md">
+      <Grid container spacing={4}>
+        {albums.map((album) => (
+          <Grid item xs={12} sm={6} md={4} key={album._id}>
+            <Card>
+              <CardMedia
+                component="img"
+                height="200"
+                image={album.AlbumImages[0].Image_URL}
+                alt={album.title}
               />
-            </Box>
-          </Modal>
-        </ImageListItem>
-      ))}
-    </ImageList>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {album.AlbumTitle}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {album.AlbumDescription}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <NavLink to={`/gallery/galleryPreview/${album._id}`}>
+                  <Button size="small" color="primary">
+                    View
+                  </Button>
+                </NavLink>
+                <Button size="small" color="primary">
+                  Edit
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
   );
 };
 
