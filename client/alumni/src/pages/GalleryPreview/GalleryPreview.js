@@ -9,6 +9,7 @@ import {
     Box,
     IconButton,
     Typography,
+    ImageListItemBar,
 
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -29,7 +30,7 @@ function GalleryPreview() {
         height: 500,
         bgcolor: "background.paper",
         boxShadow: 24,
-        borderRadius: "10px",
+        borderRadius: "5px",
     };
 
     const handleClose = () => {
@@ -41,11 +42,6 @@ function GalleryPreview() {
             const response = await axiosReq.get('http://localhost:8000/gallery/getAlbumById/'+id);
             setAlbum(response.data);
             setImages(response.data.AlbumImages);
-            console.log(response.data); 
-            console.log("--------------------");
-            console.log(album)
-            console.log("--------------------");
-            console.log(response.data.AlbumImages);
             setLoading(false);
         } catch (error) {
             console.log(error.message);
@@ -58,9 +54,14 @@ function GalleryPreview() {
     
 
   return (
-    <Container>
-        <h1>Album: {album.AlbumTitle}</h1>
-        <ImageList sx={{ width: 500, height: 450 }} cols={3}>
+    <Container sx={{minHeight:"80vh",width:"auto",minWidth:"100vw"}}>
+        <Box sx={{justifyContent:'center',textAlign:'center'}}>
+            <h1>{album.AlbumTitle}</h1>
+            <Typography variant="h6" gutterBottom>
+                {album.AlbumDescription}
+            </Typography>   
+        </Box>
+        <ImageList sx={{paddingTop:5}} gap={8} cols={4}>
             {images.map((item) => (
                 <ImageListItem key={item._id} onClick={() => {
                     setSelectedImage(item);
@@ -69,9 +70,21 @@ function GalleryPreview() {
                     <img
                         src={item.Image_URL}
                         alt={item.ImageTitle}
+                        style={{
+                            width: "85%",
+                            height: "auto",
+                            objectFit: "cover",
+                        }}
                     />
-                    <Typography>{item.ImageTitle}</Typography>
+                    <ImageListItemBar
+                        title={item.ImageTitle}
+                        subtitle={<span>วันที่ : {new Date(item.ImageDate).toISOString().split('T')[0]}</span>}
+                        position='below'
+                    >
+                    
+                </ImageListItemBar>
                 </ImageListItem>
+                
             ))}
         </ImageList>
 
