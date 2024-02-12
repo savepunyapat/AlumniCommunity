@@ -1,6 +1,6 @@
 import React,{ useEffect,useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { axiosReq } from '../../services/service'
+import { axiosReq,axiosWithTokenReq } from '../../services/service'
 import { 
     Container,
     ImageList,
@@ -10,9 +10,11 @@ import {
     IconButton,
     Typography,
     ImageListItemBar,
+    ThemeProvider,
 
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+
 
 function GalleryPreview() {
     const { id } = useParams();
@@ -20,8 +22,9 @@ function GalleryPreview() {
     const [images, setImages] = useState([]);
     const [open, setOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState({});
-    const [loading, setLoading] = useState(true);   
+    const [loading, setLoading] = useState(true); 
 
+    
     const previewStyle = {
         position: "absolute",
         top: "50%",

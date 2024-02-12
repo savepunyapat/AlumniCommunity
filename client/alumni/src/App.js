@@ -35,7 +35,7 @@ function App() {
         <Route path='/post/:id' exact element={<PostDetail/>}/>
         <Route path='/admin/editPost/:id' element={<EditPost/>}/>
         <Route path='/gallery' element={<Gallery/>}/>
-        <Route path='/admin/editGallery' element={<EditGallery/>}/>
+        <Route path='/admin/editGallery/:id' element={<EditGallery/>}/>
         <Route path='/admin/sendPostcard' element={<SendPostcard/>}/>
         <Route path='/gallery/galleryPreview/:id' element={<GalleryPreview/>}/>
       </Routes>

@@ -20,10 +20,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import { axiosReq } from "../../services/service";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
 const EditGallery = () => {
   const [images, setImages] = React.useState([]);
   const [imageModals, setImageModals] = React.useState({});
+  const {id} = useParams();
 
   const [openAddImageModal, setOpenAddImageModal] = React.useState(false);
   const handleAddImageOpen = () => setOpenAddImageModal(true);
@@ -50,9 +52,9 @@ const EditGallery = () => {
   const getImages = async () => {
     try {
       const response = await axiosReq.get(
-        "http://localhost:8000/gallery/getGalleryImages"
+        "http://localhost:8000/gallery/getAlbumById/"+id
       );
-      setImages(sortImagesByDate(response.data));
+      setImages(response?.data.AlbumImages);
     } catch (error) {
       console.log(error.message);
     }
