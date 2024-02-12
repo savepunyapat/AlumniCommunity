@@ -25,12 +25,11 @@ import { NavLink } from "react-router-dom";
 const Gallery = () => {
   const [albums, setAlbums] = React.useState([]);
   const [isAdmin, setAdmin] = useState(false);
-  const [addGalleryModalOpen,setAddGalleryModalOpen] = useState(false);
-  const [pickImage,setPickImage] = useState("");
+  const [addGalleryModalOpen, setAddGalleryModalOpen] = useState(false);
+  const [pickImage, setPickImage] = useState("");
 
   const handleAddGalleryOpen = () => setAddGalleryModalOpen(true);
   const handleAddGalleryClose = () => setAddGalleryModalOpen(false);
-  
 
   const previewStyle = {
     position: "absolute",
@@ -75,11 +74,7 @@ const Gallery = () => {
     }
   };
 
-  const addGallery = async (e) => {
-    e.preventDefault();
-    setAddGalleryModalOpen(false)
-    
-  }
+  
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -96,12 +91,35 @@ const Gallery = () => {
   };
 
   const onChangePicture = (e) => {
-    if(e.target.files[0]){
-      console.log("picture: ",e.target.files);
+    if (e.target.files[0]) {
+      console.log("picture: ", e.target.files);
       setPickImage(e.target.files[0]);
     }
-  }
-
+  };
+  const addGallery = async (e) => {
+    e.preventDefault();
+    setAddGalleryModalOpen(false);
+    const base64 = await convertBase64(pickImage);
+    const data = {
+      AlbumTitle: e.target.AlbumTitle.value,
+      AlbumDescription: e.target.AlbumDescription.value,
+      AlbumImages: [
+        {
+          Image_URL: base64,
+          ImageDate: e.target.ImageDate.value,
+          ImageTitle: e.target.ImageTitle.value,
+        }
+      ],
+    };
+    try{
+      console.log(data)
+      const response = await axiosWithTokenReq.post("http://localhost:8000/gallery/addAlbum",data)
+      console.log(response?.data);
+      getAlbums();
+    }catch (error) {
+      console.log(error.message)
+    }
+  };
 
   const getAlbums = async () => {
     try {
@@ -131,32 +149,43 @@ const Gallery = () => {
         >
           อัลบั้มรูปภาพ
         </Typography>
-        {isAdmin 
-        ?<>
-          <Modal
-          open={addGalleryModalOpen}
-          onClose={handleAddGalleryClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={ModalStyle}>
-            <form onSubmit={addGallery}>
-              <label>รูปภาพ</label>
-              <input type="file" name="Image_URL" onChange={onChangePicture} />
-              <input type="date" name="ImageDate" />
-              <input type="text" name="ImageTitle" />
-              <input type="text" name="AlbumTitle" />
-              <input type="text" name="AlbumDescription" />
-            </form>
-          </Box>
-        </Modal>
-          <Button className="gallery-add-gallery-btn" variant="contained" sx={{float:'right'}} onClick={handleAddGalleryOpen}>
-            เพิ่ม Gallery
-          </Button>   
-          </>    
-          : null
-        }
-        
+        {isAdmin ? (
+          <>
+            <Modal
+              open={addGalleryModalOpen}
+              onClose={handleAddGalleryClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={ModalStyle}>
+                <form onSubmit={addGallery}>
+                  <label>รูปภาพ</label>
+                  <input
+                    type="file"
+                    name="Image_URL"
+                    onChange={onChangePicture}
+                  />
+                  <input type="date" name="ImageDate" />
+                  <input type="text" name="ImageTitle" />
+                  <input type="text" name="AlbumTitle" />
+                  <input type="text" name="AlbumDescription" />
+                  <Button type="submit" variant="contained" color="success">
+                    เพิ่มอัลบัม
+                  </Button>
+                </form>
+              </Box>
+            </Modal>
+            <Button
+              className="gallery-add-gallery-btn"
+              variant="contained"
+              sx={{ float: "right" }}
+              onClick={handleAddGalleryOpen}
+            >
+              เพิ่ม Gallery
+            </Button>
+          </>
+        ) : null}
+
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
@@ -192,15 +221,12 @@ const Gallery = () => {
                       </Button>
                     </NavLink>
                   ) : null}
-
-                  
                 </CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
       </Container>
-
     </ThemeProvider>
   );
 };
