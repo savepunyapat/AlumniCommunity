@@ -64,7 +64,7 @@ const EditGallery = () => {
   const deleteImage = async (imageId) => {
     try {
       const response = await axiosReq.delete(
-        `http://localhost:8000/gallery/deleteImageById/${imageId}`
+        `http://localhost:8000/gallery/${id}/images/${imageId}`
       );
       getImages();
     } catch (error) {
@@ -72,13 +72,6 @@ const EditGallery = () => {
     }
   };
 
-  const sortImagesByDate = (imageData) => {
-    return imageData.sort((a, b) => {
-      const dateA = new Date(a.ImageDate);
-      const dateB = new Date(b.ImageDate);
-      return dateB - dateA;
-    });
-  };
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -108,12 +101,12 @@ const EditGallery = () => {
     const base64 = await convertBase64(pickImage);
     const data = {
       Image_URL: base64,
-      ImageDetail: e.target.ImageDetail.value,
+      ImageTitle: e.target.ImageTitle.value,
       ImageDate: e.target.ImageDate.value,
     };
     try {
       const response = await axiosReq.post(
-        "http://localhost:8000/gallery/addImage",
+        `http://localhost:8000/gallery/addToAlbum/${id}`,
         data
       );
       getImages();
@@ -179,7 +172,7 @@ const EditGallery = () => {
               <label>คำอธิบายภาพ</label>
               <input
                 type="text"
-                name="ImageDetail"
+                name="ImageTitle"
                 placeholder="กรุณาใส่คำอธิบายภาพ"
               />
               <br />
@@ -253,7 +246,7 @@ const EditGallery = () => {
                     </Box>
                   </Modal>
                 </TableCell>
-                <TableCell align="right">{image.ImageDetail}</TableCell>
+                <TableCell align="right">{image.ImageTitle}</TableCell>
                 <TableCell align="right">
                   {new Date(image.ImageDate).toISOString().split("T")[0]}
                 </TableCell>

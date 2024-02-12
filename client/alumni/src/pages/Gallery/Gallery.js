@@ -25,6 +25,12 @@ import { NavLink } from "react-router-dom";
 const Gallery = () => {
   const [albums, setAlbums] = React.useState([]);
   const [isAdmin, setAdmin] = useState(false);
+  const [addGalleryModalOpen,setAddGalleryModalOpen] = useState(false);
+  const [pickImage,setPickImage] = useState("");
+
+  const handleAddGalleryOpen = () => setAddGalleryModalOpen(true);
+  const handleAddGalleryClose = () => setAddGalleryModalOpen(false);
+  
 
   const previewStyle = {
     position: "absolute",
@@ -36,6 +42,19 @@ const Gallery = () => {
     boxShadow: 24,
     borderRadius: "10px",
   };
+  const ModalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    height: 300,
+    width: 450,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 10,
+    borderRadius: "10px",
+  };
+
   const theme = createTheme({
     typography: {
       fontFamily: "Kanit, sans-serif", // Change this to your desired font
@@ -55,6 +74,34 @@ const Gallery = () => {
       console.log(error.message);
     }
   };
+
+  const addGallery = async (e) => {
+    e.preventDefault();
+    setAddGalleryModalOpen(false)
+    
+  }
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const onChangePicture = (e) => {
+    if(e.target.files[0]){
+      console.log("picture: ",e.target.files);
+      setPickImage(e.target.files[0]);
+    }
+  }
+
 
   const getAlbums = async () => {
     try {
@@ -84,6 +131,32 @@ const Gallery = () => {
         >
           อัลบั้มรูปภาพ
         </Typography>
+        {isAdmin 
+        ?<>
+          <Modal
+          open={addGalleryModalOpen}
+          onClose={handleAddGalleryClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={ModalStyle}>
+            <form onSubmit={addGallery}>
+              <label>รูปภาพ</label>
+              <input type="file" name="Image_URL" onChange={onChangePicture} />
+              <input type="date" name="ImageDate" />
+              <input type="text" name="ImageTitle" />
+              <input type="text" name="AlbumTitle" />
+              <input type="text" name="AlbumDescription" />
+            </form>
+          </Box>
+        </Modal>
+          <Button className="gallery-add-gallery-btn" variant="contained" sx={{float:'right'}} onClick={handleAddGalleryOpen}>
+            เพิ่ม Gallery
+          </Button>   
+          </>    
+          : null
+        }
+        
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
@@ -119,12 +192,15 @@ const Gallery = () => {
                       </Button>
                     </NavLink>
                   ) : null}
+
+                  
                 </CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
       </Container>
+
     </ThemeProvider>
   );
 };
