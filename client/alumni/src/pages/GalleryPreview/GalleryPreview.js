@@ -11,7 +11,7 @@ import {
   Typography,
   ImageListItemBar,
   ThemeProvider,
-    createTheme,
+  createTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -61,15 +61,17 @@ function GalleryPreview() {
   }, []);
 
   return (
+    
+
     <ThemeProvider theme={theme}>
-      <Container sx={{ minHeight: "80vh", width: "auto", Width: "100vw" }}>
+      <Container maxWidth={false} sx={{marginTop:'2vh',minHeight:"55vh"}}>
         <Box sx={{ justifyContent: "center", textAlign: "center" }}>
           <h1>{album.AlbumTitle}</h1>
           <Typography variant="h6" gutterBottom>
             {album.AlbumDescription}
           </Typography>
         </Box>
-        <ImageList sx={{ paddingTop: 5 }} gap={8} cols={4}>
+        <ImageList sx={{width: '100%', height: "auto"}} cols={4} gap={8} >
           {images.map((item) => (
             <ImageListItem
               key={item._id}
@@ -81,11 +83,7 @@ function GalleryPreview() {
               <img
                 src={item.Image_URL}
                 alt={item.ImageTitle}
-                style={{
-                  width: "85%",
-                  height: "auto",
-                  objectFit: "cover",
-                }}
+                loading="lazy"
               />
               <ImageListItemBar
                 title={item.ImageTitle}

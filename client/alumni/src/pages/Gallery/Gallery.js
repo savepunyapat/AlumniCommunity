@@ -34,6 +34,18 @@ const Gallery = () => {
   const handleAddGalleryOpen = () => setAddGalleryModalOpen(true);
   const handleAddGalleryClose = () => setAddGalleryModalOpen(false);
 
+  const notifySuccess = () =>
+    toast.success("เพิ่มอัลบัมสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
   const previewStyle = {
     position: "absolute",
     top: "50%",
@@ -115,7 +127,7 @@ const Gallery = () => {
       ],
     };
     try{
-      console.log(data)
+      notifySuccess();
       const response = await axiosWithTokenReq.post("http://localhost:8000/gallery/addAlbum",data)
       console.log(response?.data);
       getAlbums();
@@ -142,15 +154,17 @@ const Gallery = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container sx={{ minHeight: "80vh", width: "auto" }}>
+      <ToastContainer />
+      <Container sx={{ minHeight: "80vh", width: "auto",marginTop:"5vh"}}>
         <Typography
           variant="h4"
           align="center"
           color="text.primary"
           gutterBottom
           sx={{ mt: 2 }}
+          fontWeight={'bold'}
         >
-          อัลบั้มรูปภาพ
+          คลังภาพ
         </Typography>
         {isAdmin ? (
           <>
@@ -166,10 +180,7 @@ const Gallery = () => {
                   <input type="text" name="AlbumTitle" placeholder="ชื่ออัลบัม" />
                   <br />
                   <br />
-                  <label>คำอธิบายภาพ</label>
-                  <input type="text" name="ImageTitle" />
-                  <br />
-                  <br />
+                  
                   <label>คำอธิบายอัลบั้ม</label>
                   <input type="text" name="AlbumDescription" />
                   <br />
@@ -182,14 +193,18 @@ const Gallery = () => {
                   />
                   <br />
                   <br />
-                  <label>วันที่  </label>
+                  <label>คำอธิบายภาพ</label>
+                  <input type="text" name="ImageTitle" />
+                  <br />
+                  <br />
+                  <label>วันที่ถ่ายภาพ</label>
                   <input type="date" name="ImageDate" />
                   <br />
                   <br />
                   <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
                     เพิ่มอัลบัม
                   </Button>
-                  <Button variant="contained" color="error">
+                  <Button variant="contained" color="error" onClick={() => setAddGalleryModalOpen(false)}>
                     กลับ
                   </Button>
                 </form>
@@ -230,13 +245,13 @@ const Gallery = () => {
                 </CardContent>
                 <CardActions>
                   <NavLink to={`/gallery/galleryPreview/${album._id}`}>
-                    <Button size="small" color="primary">
+                    <Button variant="outlined" size="small" color="primary">
                       View
                     </Button>
                   </NavLink>
                   {isAdmin ? (
                     <NavLink to={`/admin/editGallery/${album._id}`}>
-                      <Button size="small" color="secondary">
+                      <Button size="small" variant="contained" color="warning">
                         Edit
                       </Button>
                     </NavLink>
