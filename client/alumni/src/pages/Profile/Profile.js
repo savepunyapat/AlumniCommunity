@@ -305,6 +305,9 @@ const Profile = () => {
             <DiscordIcon />
             <Typography  className="profile-user-discordkey">{"Discord Key : "+user.DiscordKey}</Typography>
             </Stack>
+            <Button variant="outlined" href="https://discord.gg/w7bfysvFvw" target="_blank">
+              Discord
+            </Button>
             <div><Button sx={{ marginTop: 2 }} color="info" variant="text" startIcon={<EditIcon color="info" />} onClick={handlePasswordOpen} > เปลี่ยนรหัสผ่าน </Button></div>
             <Modal
               open={openPasswordModal}
