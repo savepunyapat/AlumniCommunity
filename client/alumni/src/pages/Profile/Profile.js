@@ -279,9 +279,11 @@ const Profile = () => {
   }, user, openEducationModal, openWorkPlaceModal);
 
   return (
+
     <Container maxWidth="lg">
       {user && (
         <div>
+          {/* 
           <Box
             id="bio-box"
             sx={{
@@ -297,7 +299,7 @@ const Profile = () => {
               flexDirection: "column",
             }}
           >
-            <Typography className="profile-user-info" sx={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+          <Typography className="profile-user-info" sx={{ fontWeight: "bold", fontSize: "1.5rem" }}>
               {user.FirstName + "    " + user.LastName}
             </Typography>
             <Typography className="profile-user-info">{user.Email}</Typography>
@@ -336,6 +338,7 @@ const Profile = () => {
               </Box>
             </Modal>
           </Box>
+          */}
           <Box
             id="profile-box"
             sx={{
@@ -344,8 +347,51 @@ const Profile = () => {
               alignContent: "center",
               alignItems: "center",
               borderRadius: "10px",
+              marginTop: "4vh",
+
             }}
           >
+            <Box sx={{display:'flex',flexDirection:"column",marginBottom:'3vh',textAlign:"center",alignContent:"center",justifyContent:'center',alignItems:'center'}}>
+              <Typography className="profile-user-info" sx={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+                {"Hi " + user.FirstName + "    " + user.LastName}
+              </Typography>
+              <Typography className="profile-user-info">{user.Email}</Typography>
+              <Stack direction={"row"} sx={{ width: 300 }}>
+                <DiscordIcon />
+                <Typography className="profile-user-discordkey">{"Discord Key : " + user.DiscordKey}</Typography>
+              </Stack>
+              <Button variant="outlined" href="https://discord.gg/w7bfysvFvw" target="_blank">
+                Discord
+              </Button>
+              <div><Button sx={{ marginTop: 2 }} color="info" variant="text" startIcon={<EditIcon color="info" />} onClick={handlePasswordOpen} > เปลี่ยนรหัสผ่าน </Button></div>
+              <Modal
+                open={openPasswordModal}
+                onClose={handlePasswordClose}
+                className="profile-modals"
+
+              >
+                <Box sx={style}>
+                  <form onSubmit={handleChangePasswordSubmit}>
+                    <label>รหัสผ่านปัจจุบัน</label>
+                    <input type="password" name="oldPassword" placeholder="รหัสผ่าน" />
+                    <br /><br />
+                    <label>รหัสผ่านใหม่</label>
+                    <input type="password" name="newPassword" placeholder="รหัสผ่านใหม่" />
+                    <br /><br />
+                    <label>ยืนยันรหัสผ่านใหม่</label>
+                    <input type="password" name="confirmPassword" placeholder="ยืนยันรหัสผ่านใหม่" />
+                    <br /><br />
+                    <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
+                      แก้ไข
+                    </Button>
+                    <Button onClick={closePasswordModal} variant="contained" color="error">
+                      ปิด
+                    </Button>
+                  </form>
+                </Box>
+              </Modal>
+            </Box>
+
             <Grid
               container
               display="flex"
@@ -652,9 +698,9 @@ const Profile = () => {
       {permission ? (
         <div className="profile-admin-div">
           <ButtonGroup variant="outlined">
-              <Button href="/admin/posts" >จัดการข่าวสาร</Button>
-              <Button href="/admin/users" >จัดการบัญชีผู้ใช้</Button>
-              <Button href="/gallery" >จัดการแกลเลอรี</Button>
+            <Button href="/admin/posts" >จัดการข่าวสาร</Button>
+            <Button href="/admin/users" >จัดการบัญชีผู้ใช้</Button>
+            <Button href="/gallery" >จัดการแกลเลอรี</Button>
           </ButtonGroup>
         </div>
       ) : null}
