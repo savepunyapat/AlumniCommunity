@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./EditGallery.css";
 import {
   Container,
@@ -13,6 +13,9 @@ import {
   Modal,
   Box,
   IconButton,
+  createTheme,
+  ThemeProvider,
+
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -22,14 +25,40 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
+
 const EditGallery = () => {
   const [images, setImages] = React.useState([]);
   const [imageModals, setImageModals] = React.useState({});
-  const {id} = useParams();
+  const { id } = useParams();
 
   const [openAddImageModal, setOpenAddImageModal] = React.useState(false);
   const handleAddImageOpen = () => setOpenAddImageModal(true);
   const handleAddImageClose = () => setOpenAddImageModal(false);
+
+  const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] = useState(false);
+  const [deletingImageId, setDeletingImageId] = useState(null);
+
+  const handleDeleteConfirmationOpen = (imageId) => {
+    setDeletingImageId(imageId);
+    setOpenDeleteConfirmationModal(true);
+  };
+
+  const handleDeleteConfirmationClose = () => {
+    setDeletingImageId(null);
+    setOpenDeleteConfirmationModal(false);
+  };
+
+  const handleDeleteConfirmed = async () => {
+    await deleteImage(deletingImageId);
+    handleDeleteConfirmationClose();
+  };
+
+  const FontTheme = createTheme({
+    typography: {
+      fontFamily: "Kanit, sans-serif", // Change this to your desired font
+    },
+  });
+
 
   const notifySuccess = () =>
     toast.success("เพิ่มรูปสำเร็จ!", {
@@ -52,7 +81,7 @@ const EditGallery = () => {
   const getImages = async () => {
     try {
       const response = await axiosReq.get(
-        "http://localhost:8000/gallery/getAlbumById/"+id
+        "http://localhost:8000/gallery/getAlbumById/" + id
       );
       setImages(response?.data.AlbumImages);
     } catch (error) {
@@ -116,6 +145,22 @@ const EditGallery = () => {
     }
   };
 
+  const deleteModalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    height: 100,
+    width: 180,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 10,
+    borderRadius: "10px",
+    textAlign: "center",
+
+  };
+
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -148,8 +193,9 @@ const EditGallery = () => {
     getImages();
   }, []);
   return (
+    <ThemeProvider theme={FontTheme}>
     <Container>
-        <ToastContainer />
+      <ToastContainer />
       <Container sx={{ marginTop: 10, marginBottom: 20, width: "100%" }}>
         <Button
           sx={{ float: "right" }}
@@ -251,7 +297,11 @@ const EditGallery = () => {
                   {new Date(image.ImageDate).toISOString().split("T")[0]}
                 </TableCell>
                 <TableCell align="right">
-                  <Button variant="contained" color="error" onClick={() => deleteImage(image._id)}>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleDeleteConfirmationOpen(image._id)}
+                  >
                     <ClearIcon />
                   </Button>
                 </TableCell>
@@ -260,7 +310,32 @@ const EditGallery = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Modal
+        open={openDeleteConfirmationModal}
+        onClose={handleDeleteConfirmationClose}
+        className="profile-modals"
+      >
+        <Box sx={deleteModalStyle}>
+          <p>ยืนยันการลบ</p>
+          <Button
+            sx={{ marginRight: 2 }}
+            variant="contained"
+            color="error"
+            onClick={handleDeleteConfirmed}
+          >
+            ลบ
+          </Button>
+          <Button
+            onClick={handleDeleteConfirmationClose}
+            variant="contained"
+            color="success"
+          >
+            ยกเลิก
+          </Button>
+        </Box>
+      </Modal>
     </Container>
+    </ThemeProvider>
   );
 };
 

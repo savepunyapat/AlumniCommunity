@@ -21,6 +21,9 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import './Gallery.css';
 
 const Gallery = () => {
   const [albums, setAlbums] = React.useState([]);
@@ -46,7 +49,7 @@ const Gallery = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    height: 300,
+    height: 320,
     width: 450,
     bgcolor: "background.paper",
     boxShadow: 24,
@@ -157,20 +160,37 @@ const Gallery = () => {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box sx={ModalStyle}>
+              <Box className="gallery-addalbum-modal" sx={ModalStyle}>
                 <form onSubmit={addGallery}>
+                  <label>ชื่ออัลบั้ม</label>
+                  <input type="text" name="AlbumTitle" placeholder="ชื่ออัลบัม" />
+                  <br />
+                  <br />
+                  <label>คำอธิบายภาพ</label>
+                  <input type="text" name="ImageTitle" />
+                  <br />
+                  <br />
+                  <label>คำอธิบายอัลบั้ม</label>
+                  <input type="text" name="AlbumDescription" />
+                  <br />
+                  <br />
                   <label>รูปภาพ</label>
                   <input
                     type="file"
                     name="Image_URL"
                     onChange={onChangePicture}
                   />
+                  <br />
+                  <br />
+                  <label>วันที่  </label>
                   <input type="date" name="ImageDate" />
-                  <input type="text" name="ImageTitle" />
-                  <input type="text" name="AlbumTitle" />
-                  <input type="text" name="AlbumDescription" />
-                  <Button type="submit" variant="contained" color="success">
+                  <br />
+                  <br />
+                  <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
                     เพิ่มอัลบัม
+                  </Button>
+                  <Button variant="contained" color="error">
+                    กลับ
                   </Button>
                 </form>
               </Box>

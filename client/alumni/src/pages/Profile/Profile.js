@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { axiosReq, axiosWithTokenReq } from "../../services/service";
-import { Grid, Stack, TextField, Typography } from "@mui/material";
+import { ButtonGroup, Grid, Stack, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Button } from "@mui/material";
@@ -67,7 +67,7 @@ const Profile = () => {
   };
   const handleEditWorkPlaceClose = () => {
     setOpenEditWorkPlaceModal(false);
-    setEditedWorkPlaceIndex(null); 
+    setEditedWorkPlaceIndex(null);
   };
   const [editedWorkPlaceIndex, setEditedWorkPlaceIndex] = React.useState(null);
 
@@ -297,13 +297,13 @@ const Profile = () => {
               flexDirection: "column",
             }}
           >
-            <Typography className="profile-user-info" sx={{fontWeight:"bold",fontSize:"1.5rem"}}>
+            <Typography className="profile-user-info" sx={{ fontWeight: "bold", fontSize: "1.5rem" }}>
               {user.FirstName + "    " + user.LastName}
             </Typography>
             <Typography className="profile-user-info">{user.Email}</Typography>
-            <Stack direction={"row"} sx={{width:300}}>
-            <DiscordIcon />
-            <Typography  className="profile-user-discordkey">{"Discord Key : "+user.DiscordKey}</Typography>
+            <Stack direction={"row"} sx={{ width: 300 }}>
+              <DiscordIcon />
+              <Typography className="profile-user-discordkey">{"Discord Key : " + user.DiscordKey}</Typography>
             </Stack>
             <Button variant="outlined" href="https://discord.gg/w7bfysvFvw" target="_blank">
               Discord
@@ -551,7 +551,7 @@ const Profile = () => {
                         <TableCell align="right">{work.EndDate}</TableCell>
                         <TableCell align="right"><Button sx={{ marginRight: 2 }} variant="contained" color="info" onClick={() => handleEditWorkPlaceOpen(index)}><EditIcon /></Button><Button variant="contained" onClick={() => handleDeleteWorkPlaceClick(index)} color="error" ><ClearIcon /></Button></TableCell>
                         <Modal
-                          open={openEditWorkPlaceModal && editedWorkPlaceIndex === index} 
+                          open={openEditWorkPlaceModal && editedWorkPlaceIndex === index}
                           onClose={handleEditWorkPlaceClose}
                           className="profile-modals"
                           aria-labelledby="modal-modal-title"
@@ -651,28 +651,11 @@ const Profile = () => {
 
       {permission ? (
         <div className="profile-admin-div">
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="center"
-            spacing={2}
-          >
-            <Grid item xs={4}>
-              <NavLink to="/admin/posts">
-                <Button variant="contained">จัดการข่าวสาร</Button>
-              </NavLink>
-            </Grid>
-            <Grid item xs={4}>
-              <NavLink to="/admin/users">
-                <Button variant="contained">จัดการบัญชีผู้ใช้</Button>
-              </NavLink>
-            </Grid>
-            <Grid item xs={4}>
-              <NavLink to="/admin/editGallery">
-                <Button variant="contained">จัดการแกลเลอรี</Button>
-              </NavLink>
-            </Grid>
-          </Grid>
+          <ButtonGroup variant="outlined">
+              <Button href="/admin/posts" >จัดการข่าวสาร</Button>
+              <Button href="/admin/users" >จัดการบัญชีผู้ใช้</Button>
+              <Button href="/gallery" >จัดการแกลเลอรี</Button>
+          </ButtonGroup>
         </div>
       ) : null}
     </Container>
