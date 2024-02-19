@@ -12,6 +12,7 @@ import {
   ImageListItemBar,
   ThemeProvider,
   createTheme,
+  CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -61,10 +62,12 @@ function GalleryPreview() {
   }, []);
 
   return (
-    
+
 
     <ThemeProvider theme={theme}>
-      <Container maxWidth={false} sx={{marginTop:'2vh',minHeight:"55vh"}}>
+      <Container maxWidth={false} sx={{ marginTop: '2vh', minHeight: "55vh" }}>
+        {loading ? (<CircularProgress/>)
+          : (<>
         <Box sx={{ justifyContent: "center", textAlign: "center" }}>
           <h1>{album.AlbumTitle}</h1>
           <Typography variant="h6" gutterBottom>
@@ -128,6 +131,8 @@ function GalleryPreview() {
             />
           </Box>
         </Modal>
+        </>
+        )}
       </Container>
     </ThemeProvider>
   );

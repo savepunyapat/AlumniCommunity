@@ -17,6 +17,7 @@ import EditPost from './AdminPages/EditPost/EditPost';
 import EditGallery from './AdminPages/EditGallery/EditGallery';
 import SendPostcard from './AdminPages/SendPostcard/SendPostcard.js';
 import GalleryPreview from './pages/GalleryPreview/GalleryPreview.js';
+import AlumniSearch from './pages/AlumniSearch/AlumniSearch.js';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Route path='/admin/editGallery/:id' element={<EditGallery/>}/>
         <Route path='/admin/sendPostcard' element={<SendPostcard/>}/>
         <Route path='/gallery/galleryPreview/:id' element={<GalleryPreview/>}/>
+        <Route path='/alumniSearch' element={<AlumniSearch/>}/>
       </Routes>
       <Footer/>
     </Router>
