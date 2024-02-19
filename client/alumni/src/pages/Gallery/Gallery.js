@@ -216,7 +216,7 @@ const Gallery = () => {
               sx={{ float: "right" }}
               onClick={handleAddGalleryOpen}
             >
-              เพิ่ม Gallery
+              เพิ่มอัลบั้ม
             </Button>
           </>
         ) : null}

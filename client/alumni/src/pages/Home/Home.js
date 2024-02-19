@@ -65,7 +65,7 @@ function Home() {
             display: "flex",
             margin: "auto",
             padding: 2,
-            marginTop: 2,
+            marginTop: 10,
             marginBottom: 4,
             borderRadius: 2,
             boxShadow: 3,
