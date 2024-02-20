@@ -23,8 +23,9 @@ import { Token } from "@mui/icons-material";
 import {createTheme, ThemeProvider } from "@mui/material";
 import logo from "../img/logo/logo.png";
 
-const pages = ["ข่าวสาร", "แกลเลอรี", "เข้าสู่ระบบ"];
-const links = ["/", "/gallery", "/login"];
+
+const pages = ["ข่าวสาร", "แกลเลอรี", "ค้นหาศิษย์เก่า" ,"เข้าสู่ระบบ"];
+const links = ["/", "/gallery", "/alumni" , "/login"];
 const settings = ["Profile", "Logout"];
 const settingPath = ["/profile", "/logout"];
 const hasToken = () => {

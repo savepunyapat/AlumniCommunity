@@ -183,12 +183,12 @@ const EditGallery = () => {
     transform: "translate(-50%, -50%)",
     height: 100,
     width: 180,
+    p: 3,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 10,
     borderRadius: "10px",
     textAlign: "center",
-
+    
   };
 
   
@@ -198,7 +198,7 @@ const EditGallery = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    height: 300,
+    height: 200,
     width: 450,
     bgcolor: "background.paper",
     boxShadow: 24,

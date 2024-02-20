@@ -203,13 +203,15 @@ app.get("/", (req, res) => {
 
 app.get('/search', async (req, res) => {
   try {
-    const { firstName, lastName, stdID, workplace } = req.query;
-    const query = {};
-
-    if (firstName) query.FirstName = { $regex: new RegExp(firstName, 'i') };
-    if (lastName) query.LastName = { $regex: new RegExp(lastName, 'i') };
-    if (stdID) query.StdID = { $regex: new RegExp(stdID, 'i') };
-    if (workplace) query.WorkPlace = { $regex: new RegExp(workplace, 'i') };
+    const { searchTerm } = req.query;
+    const query = {
+      $or: [
+        { FirstName: { $regex: new RegExp(searchTerm, 'i') } },
+        { LastName: { $regex: new RegExp(searchTerm, 'i') } },
+        { StdID: { $regex: new RegExp(searchTerm, 'i') } },
+        { 'WorkPlace.CompanyName':{ $regex: new RegExp(searchTerm, 'i') } },
+      ],
+    };
 
     const alumni = await User.find(query);
     res.json(alumni);

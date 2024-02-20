@@ -39,7 +39,7 @@ function App() {
         <Route path='/admin/editGallery/:id' element={<EditGallery/>}/>
         <Route path='/admin/sendPostcard' element={<SendPostcard/>}/>
         <Route path='/gallery/galleryPreview/:id' element={<GalleryPreview/>}/>
-        <Route path='/alumniSearch' element={<AlumniSearch/>}/>
+        <Route path='/alumni' element={<AlumniSearch/>}/>
       </Routes>
       <Footer/>
     </Router>
