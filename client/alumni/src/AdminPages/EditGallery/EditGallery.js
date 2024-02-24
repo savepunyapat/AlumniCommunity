@@ -73,7 +73,7 @@ const EditGallery = () => {
 
   const FontTheme = createTheme({
     typography: {
-      fontFamily: "Kanit, sans-serif", // Change this to your desired font
+      fontFamily: "Kanit, sans-serif", 
     },
   });
 
