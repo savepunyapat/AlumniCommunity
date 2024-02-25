@@ -9,19 +9,9 @@ const schedule = require("node-schedule");
 const User = require("./models/AlumniAccount");
 const cors = require("cors");
 const e = require("express");
-const allowedOrigins = ["http://localhost:3000"];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.json());
 require("dotenv").config();

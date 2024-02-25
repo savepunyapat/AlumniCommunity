@@ -1,12 +1,12 @@
 import axios from 'axios';
 import Cookies from "js-cookie";    
 const axiosReq = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: process.env.REACT_APP_BASE_URL,
     timeout:10000,
 });
 
 const axiosWithTokenReq = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: process.env.REACT_APP_BASE_URL,
     timeout: 10000,
     headers: { Authorization: `Bearer ${Cookies.get("token")}` },
 });

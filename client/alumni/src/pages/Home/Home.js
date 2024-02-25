@@ -38,8 +38,9 @@ function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const baseURL = process.env.REACT_APP_BASE_URL;
         const response = await axiosReq.get(
-          "http://localhost:8000/getAllPosts"
+          `${baseURL}/getAllPosts`
         );
         setPosts(response.data);
       } catch (error) {
