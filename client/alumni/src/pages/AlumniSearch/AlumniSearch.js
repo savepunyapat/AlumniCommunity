@@ -17,7 +17,6 @@ import {
   createTheme,
   Card,
   CardContent,
-  
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { axiosReq } from "../../services/service";
@@ -49,8 +48,6 @@ function AlumniSearch() {
     marginTop: "4vh",
   };
 
-  
-
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     setEmptySearch(false);
@@ -64,16 +61,28 @@ function AlumniSearch() {
       return;
     }
 
-    fetchAlumniData();
+    getAllAlumni();
   };
 
-  const fetchAlumniData = async () => {
+  const filterAlumni = () => {
+    return alumni.filter((alum) => {
+      const fullName = `${alum.FirstName} ${alum.LastName}`;
+      return (
+        fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        alum.StdID.includes(searchTerm) ||
+        alum.Email.includes(searchTerm) ||
+        alum.WorkPlace.some((work) => work.CompanyName.includes(searchTerm)) ||
+        alum.Education.some((edu) => edu.Course.includes(searchTerm))
+      );
+    });
+  };
+
+  const getAllAlumni = async () => {
     try {
       setLoading(true);
-      const response = await axiosReq.get("http://localhost:8000/search", {
-        params: { searchTerm },
-      });
+      const response = await axiosReq.get("http://localhost:8000/allAccount");
       setAlumni(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching alumni:", error);
     } finally {
@@ -81,9 +90,13 @@ function AlumniSearch() {
     }
   };
 
+  useEffect(() => {
+    getAllAlumni();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
-      <Container  sx={{ fontFamily: "Kanit, sans-serif", marginTop: "4vh" ,minHeight:'70vh'}}>
+      <Container sx={{ fontFamily: "Kanit, sans-serif", marginTop: "4vh", minHeight: '70vh' }}>
         <Typography variant="h4" sx={{ textAlign: "center" }}>
           ค้นหาศิษย์เก่า
         </Typography>
@@ -99,28 +112,21 @@ function AlumniSearch() {
               helperText={emptySearch ? "Please enter a search term" : "ค้นหาจากชื่อ สกุล รหัสนักศึกษา ที่ทำงาน"}
               sx={{ marginRight: "8px" }}
             />
-            <IconButton
-              type="submit"
-              variant="contained"
-              sx={{ backgroundColor: theme => theme.palette.primary.main, color: theme => theme.palette.common.white, "&:hover": { backgroundColor: theme => theme.palette.primary.dark } }}
-            >
-              <SearchIcon />
-            </IconButton>
           </form>
         </Box>
         <Box sx={resultBoxStyle}>
           {loading ? (
             <CircularProgress />
-          ) : alumni.length === 0 ? (
+          ) : filterAlumni().length === 0 ? (
             <Typography
               variant="body1"
-              sx={{ textAlign: "center", marginTop:"20vh" }}
+              sx={{ textAlign: "center", marginTop: "20vh" }}
             >
               ไม่พบข้อมูลศิษย์เก่า.
             </Typography>
           ) : (
             <Grid container spacing={2}>
-              {alumni.map((alum, index) => (
+              {filterAlumni().map((alum, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                   <Card variant="outlined" sx={{ minWidth: 275, margin: "2vh" }}>
                     <CardContent>

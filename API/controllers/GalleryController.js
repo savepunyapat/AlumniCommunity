@@ -16,7 +16,7 @@ const addAlbum = asyncHandler(async (req, res) => {
     const album = new GalleryModel({
       AlbumTitle,
       AlbumDescription,
-      AlbumImages, // Assuming you want to add the first image while creating the album
+      AlbumImages, 
     });
     await album.save();
     res.status(200).json("album added");
@@ -63,19 +63,16 @@ const deleteImageById = asyncHandler(async (req, res) => {
     try {
         const { albumId, imageId } = req.params;
     
-        // Find the album by its ID
         const album = await GalleryModel.findById(albumId);
     
         if (!album) {
           return res.status(404).json({ message: "Album not found" });
         }
     
-        // Use $pull to remove the image from AlbumImages array based on its _id
         album.AlbumImages = album.AlbumImages.filter(
           (image) => image._id.toString() !== imageId
         );
     
-        // Save the updated album
         await album.save();
     
         res.status(200).json({ message: "Image deleted from album" });
