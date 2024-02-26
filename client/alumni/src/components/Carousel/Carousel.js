@@ -1,7 +1,6 @@
 import React from 'react'
 import Carousel from 'react-material-ui-carousel'
 import Item from './Item'
-import imgsrc from './imgsrc.json'
 import { axiosReq } from '../../services/service'
 import { useEffect } from 'react'
 
@@ -14,7 +13,7 @@ Carouselimg = () => {
     const getNewsImage = async () => {
         try {
             const response = await axiosReq.get(
-                "http://localhost:8000/getAllPosts"
+                "/getAllPosts"
             );
             setImages(response.data);
         } catch (error) {

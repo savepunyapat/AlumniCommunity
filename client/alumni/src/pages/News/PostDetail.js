@@ -10,18 +10,11 @@ import { Button } from "@mui/material";
 function PostDetail() {
   const [post, setPost] = useState();
   const { id } = useParams();
-  const handleShare = async () => {
-    try {
-      console.log("share");
-      const response = await axiosReq.get('http://localhost:8000/auth/facebook');
-      console.log(response); 
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const baseURL = process.env.REACT_APP_BASE_URL;
+  
   const getNews = async () => {
     try {
-      const response = await axiosReq.get(`http://localhost:8000/post/${id}`);
+      const response = await axiosReq.get(`/post/${id}`);
       setPost(response?.data);
       console.log(response?.data);
     } catch (error) {
@@ -43,7 +36,7 @@ function PostDetail() {
               </Container>
               <h1 id="postdetail-postsubject">{post.PostSubject}</h1>
               <h3 id="postdetail-postcategory">{"หมวดหมู่ : "+post.PostCategory}</h3>
-              <Button variant="contained" color="primary"  href={`https://www.facebook.com/dialog/share?app_id=1537111350440705&display=popup&href=https://computing.kku.ac.th/`} target="_blank" startIcon={<FacebookIcon />}>
+              <Button variant="contained" color="primary"  href={`https://www.facebook.com/dialog/share?app_id=1537111350440705&display=popup&href=http://10.199.6.104/post/`+id} target="_blank" startIcon={<FacebookIcon />}>
                 แชร์ไปยัง Facebook
               </Button>
               <Container id="postdetail-news-detail">

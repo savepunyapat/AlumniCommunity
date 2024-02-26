@@ -42,10 +42,8 @@ export default function Login() {
   });
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log(Email, Password);
-
     try {
-      const response = await axiosReq.post('http://localhost:8000/login', { Email, Password });
+      const response = await axiosReq.post('/login', { Email, Password });
       if (response?.data?.message === 'invalid-user') {
         notifyError();
         return;

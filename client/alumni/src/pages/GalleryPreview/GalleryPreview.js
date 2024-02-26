@@ -47,7 +47,7 @@ function GalleryPreview() {
   const getAlbum = async () => {
     try {
       const response = await axiosReq.get(
-        "http://localhost:8000/gallery/getAlbumById/" + id
+        "/gallery/getAlbumById/" + id
       );
       setAlbum(response.data);
       setImages(response.data.AlbumImages);

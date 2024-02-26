@@ -24,10 +24,10 @@ import {createTheme, ThemeProvider } from "@mui/material";
 import logo from "../img/logo/logo.png";
 
 
-const pages = ["ข่าวสาร", "แกลเลอรี", "ค้นหาศิษย์เก่า" ,"เข้าสู่ระบบ"];
-const links = ["/", "/gallery", "/alumni" , "/login"];
-const settings = ["Profile", "Logout"];
-const settingPath = ["/profile", "/logout"];
+const pages = ["ข่าวสาร", "แกลเลอรี", "ติดต่อ" ,"เข้าสู่ระบบ"];
+const links = ["/", "/gallery","/contact", "/login"];
+const settings = ["Profile","ค้นหาศิษย์เก่า", "Logout"];
+const settingPath = ["/profile","/alumni", "/logout"];
 const hasToken = () => {
   const token = Cookies.get("token");
   return !!token;

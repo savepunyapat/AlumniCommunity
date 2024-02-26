@@ -49,13 +49,13 @@ function Footer() {
               ติดตามเรา
             </Typography>
             <Link href="https://www.facebook.com/computing.kku" >
-              <Facebook htmlColor="#4267B2" />
+              <Facebook htmlColor="#ffffff" />
             </Link>
             <Link href="https://computing.kku.ac.th/index">
-              <PublicIcon />
+              <PublicIcon htmlColor="#ffffff" />
             </Link>
             <Link href="https://www.youtube.com/channel/UCJbH9xZZ9rNGfKahEebeFOA">
-              <YouTubeIcon htmlColor="#FF0000" />
+              <YouTubeIcon htmlColor="#ffffff" />
             </Link>
           </Grid>
         </Grid>

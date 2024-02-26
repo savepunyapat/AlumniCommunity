@@ -42,7 +42,7 @@ function SendPostcard() {
     console.log(postcardContent, eventSubject, stdBatch);
     try {
       const response = await axiosReq.post(
-        `http://localhost:8000/send-event-postcard-to-all-account`,
+        `/send-event-postcard-to-all-account`,
         {
           postcardContent,
           eventSubject,

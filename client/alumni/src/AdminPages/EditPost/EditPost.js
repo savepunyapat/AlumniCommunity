@@ -54,7 +54,7 @@ function EditPost() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosReq.put(`http://localhost:8000/post/${id}`, {
+            const response = await axiosReq.put(`/post/${id}`, {
                 PostCategory,
                 PostDetail,
                 PostSubject,
@@ -68,7 +68,7 @@ function EditPost() {
     };
     const getPostByID = async (id) => {
         try {
-            const response = await axiosReq.get(`http://localhost:8000/post/${id}`);
+            const response = await axiosReq.get(`/post/${id}`);
             setPost(response?.data);
             setPostCategory(response?.data.PostCategory);
             setPostDetail(response?.data.PostDetail);

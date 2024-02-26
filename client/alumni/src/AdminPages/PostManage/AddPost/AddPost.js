@@ -52,7 +52,7 @@ function AddPost() {
 
     try {
       e.preventDefault();
-      const response = await axiosReq.post("http://localhost:8000/addPost", {
+      const response = await axiosReq.post("/addPost", {
         PostSubject,
         PostDetail,
         PostCategory,
@@ -74,7 +74,7 @@ function AddPost() {
         if (!accessToken) {
           window.location.href = "/login";
         }
-        const response = await axiosReq.get("http://localhost:8000/isAdmin");
+        const response = await axiosReq.get("/isAdmin");
         if (response.data === "not-admin") {
           window.location.href = "/";
         }

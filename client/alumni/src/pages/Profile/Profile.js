@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { axiosReq, axiosWithTokenReq } from "../../services/service";
-import { ButtonGroup, Grid, Stack, TextField, Typography } from "@mui/material";
+import { ButtonGroup, Grid, IconButton, Stack, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Button } from "@mui/material";
@@ -22,6 +22,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import dayjs from "dayjs";
 import DiscordIcon from "../../components/DiscordIcon";
+import InfoIcon from '@mui/icons-material/Info';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -45,6 +46,10 @@ const Profile = () => {
   const [openBioModal, setOpenBioModal] = React.useState(false);
   const handleBioOpen = () => setOpenBioModal(true);
   const handleBioClose = () => setOpenBioModal(false);
+
+  const [openInfoDiscordModal, setOpenInfoDiscordModal] = React.useState(false);
+  const handleInfoDiscordOpen = () => setOpenInfoDiscordModal(true);
+  const handleInfoDiscordClose = () => setOpenInfoDiscordModal(false);
 
   const [openEditEducationModal, setOpenEditEducationModal] =
     React.useState(false);
@@ -107,10 +112,9 @@ const Profile = () => {
       const newAddress = e.target.newAddress.value;
       setAddress(newAddress);
       console.log(Address);
-      const response = await axiosWithTokenReq.put(
-        `http://localhost:8000/acc/${user.id}`,
-        { Address: Address }
-      );
+      const response = await axiosWithTokenReq.put(`/acc/${user.id}`, {
+        Address: Address,
+      });
       window.location.reload();
     } catch (err) {
       console.log(err.message);
@@ -125,10 +129,7 @@ const Profile = () => {
         Qualification: e.target.Qualification.value,
         GraduateYear: e.target.GraduateYear.value,
       };
-      const response = await axiosWithTokenReq.put(
-        "http://localhost:8000/addEducation",
-        Education
-      );
+      const response = await axiosWithTokenReq.put("/addEducation", Education);
       window.location.reload();
     } catch (err) {
       console.log(err.message);
@@ -143,10 +144,7 @@ const Profile = () => {
         StartDate: e.target.StartDate.value,
         EndDate: e.target.EndDate.value,
       };
-      const response = await axiosWithTokenReq.put(
-        "http://localhost:8000/addWorkPlace",
-        WorkPlace
-      );
+      const response = await axiosWithTokenReq.put("/addWorkPlace", WorkPlace);
       window.location.reload();
     } catch (err) {
       console.log(err.message);
@@ -163,7 +161,7 @@ const Profile = () => {
     console.log(Education);
     try {
       const response = await axiosWithTokenReq.put(
-        `http://localhost:8000/updateEducation/${index}`,
+        `/updateEducation/${index}`,
         Education
       );
       console.log(response?.data);
@@ -184,7 +182,7 @@ const Profile = () => {
     console.log(WorkPlace);
     try {
       const response = await axiosWithTokenReq.put(
-        `http://localhost:8000/updateWorkPlace/${index}`,
+        `/updateWorkPlace/${index}`,
         WorkPlace
       );
       console.log(response?.data);
@@ -192,6 +190,20 @@ const Profile = () => {
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const DiscordStyle = {
+    position: "absolute",
+
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    height: 500,
+    width: 900,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 5,
+    borderRadius: "10px",
   };
 
   const style = {
@@ -211,7 +223,7 @@ const Profile = () => {
   const deleteEducation = async (index) => {
     try {
       const response = await axiosWithTokenReq.delete(
-        `http://localhost:8000/deleteEducation/${index}`
+        `/deleteEducation/${index}`
       );
       window.location.reload();
     } catch (err) {
@@ -222,7 +234,7 @@ const Profile = () => {
   const deleteWorkPlace = async (index) => {
     try {
       const response = await axiosWithTokenReq.delete(
-        `http://localhost:8000/deleteWorkPlace/${index}`
+        `/deleteWorkPlace/${index}`
       );
       window.location.reload();
     } catch (err) {
@@ -259,7 +271,7 @@ const Profile = () => {
         confirmPassword: e.target.confirmPassword.value,
       };
       const response = await axiosWithTokenReq.post(
-        "http://localhost:8000/changePassword",
+        "/changePassword",
         Password
       );
       console.log(response?.data);
@@ -272,7 +284,7 @@ const Profile = () => {
   };
   const getMe = async () => {
     try {
-      const response = await axiosWithTokenReq.get("http://localhost:8000/me");
+      const response = await axiosWithTokenReq.get("/me");
       setUser(response?.data);
       setEducation(response?.data?.Education);
       setWorkplace(response?.data?.WorkPlace);
@@ -294,7 +306,7 @@ const Profile = () => {
     user,
     openEducationModal,
     openWorkPlaceModal
-  );
+  );  
 
   return (
     <Container maxWidth="lg">
@@ -390,13 +402,31 @@ const Profile = () => {
                   {"Discord Key : " + user.DiscordKey}
                 </Typography>
               </Stack>
-              <Button
-                variant="outlined"
-                href="https://discord.gg/w7bfysvFvw"
-                target="_blank"
+              <Box sx={{display:"flex"}}>
+                <Button
+                  variant="outlined"
+                  href="https://discord.gg/w7bfysvFvw"
+                  target="_blank"
+                >
+                  Discord
+                </Button>
+                <IconButton onClick={handleInfoDiscordOpen}>
+                  <InfoIcon/>
+                </IconButton>
+              </Box>
+              <Modal
+                open={openInfoDiscordModal}
+                onClose={handleInfoDiscordClose}
+                className="profile-modals"
               >
-                Discord
-              </Button>
+                <Box sx={DiscordStyle}>
+                  <Container sx={{display:'flex',justifyContent:'center',}}>
+
+                  
+                  <iframe width="800" height="500" src="https://www.youtube.com/embed/OfCIf9y3cPQ?si=i4h3AhslMoNAg9on" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  </Container>
+                </Box>
+              </Modal>
               {/*
               <div>
                 <Button
@@ -922,6 +952,7 @@ const Profile = () => {
             <Button href="/admin/posts">จัดการข่าวสาร</Button>
             <Button href="/admin/users">จัดการบัญชีผู้ใช้</Button>
             <Button href="/gallery">จัดการแกลเลอรี</Button>
+            <Button href="/admin/sendPostcard">ส่งโปสการ์ด</Button>
           </ButtonGroup>
         </div>
       ) : null}

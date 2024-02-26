@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { axiosReq } from "../../services/service";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Modal, Box } from "@mui/material";
 import Cookies from "js-cookie";
 import "../PostManage/PostManage.css";
 import cslogo from "../../img/logo/cs_logo.png";
@@ -9,6 +9,38 @@ import parse from "html-react-parser";
 
 function PostManage() {
   const [posts, setPosts] = useState([]);
+  const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
+    useState(false);
+  const [deletingPostId, setDeletingPostId] = useState(null);
+  const handleDeleteConfirmationOpen = (postId) => {
+    setDeletingPostId(postId);
+    setOpenDeleteConfirmationModal(true);
+  };
+  const deleteModalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    height: 100,
+    width: 200,
+    p: 3,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    borderRadius: "10px",
+    textAlign: "center",
+  };
+
+  const handleDeleteConfirmationClose = () => {
+    setDeletingPostId(null);
+    setOpenDeleteConfirmationModal(false);
+  };
+
+  const handleDeleteConfirmed = async () => {
+    if (deletingPostId) {
+      await deletePost(deletingPostId);
+      handleDeleteConfirmationClose();
+    }
+  };
   const commentExist = (comments) => {
     if (comments && Object.keys(comments).length > 0) {
       return (
@@ -22,25 +54,22 @@ function PostManage() {
     }
     return null;
   };
-  
 
   const handleDeleteClick = (id) => {
     deletePost(id);
   };
   const deletePost = async (id) => {
     try {
-      const response = await axiosReq.delete(
-        `http://localhost:8000/post/${id}`
-      );
+      const response = await axiosReq.delete(`/post/${id}`);
       fetchData();
     } catch (err) {
       console.error(err.message);
     }
   };
-  
+
   const fetchData = async () => {
     try {
-      const response = await axiosReq.get("http://localhost:8000/getAllPosts");
+      const response = await axiosReq.get("/getAllPosts");
       setPosts(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -52,7 +81,7 @@ function PostManage() {
       if (!accessToken) {
         window.location.href = "/login";
       }
-      const response = await axiosReq.get("http://localhost:8000/isAdmin");
+      const response = await axiosReq.get("/isAdmin");
       if (response.data === "not-admin") {
         window.location.href = "/";
       }
@@ -61,8 +90,6 @@ function PostManage() {
     }
   };
   useEffect(() => {
-    
-
     isAdmin();
     fetchData();
   }, []);
@@ -85,7 +112,7 @@ function PostManage() {
             <Grid item xs={8}>
               <h2>{post.PostSubject}</h2>
               <Button
-                onClick={() => handleDeleteClick(post._id)}
+                onClick={() => handleDeleteConfirmationOpen(post._id)}
                 variant="contained"
                 color="error"
               >
@@ -99,6 +126,30 @@ function PostManage() {
           <div className="posts" key={post._id}></div>
         </div>
       ))}
+      <Modal
+        open={openDeleteConfirmationModal}
+        onClose={handleDeleteConfirmationClose}
+        className="profile-modals"
+      >
+        <Box sx={deleteModalStyle}>
+          <p>ยืนยันการลบ</p>
+          <Button
+            sx={{ marginRight: 2 }}
+            variant="contained"
+            color="error"
+            onClick={handleDeleteConfirmed}
+          >
+            Delete
+          </Button>
+          <Button
+            onClick={handleDeleteConfirmationClose}
+            variant="contained"
+            color="success"
+          >
+            Cancel
+          </Button>
+        </Box>
+      </Modal>
     </div>
   );
 }

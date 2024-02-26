@@ -80,7 +80,7 @@ function AlumniSearch() {
   const getAllAlumni = async () => {
     try {
       setLoading(true);
-      const response = await axiosReq.get("http://localhost:8000/allAccount");
+      const response = await axiosReq.get("/allAccount");
       setAlumni(response.data);
       console.log(response.data);
     } catch (error) {

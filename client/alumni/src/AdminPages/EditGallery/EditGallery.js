@@ -99,7 +99,7 @@ const EditGallery = () => {
   const getImages = async () => {
     try {
       const response = await axiosReq.get(
-        "http://localhost:8000/gallery/getAlbumById/" + id
+        "/gallery/getAlbumById/" + id
       );
       setAlbum(response?.data);
       setImages(response?.data.AlbumImages);
@@ -112,7 +112,7 @@ const EditGallery = () => {
   const deleteImage = async (imageId) => {
     try {
       const response = await axiosReq.delete(
-        `http://localhost:8000/gallery/${id}/images/${imageId}`
+        `/gallery/${id}/images/${imageId}`
       );
       getImages();
     } catch (error) {
@@ -155,7 +155,7 @@ const EditGallery = () => {
     };
     try {
       const response = await axiosReq.post(
-        `http://localhost:8000/gallery/addToAlbum/${id}`,
+        `/gallery/addToAlbum/${id}`,
         data
       );
       getImages();
@@ -168,7 +168,7 @@ const EditGallery = () => {
   const deleteAlbum = async (albumid) => {
     try {
       const response = await axiosReq.delete(
-        `http://localhost:8000/gallery/deleteAlbumById/${albumid}`
+        `/gallery/deleteAlbumById/${albumid}`
       );
       navigate("/gallery");
     } catch (error) {

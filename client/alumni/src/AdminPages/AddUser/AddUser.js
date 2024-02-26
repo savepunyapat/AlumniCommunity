@@ -67,7 +67,7 @@ function AddUser() {
         notifySuccess();
         const userData = { ...user, Birthday: selectedDate }; // Add selected date to user data
         try {
-            const response = await axiosReq.post('http://localhost:8000/register', userData);
+            const response = await axiosReq.post('/register', userData);
             
 
             console.log('User added:', response.data);
