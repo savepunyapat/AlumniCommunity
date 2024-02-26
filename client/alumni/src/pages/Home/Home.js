@@ -172,7 +172,7 @@ function Home() {
             allowfullscreen
           ></iframe>
         </Container>
-        <Container sx={{ mt: "5vh"}}>
+        <Container sx={{ mt: "5vh",borderBottom:"1px solid grey",pb:"3vh"}}>
           <Typography variant="h6" sx={{fontWeight:'bold'}}>Links ที่เกี่ยวข้อง</Typography>
           <Container sx={{justifyContent:'space-between',display:'flex',alignItems:'center',justifyItems:'center'}}>
                 <a
@@ -211,7 +211,7 @@ function Home() {
                 </a>
           </Container>
         </Container>
-        <Container sx={{ mt: "5vh"}}>
+        <Container sx={{ mt: "5vh" ,borderBottom:"1px solid grey",pb:"3vh"}}>
           <Typography variant="h6" sx={{fontWeight:'bold'}}>เครือข่ายต่างๆ ของบัณฑิตวิทยาลัย</Typography>
           <Container sx={{justifyContent:'space-between',display:'flex',alignItems:'center',justifyItems:'center'}}>
                 <a
