@@ -62,8 +62,8 @@ function Footer() {
         <Box mt={5}>
           <Typography variant="body2"  align="center">
             {"Copyright © "}
-            <Link  href="https://your-website.com/">
-              Your Website
+            <Link  href="https://your-website.com/" sx={{color:'white'}}>
+              Alumni Community
             </Link>{" "}
             {new Date().getFullYear()}
             {"."}

@@ -24,8 +24,8 @@ import {createTheme, ThemeProvider } from "@mui/material";
 import logo from "../img/logo/logo.png";
 
 
-const pages = ["ข่าวสาร", "แกลเลอรี", "ติดต่อ" ,"เข้าสู่ระบบ"];
-const links = ["/", "/gallery","/contact", "/login"];
+const pages = ["ข่าวสาร", "แกลเลอรี", "ติดต่อ"];
+const links = ["/", "/gallery","/contact"];
 const settings = ["Profile","ค้นหาศิษย์เก่า", "Logout"];
 const settingPath = ["/profile","/alumni", "/logout"];
 const hasToken = () => {
@@ -161,6 +161,17 @@ function Navbar() {
                 </Button>
               </NavLink>
             ))}
+            {loggedIn ? (<></>) : (
+              <NavLink to="/login">
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  เข้าสู่ระบบ
+                </Button>
+              </NavLink>
+            
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

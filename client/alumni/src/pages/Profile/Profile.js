@@ -312,62 +312,6 @@ const Profile = () => {
     <Container maxWidth="lg">
       {user && (
         <div>
-          {/* 
-          <Box
-            id="bio-box"
-            sx={{
-              marginTop: "4vh",
-              width: "100%",
-              height: "25vh",
-              borderRadius: "10px",
-              textAlign: "center",
-              alignContent: "center",
-              alignItems: "center",
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-          <Typography className="profile-user-info" sx={{ fontWeight: "bold", fontSize: "1.5rem" }}>
-              {user.FirstName + "    " + user.LastName}
-            </Typography>
-            <Typography className="profile-user-info">{user.Email}</Typography>
-            <Stack direction={"row"} sx={{ width: 300 }}>
-              <DiscordIcon />
-              <Typography className="profile-user-discordkey">{"Discord Key : " + user.DiscordKey}</Typography>
-            </Stack>
-            <Button variant="outlined" href="https://discord.gg/w7bfysvFvw" target="_blank">
-              Discord
-            </Button>
-            <div><Button sx={{ marginTop: 2 }} color="info" variant="text" startIcon={<EditIcon color="info" />} onClick={handlePasswordOpen} > เปลี่ยนรหัสผ่าน </Button></div>
-            <Modal
-              open={openPasswordModal}
-              onClose={handlePasswordClose}
-              className="profile-modals"
-
-            >
-              <Box sx={style}>
-                <form onSubmit={handleChangePasswordSubmit}>
-                  <label>รหัสผ่านปัจจุบัน</label>
-                  <input type="password" name="oldPassword" placeholder="รหัสผ่าน" />
-                  <br /><br />
-                  <label>รหัสผ่านใหม่</label>
-                  <input type="password" name="newPassword" placeholder="รหัสผ่านใหม่" />
-                  <br /><br />
-                  <label>ยืนยันรหัสผ่านใหม่</label>
-                  <input type="password" name="confirmPassword" placeholder="ยืนยันรหัสผ่านใหม่" />
-                  <br /><br />
-                  <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
-                    แก้ไข
-                  </Button>
-                  <Button onClick={closePasswordModal} variant="contained" color="error">
-                    ปิด
-                  </Button>
-                </form>
-              </Box>
-            </Modal>
-          </Box>
-          */}
           <Box
             id="profile-box"
             sx={{
@@ -427,20 +371,7 @@ const Profile = () => {
                   </Container>
                 </Box>
               </Modal>
-              {/*
-              <div>
-                <Button
-                  sx={{ marginTop: 2 }}
-                  color="info"
-                  variant="text"
-                  startIcon={<EditIcon color="info" />}
-                  onClick={handlePasswordOpen}
-                >
-                  {" "}
-                  เปลี่ยนรหัสผ่าน{" "}
-                </Button>
-              </div>
-               */}
+              
               <Modal
                 open={openPasswordModal}
                 onClose={handlePasswordClose}
