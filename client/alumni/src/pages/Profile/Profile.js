@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { axiosReq, axiosWithTokenReq } from "../../services/service";
-import { ButtonGroup, Grid, IconButton, Stack, TextField, Typography } from "@mui/material";
+import {
+  ButtonGroup,
+  Grid,
+  IconButton,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Button } from "@mui/material";
@@ -22,7 +29,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import dayjs from "dayjs";
 import DiscordIcon from "../../components/DiscordIcon";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -76,6 +85,75 @@ const Profile = () => {
   };
   const [editedWorkPlaceIndex, setEditedWorkPlaceIndex] = React.useState(null);
 
+  const notifyChangePassword = () =>
+    toast.success("เปลี่ยนรหัสผ่านสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const notifyChangeAddress = () =>
+    toast.success("เปลี่ยนที่อยู่สำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    const notifyAddEducation = () =>
+    toast.success("เพิ่มประวัติการศึกษาสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    const notifyAddWorkplace = () =>
+    toast.success("เพิ่มประวัติการทำงานสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    const notifyEditEducation = () =>
+    toast.success("แก้ไขประวัติการศึกษาสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    const notifyEditWorkplace = () =>
+    toast.success("แก้ไขประวัติการทำงานสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+
+  
   const [editedEducation, setEditedEducation] = useState({
     Course: "",
     Qualification: "",
@@ -274,7 +352,8 @@ const Profile = () => {
         "/changePassword",
         Password
       );
-      console.log(response?.data);
+      notifyChangePassword();
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }
@@ -306,10 +385,11 @@ const Profile = () => {
     user,
     openEducationModal,
     openWorkPlaceModal
-  );  
+  );
 
   return (
     <Container maxWidth="lg">
+      <ToastContainer />
       {user && (
         <div>
           <Box
@@ -346,7 +426,7 @@ const Profile = () => {
                   {"Discord Key : " + user.DiscordKey}
                 </Typography>
               </Stack>
-              <Box sx={{display:"flex"}}>
+              <Box sx={{ display: "flex" }}>
                 <Button
                   variant="outlined"
                   href="https://discord.gg/w7bfysvFvw"
@@ -355,7 +435,7 @@ const Profile = () => {
                   Discord
                 </Button>
                 <IconButton onClick={handleInfoDiscordOpen}>
-                  <InfoIcon/>
+                  <InfoIcon />
                 </IconButton>
               </Box>
               <Modal
@@ -364,14 +444,20 @@ const Profile = () => {
                 className="profile-modals"
               >
                 <Box sx={DiscordStyle}>
-                  <Container sx={{display:'flex',justifyContent:'center',}}>
-
-                  
-                  <iframe width="800" height="500" src="https://www.youtube.com/embed/OfCIf9y3cPQ?si=i4h3AhslMoNAg9on" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  <Container sx={{ display: "flex", justifyContent: "center" }}>
+                    <iframe
+                      width="800"
+                      height="500"
+                      src="https://www.youtube.com/embed/OfCIf9y3cPQ?si=i4h3AhslMoNAg9on"
+                      title="YouTube video player"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                    ></iframe>
                   </Container>
                 </Box>
               </Modal>
-              
+
               <Modal
                 open={openPasswordModal}
                 onClose={handlePasswordClose}

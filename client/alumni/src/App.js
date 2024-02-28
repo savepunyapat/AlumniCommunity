@@ -1,7 +1,7 @@
 import './App.css';
 import Home from './pages/Home/Home';
 import AddUser from './AdminPages/AddUser/AddUser';
-import Navbar from './components/Navbar.tsx';
+import Navbar from './components/Navbar';
 import Login from './pages/Login/Login';
 import Logout from './pages/Logout/Logout';
 import { BrowserRouter as Router, Routes, Route }from 'react-router-dom';
@@ -19,12 +19,14 @@ import SendPostcard from './AdminPages/SendPostcard/SendPostcard.js';
 import GalleryPreview from './pages/GalleryPreview/GalleryPreview.js';
 import AlumniSearch from './pages/AlumniSearch/AlumniSearch.js';
 import Contact from './pages/Contact/Contact.js';
+import ReloadAndNavigate from './components/ReloadNavigate/ReloadNavigate.js';
 axios.defaults.withCredentials = true;
 
 function App() {
   return (
     <Router>
       <Navbar/>
+      <ReloadAndNavigate/>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/admin/adduser' element={<AddUser/>}/>

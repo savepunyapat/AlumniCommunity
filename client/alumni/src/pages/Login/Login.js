@@ -14,12 +14,14 @@ import { axiosReq } from '../../services/service';
 import Cookies from 'js-cookie';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../Context/auth';
 const defaultTheme = createTheme();
 
 export default function Login() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { storeTokenInLS } = useAuth();
   const notifyError = () => toast.error('Invalid Email or Password!', {
     position: "top-right",
     autoClose: 5000,
@@ -49,9 +51,13 @@ export default function Login() {
         return;
       }
       const accessToken = response?.data?.accessToken;
-      Cookies.set('token', accessToken);
-      notifySuccess();
-      navigate('/');
+      storeTokenInLS(accessToken);
+      
+      localStorage.setItem('reloadNeeded', 'true');
+
+      window.location.reload();
+
+      
     } catch (err) {
       console.log(err.message)
     }
