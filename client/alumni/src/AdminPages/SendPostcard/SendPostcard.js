@@ -129,6 +129,7 @@ function SendPostcard() {
   };
   React.useEffect(() => {
     setStdBatch(""); 
+    document.title = "ส่งโปสการ์ด | CS-Alumni";
   }, []);
 
   return (

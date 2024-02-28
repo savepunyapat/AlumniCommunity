@@ -44,13 +44,7 @@ function EditPost() {
             reader.readAsDataURL(file);
         }
     };
-    const fakeSubmit = (e) => {
-        e.preventDefault();
-        console.log(PostCategory);
-        console.log(PostDetail);
-        console.log(PostSubject);
-        console.log(Pic_url);
-    }
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -85,7 +79,7 @@ function EditPost() {
 
     useEffect(() => {
         getPostByID(id);
-
+        document.title = "แก้ไขข่าวสาร | CS-Alumni";
 
     }, [])
     return (

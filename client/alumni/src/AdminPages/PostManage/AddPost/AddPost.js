@@ -83,6 +83,7 @@ function AddPost() {
       }
     };
     isAdmin();
+    document.title = "เพิ่มข่าวสาร | CS-Alumni";
   }, []);
 
   return (

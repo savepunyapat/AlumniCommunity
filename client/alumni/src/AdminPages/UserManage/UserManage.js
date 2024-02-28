@@ -134,7 +134,9 @@ function UserManage() {
 
   useEffect(() => {
     getUsers();
+    document.title = 'จัดการบัญชีผู้ใช้ | CS-Alumni';
   }, []);
+
 
   return (
     <ThemeProvider theme={FontTheme}>

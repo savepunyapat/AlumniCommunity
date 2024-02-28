@@ -52,6 +52,7 @@ function Home() {
       }
     };
     fetchData();
+    document.title = "หน้าหลัก | CS-Alumni";
   }, []);
 
   return (

@@ -12,7 +12,7 @@ import {
     TableBody,
 } from "@mui/material";
 import { create } from "@mui/material/styles/createTransitions";
-import React from "react";
+import React, { useEffect } from "react";
 import './Contact.css'
 
 function Contact() {
@@ -40,6 +40,10 @@ function Contact() {
         createTableData('ด้านดิจิทัล','นาย ขวัญชัย มูลเค้า','พนักงานเครื่องคอมพิวเตอร์','44464'),
         createTableData('ด้านดิจิทัล','นาย ประจักษ์ สืบเมืองซ้าย','พนักงานเครื่องคอมพิวเตอร์','44462'),
     ];
+
+    useEffect(() => {
+        document.title = "ติดต่อเรา | CS-Alumni";
+      }, []);
   return (
     <ThemeProvider theme={theme}>
       <Container>

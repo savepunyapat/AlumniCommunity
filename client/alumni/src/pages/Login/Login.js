@@ -62,6 +62,9 @@ export default function Login() {
       console.log(err.message)
     }
   };
+  useEffect(() => {
+    document.title = "เข้าสู่ระบบ | CS-Alumni";
+  }, []);
 
 
   return (

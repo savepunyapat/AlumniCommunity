@@ -92,6 +92,7 @@ function PostManage() {
   useEffect(() => {
     isAdmin();
     fetchData();
+    document.title = "จัดการข่าวสาร | CS-Alumni";
   }, []);
 
   return (

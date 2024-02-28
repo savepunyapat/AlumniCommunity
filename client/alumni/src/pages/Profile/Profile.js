@@ -381,6 +381,7 @@ const Profile = () => {
   useEffect(
     () => {
       getMe();
+      document.title = "โปรไฟล์ | CS-Alumni";
     },
     user,
     openEducationModal,

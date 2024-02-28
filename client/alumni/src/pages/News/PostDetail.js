@@ -24,6 +24,7 @@ function PostDetail() {
   useEffect(() => {
     getNews();
     console.log(post);
+    document.title = "ข่าว | CS-Alumni";
   }, []);
   return (
     <Container maxWidth="lg">

@@ -92,6 +92,7 @@ function AlumniSearch() {
 
   useEffect(() => {
     getAllAlumni();
+    document.title = "ค้นหาศิษย์เก่า | CS-Alumni";
   }, []);
 
   return (

@@ -223,6 +223,7 @@ const EditGallery = () => {
 
   useEffect(() => {
     getImages();
+    document.title = "แก้ไขคลังภาพ | CS-Alumni";
   }, []);
   return (
     <ThemeProvider theme={FontTheme}>

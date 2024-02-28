@@ -150,6 +150,7 @@ const Gallery = () => {
   useEffect(() => {
     getAlbums();
     checkAdmin();
+    document.title = "คลังภาพ | CS-Alumni";
   }, []);
 
   return (

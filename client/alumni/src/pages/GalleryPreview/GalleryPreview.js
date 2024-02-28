@@ -59,6 +59,7 @@ function GalleryPreview() {
 
   useEffect(() => {
     getAlbum();
+    document.title = "คลังภาพ | CS-Alumni";
   }, []);
 
   return (

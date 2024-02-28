@@ -77,7 +77,7 @@ function AddUser() {
     };
 
     useEffect(() => {
-        console.log(user); // Log changes to user state
+        document.title = "เพิ่มบัญชีผู้ใช้ | CS-Alumni";
     }, [user]);
     return (
         <Container className='adduser-wrap-container' sx={{marginTop:5}}>
