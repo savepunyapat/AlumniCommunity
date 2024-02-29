@@ -429,11 +429,12 @@ const Profile = () => {
               </Stack>
               <Box sx={{ display: "flex" }}>
                 <Button
-                  variant="outlined"
-                  href="https://discord.gg/w7bfysvFvw"
+                  variant="contained"
+                  href="https://discord.gg/JPtVQfr3kg"
                   target="_blank"
+                  sx={{bgcolor:'#7289da'}}
                 >
-                  Discord
+                  เชื่อมต่อ Discord
                 </Button>
                 <IconButton onClick={handleInfoDiscordOpen}>
                   <InfoIcon />

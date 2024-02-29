@@ -183,21 +183,15 @@ function Home() {
                   <img
                     src="https://app.gs.kku.ac.th/images/img/img/logo/1.jpg"
                     alt="kkureg"
-                    style={{ width: "180px" }}
+                    style={{ width: "10vw" }}
                   />
                 </a>
-                <a href="http://englishservices.kku.ac.th/app/" target="_blank">
-                  <img
-                    src="https://app.gs.kku.ac.th/images/img/img/logo/2.png"
-                    alt="kkureg"
-                    style={{ width: "180px" }}
-                  />
-                </a>
+                
                 <a href="http://journal.gs.kku.ac.th/" target="_blank">
                   <img
                     src="https://app.gs.kku.ac.th/images/img/img/logo/5.jpg"
                     alt="kkureg"
-                    style={{ width: "180px" }}
+                    style={{ width: "10vw" }}
                   />
                 </a>
                 <a
@@ -207,7 +201,7 @@ function Home() {
                   <img
                     alt=""
                     src="https://app.gs.kku.ac.th/images/img/img/logo/4.jpg"
-                    style={{ width: "180px" }}
+                    style={{ width: "10vw" }}
                   />
                 </a>
           </Container>
@@ -222,21 +216,14 @@ function Home() {
                   <img
                     src="https://app.gs.kku.ac.th/images/img/img/logo/6-1.png"
                     alt="kkureg"
-                    style={{ width: "180px" }}
+                    style={{ width: "10vw" }}
                   />
                 </a>
                 <a href="http://app.gs.kku.ac.th/gs/th/page/gs_network/gsnetwork" target="_blank">
                   <img
                     src="https://app.gs.kku.ac.th/images/img/img/logo/7.jpg"
                     alt="kkureg"
-                    style={{ width: "180px" }}
-                  />
-                </a>
-                <a href="https://cgau.net/" target="_blank">
-                  <img
-                    src="https://app.gs.kku.ac.th/images/img/img/logo/10.jpg"
-                    alt="kkureg"
-                    style={{ width: "180px" }}
+                    style={{ width: "10vw" }}
                   />
                 </a>
                 <a
@@ -246,7 +233,7 @@ function Home() {
                   <img
                     alt=""
                     src="https://app.gs.kku.ac.th/images/img/img/logo/Logo%20%E0%B8%A5%E0%B8%87%E0%B8%97%E0%B8%B0%E0%B9%80%E0%B8%9A%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A1%E0%B8%AA%E0%B8%96%E0%B8%B2%E0%B8%9A%E0%B8%B1%E0%B8%99%202.png"
-                    style={{ width: "180px" }}
+                    style={{ width: "10vw" }}
                   />
                 </a>
           </Container>
@@ -261,21 +248,21 @@ function Home() {
                   <img
                     src="https://app.gs.kku.ac.th/images/img/img/logo/8.png"
                     alt="kkureg"
-                    style={{ width: "180px" }}
+                    style={{ width: "10vw" }}
                   />
                 </a>
                 <a href="http://app.gs.kku.ac.th/gs/th/page/alumni-gs" target="_blank">
                   <img
                     src="https://app.gs.kku.ac.th/images/img/img/logo/11.jpg"
                     alt="kkureg"
-                    style={{ width: "180px" }}
+                    style={{ width: "10vw" }}
                   />
                 </a>
                 <a href="http://app.gs.kku.ac.th/gs/th/page/professor-kanok-award" target="_blank">
                   <img
                     src="https://app.gs.kku.ac.th/images/img/img/logo/9.jpg"
                     alt="kkureg"
-                    style={{ width: "180px" }}
+                    style={{ width: "10vw" }}
                   />
                 </a>
                 <a
@@ -285,7 +272,7 @@ function Home() {
                   <img
                     alt=""
                     src="https://app.gs.kku.ac.th/images/img/img/logo/logoHallofFame2.png"
-                    style={{ width: "180px" }}
+                    style={{ width: "10vw" }}
                   />
                 </a>
           </Container>

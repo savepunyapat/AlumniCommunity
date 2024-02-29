@@ -245,7 +245,7 @@ import logo from "../img/logo/logo.png";
 import MenuIcon from '@mui/icons-material/Menu';
 
 function Navbar() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, userName } = useAuth();
 
   const pages = ["ข่าวสาร", "แกลเลอรี", "ติดต่อ"];
   const links = ["/", "/gallery", "/contact"];
@@ -401,6 +401,9 @@ function Navbar() {
               {isLoggedIn ? (
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Typography sx={{ color: "white",paddingRight:'0.5vw' }}>
+                      {"สวัสดี " +userName}
+                      </Typography>
                     <AccountCircleIcon sx={{ color: "white" }} />
                   </IconButton>
                 </Tooltip>
