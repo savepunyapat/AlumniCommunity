@@ -77,7 +77,6 @@ const Gallery = () => {
   const checkAdmin = async () => {
     try {
       const response = await axiosWithTokenReq.get("/me");
-      console.log(response?.data.Permission);
       const permission = response?.data.Permission;
       if (permission === "admin") {
         setAdmin(true);
@@ -107,7 +106,6 @@ const Gallery = () => {
 
   const onChangePicture = (e) => {
     if (e.target.files[0]) {
-      console.log("picture: ", e.target.files);
       setPickImage(e.target.files[0]);
     }
   };
@@ -127,9 +125,9 @@ const Gallery = () => {
       ],
     };
     try{
+      
+      const response = await axiosWithTokenReq.post("/gallery/addAlbum",data)
       notifySuccess();
-      const response = await axiosWithTokenReq.post("/addAlbum",data)
-      console.log(response?.data);
       getAlbums();
     }catch (error) {
       console.log(error.message)
@@ -142,7 +140,6 @@ const Gallery = () => {
         "/gallery/getAllAlbums"
       );
       setAlbums(response.data);
-      console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }

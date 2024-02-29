@@ -16,14 +16,12 @@ function PostDetail() {
     try {
       const response = await axiosReq.get(`/post/${id}`);
       setPost(response?.data);
-      console.log(response?.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
   useEffect(() => {
     getNews();
-    console.log(post);
     document.title = "ข่าว | CS-Alumni";
   }, []);
   return (

@@ -10,11 +10,7 @@ const {
   getAlbumById,
   deleteImageById,
 } = require("../controllers/GalleryController");
-/*
-router.get("/gallery/getGalleryImages", getAllImages);
-router.post("/gallery/addImage", addImage);
-router.delete("/gallery/deleteImageById/:id", deleteImageById);
-*/
+
 router.get("/gallery/getAllAlbums", getAllAlbums);
 router.post("/gallery/addAlbum", addAlbum);
 router.delete("/gallery/deleteAlbumById/:id", deleteAlbumById);

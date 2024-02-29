@@ -373,7 +373,6 @@ const Profile = () => {
       } else {
         setPermission(false);
       }
-      console.log(JSON.stringify(response?.data));
     } catch (err) {
       console.log(err.message);
     }
