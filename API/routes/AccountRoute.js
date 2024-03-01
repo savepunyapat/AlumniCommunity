@@ -26,7 +26,7 @@ router.post("/addAccount",isAdmin, async (req, res) => {
   }
 });
 
-router.get("/allAccount", async (req, res) => {
+router.get("/allAccount",isAdmin, async (req, res) => {
   try {
     const Accounts = await AccountModel.find({}).select("-Password");
     res.status(200).json(Accounts);
