@@ -9,6 +9,7 @@ const schedule = require("node-schedule");
 const User = require("./models/AlumniAccount");
 const cors = require("cors");
 const e = require("express");
+const { isAdmin ,verified} = require("./middlewares/Auth");
 
 
 app.use(cors());
@@ -163,7 +164,7 @@ const testsending = async () => {
 
 app.post("/find-batch", findBatch);
 
-app.post("/send-event-postcard-to-all-account", (req, res) => {
+app.post("/send-event-postcard-to-all-account",isAdmin, (req, res) => {
   const { postcardContent, eventSubject,stdBatch } = req.body;
 
   sendEventPostcardToAllAccount(postcardContent, eventSubject,stdBatch);
@@ -171,14 +172,14 @@ app.post("/send-event-postcard-to-all-account", (req, res) => {
   res.status(200).json({ success: true });
 });
 
-app.post("/send-birthday-postcard", (req, res) => {
+app.post("/send-birthday-postcard",isAdmin, (req, res) => {
   const { recipientEmail, postcardContent } = req.body;
 
   sendBirthdayPostcard(recipientEmail, postcardContent);
 
   res.status(200).json({ success: true });
 });
-app.post("/send-event-postcard", (req, res) => {
+app.post("/send-event-postcard",isAdmin, (req, res) => {
   const { recipientEmail, postcardContent, eventSubject } = req.body;
 
   sendEventPostcard(recipientEmail, postcardContent, eventSubject);

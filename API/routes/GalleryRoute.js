@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const GalleryModel = require("../models/Gallery");
-const { verified } = require("../middlewares/Auth");
+const { verified ,isAdmin} = require("../middlewares/Auth");
 const {
   getAllAlbums,
   addAlbum,
@@ -12,9 +12,9 @@ const {
 } = require("../controllers/GalleryController");
 
 router.get("/gallery/getAllAlbums", getAllAlbums);
-router.post("/gallery/addAlbum", addAlbum);
-router.delete("/gallery/deleteAlbumById/:id", deleteAlbumById);
-router.post("/gallery/addToAlbum/:id", addToAlbum);
+router.post("/gallery/addAlbum",isAdmin, addAlbum);
+router.delete("/gallery/deleteAlbumById/:id",isAdmin, deleteAlbumById);
+router.post("/gallery/addToAlbum/:id",isAdmin, addToAlbum);
 router.get("/gallery/getAlbumById/:id", getAlbumById);
-router.delete("/gallery/:albumId/images/:imageId", deleteImageById);
+router.delete("/gallery/:albumId/images/:imageId",isAdmin, deleteImageById);
 module.exports = router;

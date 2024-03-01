@@ -32,7 +32,7 @@ import logo from "../img/logo/logo.png";
 import MenuIcon from '@mui/icons-material/Menu';
 
 function Navbar() {
-  const { isLoggedIn, userName } = useAuth();
+  const { isLoggedIn, userName,permission,isAdmin } = useAuth();
 
   const pages = ["ข่าวสาร", "แกลเลอรี", "ติดต่อ"];
   const links = ["/", "/gallery", "/contact"];

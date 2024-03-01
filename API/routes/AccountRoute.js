@@ -17,7 +17,7 @@ const {
 } = require("../controllers/AccountController");
 const { verified, isAdmin } = require("../middlewares/Auth");
 
-router.post("/addAccount", async (req, res) => {
+router.post("/addAccount",isAdmin, async (req, res) => {
   try {
     const newAccount = await AccountModel.create(req.body);
     res.status(200).json(newAccount);
@@ -35,7 +35,7 @@ router.get("/allAccount", async (req, res) => {
   }
 });
 
-router.delete("/acc/:id", async (req, res) => {
+router.delete("/acc/:id",isAdmin, async (req, res) => {
   try {
     console.log(req.params)
     await AccountModel.findByIdAndDelete(req.params.id);
@@ -53,7 +53,7 @@ router.put("/addEducation", verified, addEducation);
 router.put("/addWorkPlace", verified, addWorkPlace);
 router.post("/changePassword", verified, changePassword);
 router.put("/acc/:id", updateAccount);
-router.post("/register", registerUser);
+router.post("/register",isAdmin, registerUser);
 router.get("/me", verified, getMe);
 router.post("/login", userLogin);
 router.get("/logout", userLogout);
