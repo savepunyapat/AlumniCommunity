@@ -19,7 +19,7 @@ import {
   CardContent,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { axiosReq } from "../../services/service";
+import { axiosReq, axiosWithTokenReq } from "../../services/service";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
 const theme = createTheme({
@@ -80,7 +80,7 @@ function AlumniSearch() {
   const getAllAlumni = async () => {
     try {
       setLoading(true);
-      const response = await axiosReq.get("/allAccount");
+      const response = await axiosWithTokenReq.get("/allAccount");
       setAlumni(response.data);
     } catch (error) {
       console.error("Error fetching alumni:", error);
