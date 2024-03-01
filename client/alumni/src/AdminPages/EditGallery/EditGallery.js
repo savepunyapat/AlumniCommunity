@@ -21,7 +21,7 @@ import {
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ClearIcon from "@mui/icons-material/Clear";
 import CloseIcon from "@mui/icons-material/Close";
-import { axiosReq } from "../../services/service";
+import { axiosReq, axiosWithTokenReq } from "../../services/service";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useParams,useNavigate } from "react-router-dom";
@@ -111,7 +111,7 @@ const EditGallery = () => {
 
   const deleteImage = async (imageId) => {
     try {
-      const response = await axiosReq.delete(
+      const response = await axiosWithTokenReq.delete(
         `/gallery/${id}/images/${imageId}`
       );
       getImages();
@@ -154,7 +154,7 @@ const EditGallery = () => {
       ImageDate: e.target.ImageDate.value,
     };
     try {
-      const response = await axiosReq.post(
+      const response = await axiosWithTokenReq.post(
         `/gallery/addToAlbum/${id}`,
         data
       );
@@ -167,7 +167,7 @@ const EditGallery = () => {
 
   const deleteAlbum = async (albumid) => {
     try {
-      const response = await axiosReq.delete(
+      const response = await axiosWithTokenReq.delete(
         `/gallery/deleteAlbumById/${albumid}`
       );
       navigate("/gallery");

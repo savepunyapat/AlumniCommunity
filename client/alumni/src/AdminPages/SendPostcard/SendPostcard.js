@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import JoditEditor from "jodit-react";
 import { NavLink } from "react-router-dom";
-import { axiosReq } from "../../services/service";
+import { axiosReq, axiosWithTokenReq } from "../../services/service";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -109,7 +109,7 @@ function SendPostcard() {
     e.preventDefault();
     console.log(postcardContent, eventSubject, stdBatch);
     try {
-      const response = await axiosReq.post(
+      const response = await axiosWithTokenReq.post(
         `/send-event-postcard-to-all-account`,
         {
           postcardContent,

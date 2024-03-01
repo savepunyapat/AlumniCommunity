@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { axiosReq } from '../../services/service';
+import { axiosReq, axiosWithTokenReq } from '../../services/service';
 
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -67,7 +67,7 @@ function AddUser() {
         notifySuccess();
         const userData = { ...user, Birthday: selectedDate }; // Add selected date to user data
         try {
-            const response = await axiosReq.post('/register', userData);
+            const response = await axiosWithTokenReq.post('/register', userData);
             
 
             console.log('User added:', response.data);

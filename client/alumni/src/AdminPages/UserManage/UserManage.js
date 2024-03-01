@@ -22,7 +22,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ClearIcon from '@mui/icons-material/Clear';
-import { axiosReq } from '../../services/service';
+import { axiosReq , axiosWithTokenReq } from '../../services/service';
 import { NavLink } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -79,8 +79,9 @@ function UserManage() {
 
   const getUsers = async () => {
     try {
-      const response = await axiosReq.get('/allAccount');
+      const response = await axiosWithTokenReq.get('/allAccount');
       setUsers(response?.data);
+      console.log(response?.data);
     } catch (err) {
       console.error(err.message);
     }
@@ -98,7 +99,7 @@ function UserManage() {
 
   const handleEditPermissonSubmit = async () => {
     try {
-      const response = await axiosReq.put(`/acc/${selectedUserId}`, { Permission: permission });
+      const response = await axiosWithTokenReq.put(`/adminEditPermission/${selectedUserId}`, { Permission: permission });
       getUsers();
       handleEditUserClose();
     } catch (err) {
@@ -113,7 +114,7 @@ function UserManage() {
 
   const handleDeleteConfirmed = async () => {
     try {
-      await axiosReq.delete(`/acc/${selectedUserId}`);
+      await axiosWithTokenReq.delete(`/acc/${selectedUserId}`);
       notifyDeleteSuccess();
       getUsers();
       setOpenDeleteConfirmationModal(false);

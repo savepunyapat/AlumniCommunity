@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import "./AddPost.css";
-import { axiosReq } from "../../../services/service";
+import { axiosReq, axiosWithTokenReq } from "../../../services/service";
 import Cookies from "js-cookie";
 import { Button } from "@mui/material";
 import { NavLink } from "react-router-dom";
@@ -52,7 +52,7 @@ function AddPost() {
 
     try {
       e.preventDefault();
-      const response = await axiosReq.post("/addPost", {
+      const response = await axiosWithTokenReq.post("/addPost", {
         PostSubject,
         PostDetail,
         PostCategory,
@@ -68,21 +68,6 @@ function AddPost() {
     console.log(PostCategory);
   };
   useEffect(() => {
-    const isAdmin = async () => {
-      try {
-        const accessToken = Cookies.get("token");
-        if (!accessToken) {
-          window.location.href = "/login";
-        }
-        const response = await axiosReq.get("/isAdmin");
-        if (response.data === "not-admin") {
-          window.location.href = "/";
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    isAdmin();
     document.title = "เพิ่มข่าวสาร | CS-Alumni";
   }, []);
 

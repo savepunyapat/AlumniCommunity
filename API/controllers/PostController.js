@@ -13,6 +13,15 @@ const getPostID = asyncHandler(async (req,res)=>{
     }
 })
 
+const getAllPosts = asyncHandler(async (req,res) => {
+    try {
+        const Posts = await PostModel.find({});
+        res.status(200).json(Posts);
+    } catch (err) {
+        res.status(500).json(err.message);
+    }
+})
+
 const addComment = asyncHandler(async (req,res) => {
     const newComment = req.body.comment;
     const uid = req.user.id;
@@ -51,9 +60,45 @@ const addComment = asyncHandler(async (req,res) => {
 
 })
 
+const addPost = asyncHandler(async (req,res) => {
+    const newPost = req.body;
+    try {
+        const result = await PostModel.create(newPost);
+        res.status(200).json("Post added");
+    } catch (error) {
+        res.status(500).json({ messgae: error.message });
+    }
+})
+
+const deletePostById = asyncHandler(async (req,res) => {
+    try {
+        await PostModel.findByIdAndDelete(req.params.id);
+        res.status(200).json("Deleted");
+    } catch (err) {
+        res.status(500).json(err.message);
+    }
+})
+
+const editPostById = asyncHandler(async (req,res) => {
+    try {
+        await PostModel.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body },
+          { new: true }
+        );
+        res.status(200).json("Updated");
+    } catch (err) {
+        res.status(500).json(err.message);
+    }
+})
+
 
 
 module.exports = {
+    getAllPosts,
+    addPost,
+    deletePostById,
+    editPostById,
     addComment,
     getPostID
 }

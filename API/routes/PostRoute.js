@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const PostModel = require("../models/Post");
 const { verified, isAdmin } = require("../middlewares/Auth");
-const { addComment, getPostID } = require("../controllers/PostController");
-
-router.post("/addPost",isAdmin, async (req, res) => {
+const { addComment, getPostID , addPost , deletePostById, editPostById , getAllPosts } = require("../controllers/PostController");
+/*
+router.post("/addPost", async (req, res) => {
   try {
     const newPost = await PostModel.create(req.body);
     res.status(200).json('Post added');
@@ -21,7 +21,7 @@ router.get("/getAllPosts", async (req, res) => {
   }
 });
 
-router.delete("/post/:id",isAdmin, async (req, res) => {
+router.delete("/post/:id", async (req, res) => {
   try {
     await PostModel.findByIdAndDelete(req.params.id);
     res.status(200).json("Deleted");
@@ -30,7 +30,7 @@ router.delete("/post/:id",isAdmin, async (req, res) => {
   }
 });
 
-router.put("/post/:id",isAdmin, async (req, res) => {
+router.put("/post/:id", async (req, res) => {
   try {
     await PostModel.findByIdAndUpdate(
       req.params.id,
@@ -42,6 +42,11 @@ router.put("/post/:id",isAdmin, async (req, res) => {
     res.status(500).json(err.message);
   }
 });
+*/
+router.get('/getAllPosts',getAllPosts)
+router.post('/addPost',isAdmin,addPost)
+router.delete('/post/:id',isAdmin,deletePostById)
+router.put('/post/:id',isAdmin,editPostById)
 router.get('/post/:id',getPostID)
 router.put('/comment/:id',verified,addComment)
 

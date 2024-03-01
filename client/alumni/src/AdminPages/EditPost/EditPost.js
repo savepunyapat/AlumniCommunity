@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import './EditPost.css'
 import JoditEditor from "jodit-react";
 import { Container } from '@mui/material'
-import { axiosReq } from '../../services/service'
+import { axiosReq, axiosWithTokenReq } from '../../services/service'
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
@@ -48,7 +48,7 @@ function EditPost() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosReq.put(`/post/${id}`, {
+            const response = await axiosWithTokenReq.put(`/post/${id}`, {
                 PostCategory,
                 PostDetail,
                 PostSubject,

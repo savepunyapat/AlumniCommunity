@@ -41,7 +41,6 @@ const isAdmin = asyncHandler(async(req,res,next)=>{
                 
             }
             next()
-            res.status(200).json("You are admin")
         }catch(err){
             res.json(err)
             res.status(401)

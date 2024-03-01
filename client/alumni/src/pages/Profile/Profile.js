@@ -34,6 +34,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
+
+  const notifyWrongDate = () =>
+    toast.error("วันที่ไม่ถูกต้อง", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
   const navigate = useNavigate();
   const [user, setUser] = useState();
   const [permission, setPermission] = useState(false);
@@ -216,18 +229,29 @@ const Profile = () => {
   const handleWorkPlaceSubmit = async (e) => {
     try {
       e.preventDefault();
+  
+      const startDate = new Date(e.target.StartDate.value);
+      const endDate = new Date(e.target.EndDate.value);
+  
+      if (startDate > endDate) {
+        notifyWrongDate();
+        return;
+      }
+  
       const WorkPlace = {
         CompanyName: e.target.CompanyName.value,
         Position: e.target.Position.value,
-        StartDate: e.target.StartDate.value,
-        EndDate: e.target.EndDate.value,
+        StartDate: startDate.toISOString(), 
+        EndDate: endDate.toISOString(),    
       };
+  
       const response = await axiosWithTokenReq.put("/addWorkPlace", WorkPlace);
       window.location.reload();
     } catch (err) {
       console.log(err.message);
     }
   };
+  
 
   const handleEditEducationSubmit = async (e, index) => {
     e.preventDefault();

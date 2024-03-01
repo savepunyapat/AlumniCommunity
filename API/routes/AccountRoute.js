@@ -13,10 +13,15 @@ const {
   addWorkPlace,
   deleteEducationByIndex,
   updateEducationByIndex,
-  updateWorkPlaceByIndex
+  updateWorkPlaceByIndex,
+  adminEditPermission,
+  addAccount,
+  allAccount,
+  deleteAccount,
 } = require("../controllers/AccountController");
 const { verified, isAdmin } = require("../middlewares/Auth");
 
+/*
 router.post("/addAccount",isAdmin, async (req, res) => {
   try {
     const newAccount = await AccountModel.create(req.body);
@@ -44,6 +49,7 @@ router.delete("/acc/:id",isAdmin, async (req, res) => {
     res.status(500).json(err.message);
   }
 });
+*/
 
 router.put("/updateWorkPlace/:index", verified, updateWorkPlaceByIndex);
 router.put("/updateEducation/:index", verified, updateEducationByIndex);
@@ -58,4 +64,9 @@ router.get("/me", verified, getMe);
 router.post("/login", userLogin);
 router.get("/logout", userLogout);
 router.get("/isAdmin", isAdmin);
+router.put("/adminEditPermission/:id",isAdmin,adminEditPermission)
+router.get("/allAccount",isAdmin,allAccount);
+router.delete("/acc/:id",isAdmin,deleteAccount);
+router.post("/addAccount",isAdmin,addAccount);
+
 module.exports = router;

@@ -209,12 +209,13 @@ const generateToken = (id) => {
 
 const updateAccount = asyncHandler(async (req, res) => {
   try {
-    console.log(req.body);
+    const { permission, ...updateData } = req.body;
     await AccountModel.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
+      { $set: updateData },
       { new: true }
     );
+
     res.status(200).json("Updated");
   } catch (err) {
     res.status(401).json({
@@ -222,6 +223,24 @@ const updateAccount = asyncHandler(async (req, res) => {
     });
   }
 });
+
+const adminEditPermission = asyncHandler(async (req, res) => {
+  try {
+    const user = await AccountModel.findById(req.params.id);
+    if (user) {
+      user.Permission = req.body.Permission;
+      await user.save();
+      res.status(200).json("Updated");
+    } else {
+      res.status(400);
+      throw new Error("Invalid user data");
+    }
+  } catch (err) {
+    res.status(401).json({
+      msg: "You are not authorized.",
+    });
+  }
+})
 
 
 const getMe = asyncHandler(async (req, res) => {
@@ -270,6 +289,33 @@ const changePassword = asyncHandler(async (req, res) => {
     res.status(500);
   }
 });
+const addAccount = asyncHandler(async (req, res) => {
+  try {
+    const newAccount = await AccountModel.create(req.body);
+    res.status(200).json(newAccount);
+  } catch (error) {
+    res.status(500).json({ messgae: error.message });
+  }
+});
+const allAccount = asyncHandler(async (req, res) => {
+  try {
+    const Accounts = await AccountModel.find({}).select("-Password");
+    res.status(200).json(Accounts);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+const deleteAccount = asyncHandler(async (req, res) => {
+  try {
+    console.log(req.params)
+    await AccountModel.findByIdAndDelete(req.params.id);
+    res.status(200).json("Deleted");
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
 
 module.exports = {
   changePassword,
@@ -283,5 +329,9 @@ module.exports = {
   deleteEducationByIndex,
   deleteWorkPlaceByIndex,
   updateEducationByIndex,
-  updateWorkPlaceByIndex
+  updateWorkPlaceByIndex,
+  adminEditPermission,
+  addAccount,
+  allAccount,
+  deleteAccount,
 };

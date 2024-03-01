@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { axiosReq } from "../../services/service";
+import { axiosReq,axiosWithTokenReq } from "../../services/service";
 import { Button, Grid, Modal, Box } from "@mui/material";
 import Cookies from "js-cookie";
 import "../PostManage/PostManage.css";
@@ -60,7 +60,7 @@ function PostManage() {
   };
   const deletePost = async (id) => {
     try {
-      const response = await axiosReq.delete(`/post/${id}`);
+      const response = await axiosWithTokenReq.delete(`/post/${id}`);
       fetchData();
     } catch (err) {
       console.error(err.message);
@@ -75,22 +75,7 @@ function PostManage() {
       console.error("Error fetching data:", error);
     }
   };
-  const isAdmin = async () => {
-    try {
-      const accessToken = Cookies.get("token");
-      if (!accessToken) {
-        window.location.href = "/login";
-      }
-      const response = await axiosReq.get("/isAdmin");
-      if (response.data === "not-admin") {
-        window.location.href = "/";
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   useEffect(() => {
-    isAdmin();
     fetchData();
     document.title = "จัดการข่าวสาร | CS-Alumni";
   }, []);
