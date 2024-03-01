@@ -174,7 +174,7 @@ function Home() {
           ></iframe>
         </Container>
         <Container sx={{ mt: "5vh",borderBottom:"1px solid grey",pb:"3vh"}}>
-          <Typography variant="h6" sx={{fontWeight:'bold'}}>Links ที่เกี่ยวข้อง</Typography>
+          <Typography variant="h6" sx={{fontWeight:'bold'}}>เว็บไซต์ที่เกี่ยวข้อง</Typography>
           <Container sx={{justifyContent:'space-between',display:'flex',alignItems:'center',justifyItems:'center'}}>
                 <a
                   href="https://reg.kku.ac.th/registrar/home.asp?avs=44510.6267361111"

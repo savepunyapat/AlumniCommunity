@@ -224,7 +224,7 @@ const Gallery = () => {
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
-          {albums.map((album) => (
+          { albums.length != 0 ? albums.map((album) => (
             <Grid item xs={2} sm={4} md={4} key={album._id}>
               <Card>
                 <CardMedia
@@ -257,7 +257,7 @@ const Gallery = () => {
                 </CardActions>
               </Card>
             </Grid>
-          ))}
+          )): <h1>ไม่มีอัลบั้ม</h1>}
         </Grid>
       </Container>
     </ThemeProvider>
