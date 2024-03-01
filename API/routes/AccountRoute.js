@@ -18,6 +18,7 @@ const {
   addAccount,
   allAccount,
   deleteAccount,
+  getAllAlumni,
 } = require("../controllers/AccountController");
 const { verified, isAdmin } = require("../middlewares/Auth");
 
@@ -68,5 +69,6 @@ router.put("/adminEditPermission/:id",isAdmin,adminEditPermission)
 router.get("/allAccount",isAdmin,allAccount);
 router.delete("/acc/:id",isAdmin,deleteAccount);
 router.post("/addAccount",isAdmin,addAccount);
+router.get("/getAllAlumni",verified,getAllAlumni);
 
 module.exports = router;

@@ -315,7 +315,14 @@ const deleteAccount = asyncHandler(async (req, res) => {
     res.status(500).json(err.message);
   }
 });
-
+const getAllAlumni = asyncHandler(async (req, res) => {
+  try {
+    const alumni = await AccountModel.find({}).select("-Password -DiscordKey -Permission -Address -Birthday");
+    res.status(200).json(alumni);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
 
 module.exports = {
   changePassword,
@@ -334,4 +341,5 @@ module.exports = {
   addAccount,
   allAccount,
   deleteAccount,
+  getAllAlumni,
 };

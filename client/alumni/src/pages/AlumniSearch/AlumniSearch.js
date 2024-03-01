@@ -80,7 +80,7 @@ function AlumniSearch() {
   const getAllAlumni = async () => {
     try {
       setLoading(true);
-      const response = await axiosWithTokenReq.get("/allAccount");
+      const response = await axiosWithTokenReq.get("/getAllAlumni");
       setAlumni(response.data);
     } catch (error) {
       console.error("Error fetching alumni:", error);
