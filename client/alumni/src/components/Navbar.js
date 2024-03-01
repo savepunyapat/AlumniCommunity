@@ -29,10 +29,10 @@ import AdbIcon from "@mui/icons-material/Adb";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import "./Navbar.css";
 import logo from "../img/logo/logo.png";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 
 function Navbar() {
-  const { isLoggedIn, userName,permission,isAdmin } = useAuth();
+  const { isLoggedIn, userName, permission, isAdmin } = useAuth();
 
   const pages = ["ข่าวสาร", "แกลเลอรี", "ติดต่อ"];
   const links = ["/", "/gallery", "/contact"];
@@ -57,7 +57,7 @@ function Navbar() {
   };
   const theme = createTheme({
     typography: {
-      fontFamily: "Kanit, sans-serif", 
+      fontFamily: "Kanit, sans-serif",
     },
   });
   return (
@@ -112,9 +112,11 @@ function Navbar() {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.map((page) => (
+                {pages.map((page, index) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                    <NavLink to={links[index]}>
+                      <Typography textAlign="center">{page}</Typography>
+                    </NavLink>
                   </MenuItem>
                 ))}
                 {isLoggedIn ? (
@@ -175,9 +177,9 @@ function Navbar() {
               {isLoggedIn ? (
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Typography sx={{ color: "white",paddingRight:'0.5vw' }}>
-                      {"สวัสดี " +userName}
-                      </Typography>
+                    <Typography sx={{ color: "white", paddingRight: "0.5vw" }}>
+                      {"สวัสดี " + userName}
+                    </Typography>
                     <AccountCircleIcon sx={{ color: "white" }} />
                   </IconButton>
                 </Tooltip>
