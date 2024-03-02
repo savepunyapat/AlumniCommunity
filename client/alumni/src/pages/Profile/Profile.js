@@ -60,6 +60,7 @@ const Profile = () => {
   const handleWorkPlaceOpen = () => setOpenWorkPlaceModal(true);
   const handleWorkPlaceClose = () => setOpenWorkPlaceModal(false);
   const [Address, setAddress] = useState("");
+  const [phoneNumber , setPhoneNumber] = useState("");
 
   const [openPasswordModal, setOpenPasswordModal] = React.useState(false);
   const handlePasswordOpen = () => setOpenPasswordModal(true);
@@ -222,12 +223,14 @@ const Profile = () => {
   const handleUpdateBioSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log(e.target.newAddress.value);
       const newAddress = e.target.newAddress.value;
+      const newPhoneNumber = e.target.newPhoneNumber.value;
       setAddress(newAddress);
+      setPhoneNumber(newPhoneNumber);
       console.log(Address);
       const response = await axiosWithTokenReq.put(`/acc/${user.id}`, {
         Address: Address,
+        PhoneNumber: phoneNumber,
       });
       window.location.reload();
     } catch (err) {
@@ -414,6 +417,9 @@ const Profile = () => {
   const handleAddressChange = (e) => {
     setAddress(e.target.value);
   };
+  const handlePhoneNumberChange = (e) => {
+    setPhoneNumber(e.target.value);
+  };
 
 
 
@@ -425,6 +431,7 @@ const Profile = () => {
       setWorkplace(response?.data?.WorkPlace);
       setDiscordKey(response?.data?.DiscordKey);
       setAddress(response?.data?.Address);
+      setPhoneNumber(response?.data?.PhoneNumber);
       if (user.Permission === "admin") {
         setPermission(true);
       } else {
@@ -635,6 +642,16 @@ const Profile = () => {
                       name="newAddress"
                       placeholder="ที่อยู่"
                       value={Address}
+                    />
+                    <br />
+                    <br />
+                    <label>เบอร์โทรศัพท์</label>
+                    <input type="text"
+                      id="profile-address-phone"
+                      onChange={handlePhoneNumberChange}
+                      name="newPhoneNumber"
+                      placeholder="ที่อยู่"
+                      value={phoneNumber}
                     />
                     <br />
                     <br />
