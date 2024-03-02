@@ -257,7 +257,11 @@ const Gallery = () => {
                 </CardActions>
               </Card>
             </Grid>
-          )): <h1>ไม่มีอัลบั้ม</h1>}
+          )): (
+            <Typography variant="h6" align="center" color="text.secondary" sx={{ mt: 5 }}>
+              ไม่มีอัลบั้มภาพ
+            </Typography>
+          )}
         </Grid>
       </Container>
     </ThemeProvider>
