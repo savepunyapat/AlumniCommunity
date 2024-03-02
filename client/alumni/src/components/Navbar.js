@@ -79,7 +79,9 @@ function Navbar() {
                 letterSpacing: "0.1rem",
                 color: "inherit",
                 textDecoration: "none",
+                cursor: "pointer",
               }}
+              href="/"
             >
               CSAlumni
             </Typography>
@@ -115,7 +117,7 @@ function Navbar() {
                 {pages.map((page, index) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <NavLink to={links[index]}>
-                      <Typography textAlign="center">{page}</Typography>
+                      <Typography  textAlign="center">{page}</Typography>
                     </NavLink>
                   </MenuItem>
                 ))}
@@ -155,7 +157,7 @@ function Navbar() {
                   key={page}
                   onClick={handleCloseNavMenu}
                   href={links[index]}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{ my: 2, color: "white", display: "block" , fontWeight: 700, letterSpacing: "0.05rem"}}
                 >
                   {page}
                 </Button>
@@ -166,7 +168,7 @@ function Navbar() {
               {isLoggedIn ? (
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Typography sx={{ color: "white", paddingRight: "0.5vw" }}>
+                    <Typography sx={{ color: "white", paddingRight: "0.5vw", }}>
                       {"สวัสดี " + userName}
                     </Typography>
                     <AccountCircleIcon sx={{ color: "white" }} />
@@ -175,7 +177,7 @@ function Navbar() {
               ) : (
                 <Button
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{ my: 2, color: "white", display: "block" , fontWeight: 700, letterSpacing: "0.05rem"}}
                   href="/login"
                 >
                   เข้าสู่ระบบ

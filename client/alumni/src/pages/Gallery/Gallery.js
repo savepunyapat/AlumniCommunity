@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
@@ -18,6 +17,7 @@ import {
   CardActions,
   ThemeProvider,
   createTheme,
+  CircularProgress
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { NavLink } from "react-router-dom";
@@ -31,6 +31,7 @@ const Gallery = () => {
   const [isAdmin, setAdmin] = useState(false);
   const [addGalleryModalOpen, setAddGalleryModalOpen] = useState(false);
   const [pickImage, setPickImage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddGalleryOpen = () => setAddGalleryModalOpen(true);
   const handleAddGalleryClose = () => setAddGalleryModalOpen(false);
@@ -75,6 +76,7 @@ const Gallery = () => {
       fontFamily: "Kanit, sans-serif", // Change this to your desired font
     },
   });
+
   const checkAdmin = async () => {
     try {
       const response = await axiosWithTokenReq.get("/me");
@@ -89,7 +91,6 @@ const Gallery = () => {
     }
   };
 
-  
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -110,6 +111,7 @@ const Gallery = () => {
       setPickImage(e.target.files[0]);
     }
   };
+
   const addGallery = async (e) => {
     e.preventDefault();
     setAddGalleryModalOpen(false);
@@ -125,26 +127,27 @@ const Gallery = () => {
         }
       ],
     };
-    try{
-      
-      const response = await axiosWithTokenReq.post("/gallery/addAlbum",data)
+    try {
+      const response = await axiosWithTokenReq.post("/gallery/addAlbum", data);
       notifySuccess();
       getAlbums();
-    }catch (error) {
-      console.log(error.message)
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
   const getAlbums = async () => {
     try {
-      const response = await axiosReq.get(
-        "/gallery/getAllAlbums"
-      );
+      setIsLoading(true);
+      const response = await axiosReq.get("/gallery/getAllAlbums");
       setAlbums(response.data);
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   useEffect(() => {
     getAlbums();
     checkAdmin();
@@ -154,10 +157,10 @@ const Gallery = () => {
   return (
     <ThemeProvider theme={theme}>
       <ToastContainer />
-      <Container sx={{marginTop:'5vh'}}>
+      <Container sx={{ marginTop: '5vh' }}>
         <BackBtn path="/" />
       </Container>
-      <Container sx={{ minHeight: "80vh", width: "auto",marginTop:"5vh"}}>
+      <Container sx={{ minHeight: "80vh", width: "auto", marginTop: "5vh" }}>
         <Typography
           variant="h4"
           align="center"
@@ -182,7 +185,7 @@ const Gallery = () => {
                   <input type="text" name="AlbumTitle" placeholder="ชื่ออัลบัม" />
                   <br />
                   <br />
-                  
+
                   <label>คำอธิบายอัลบั้ม</label>
                   <input type="text" name="AlbumDescription" />
                   <br />
@@ -203,7 +206,7 @@ const Gallery = () => {
                   <input type="date" name="ImageDate" />
                   <br />
                   <br />
-                  <Button sx={{marginRight:2}} type="submit" variant="contained" color="success">
+                  <Button sx={{ marginRight: 2 }} type="submit" variant="contained" color="success">
                     เพิ่มอัลบัม
                   </Button>
                   <Button variant="contained" color="error" onClick={() => setAddGalleryModalOpen(false)}>
@@ -223,50 +226,56 @@ const Gallery = () => {
           </>
         ) : null}
 
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-        >
-          { albums.length != 0 ? albums.map((album) => (
-            <Grid item xs={2} sm={4} md={4} key={album._id}>
-              <Card>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={album.AlbumImages[0].Image_URL}
-                  alt={album.title}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {album.AlbumTitle}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {album.AlbumDescription}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <NavLink to={`/gallery/galleryPreview/${album._id}`}>
-                    <Button variant="outlined" size="small" color="primary">
-                      View
-                    </Button>
-                  </NavLink>
-                  {isAdmin ? (
-                    <NavLink to={`/admin/editGallery/${album._id}`}>
-                      <Button size="small" variant="contained" color="warning">
-                        Edit
+        {isLoading ? (
+          <Container sx={{display:'flex',justifyContent:'center',alignItems:'center',marginTop:'30vh'}}>
+            <CircularProgress />
+          </Container>
+        ) : (
+          <Grid
+            container
+            spacing={{ xs: 2, md: 3 }}
+            columns={{ xs: 4, sm: 8, md: 12 }}
+          >
+            {albums.length !== 0 ? albums.map((album) => (
+              <Grid item xs={2} sm={4} md={4} key={album._id}>
+                <Card>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={album.AlbumImages[0].Image_URL}
+                    alt={album.title}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {album.AlbumTitle}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {album.AlbumDescription}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <NavLink to={`/gallery/galleryPreview/${album._id}`}>
+                      <Button variant="outlined" size="small" color="primary">
+                        View
                       </Button>
                     </NavLink>
-                  ) : null}
-                </CardActions>
-              </Card>
-            </Grid>
-          )): (
-            <Typography variant="h6" align="center" color="text.secondary" sx={{ mt: 5 }}>
-              ไม่มีอัลบั้มภาพ
-            </Typography>
-          )}
-        </Grid>
+                    {isAdmin ? (
+                      <NavLink to={`/admin/editGallery/${album._id}`}>
+                        <Button size="small" variant="contained" color="warning">
+                          Edit
+                        </Button>
+                      </NavLink>
+                    ) : null}
+                  </CardActions>
+                </Card>
+              </Grid>
+            )) : (
+              <Typography variant="h6" align="center" color="text.secondary" sx={{ mt: 5 }}>
+                ไม่มีอัลบั้มภาพ
+              </Typography>
+            )}
+          </Grid>
+        )}
       </Container>
     </ThemeProvider>
   );

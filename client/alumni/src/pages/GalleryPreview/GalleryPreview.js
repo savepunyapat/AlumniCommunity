@@ -71,7 +71,11 @@ function GalleryPreview() {
         <Container>
           <BackBtn path="/gallery" />
         </Container>
-        {loading ? (<CircularProgress/>)
+        {loading ? (
+          <Container sx={{ display: "flex", justifyContent: "center",marginTop:"30vh"}}>
+            <CircularProgress />
+          </Container>
+        )
           : (<>
         <Box sx={{ justifyContent: "center", textAlign: "center" }}>
           <h1>{album.AlbumTitle}</h1>

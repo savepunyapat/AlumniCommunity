@@ -3,7 +3,8 @@
     text-decoration: none;
 }
 #logo {
-    width: 7vw;
+    width: 8vw;
+    height: auto;
     padding-right: 2vw;
 }
 
