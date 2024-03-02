@@ -15,13 +15,18 @@ import Cookies from 'js-cookie';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../Context/auth';
-const defaultTheme = createTheme();
+
 
 export default function Login() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const navigate = useNavigate();
   const { storeTokenInLS } = useAuth();
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Kanit, sans-serif",
+    },
+  });
   const notifyError = () => toast.error('Invalid Email or Password!', {
     position: "top-right",
     autoClose: 5000,
@@ -68,7 +73,7 @@ export default function Login() {
 
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container sx={{
         boxShadow: 2,
         marginTop: 20,
@@ -84,11 +89,11 @@ export default function Login() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            เข้าสู่ระบบ
           </Typography>
           <ToastContainer />
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3}}>
@@ -97,8 +102,9 @@ export default function Login() {
                 <TextField
                   required
                   fullWidth
+                  autoFocus
                   id="Email"
-                  label="Email Address"
+                  label="อีเมล"
                   name="Email"
                   autoComplete="email"
                   onChange={(e) => setEmail(e.target.value)}
@@ -109,7 +115,7 @@ export default function Login() {
                   required
                   fullWidth
                   name="Password"
-                  label="Password"
+                  label="รหัสผ่าน"
                   type="password"
                   id="Password"
                   autoComplete="new-password"

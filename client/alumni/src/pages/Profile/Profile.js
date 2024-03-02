@@ -6,6 +6,8 @@ import {
   IconButton,
   Stack,
   TextField,
+  ThemeProvider,
+  createTheme,
   Typography,
 } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -35,7 +37,6 @@ import "react-toastify/dist/ReactToastify.css";
 import BackBtn from "../../components/BackBtn/BackBtn";
 
 const Profile = () => {
-
   const notifyWrongDate = () =>
     toast.error("วันที่ไม่ถูกต้อง", {
       position: "top-right",
@@ -47,7 +48,11 @@ const Profile = () => {
       progress: undefined,
       theme: "light",
     });
-
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Kanit, sans-serif",
+    },
+  });
   const navigate = useNavigate();
   const [user, setUser] = useState();
   const [permission, setPermission] = useState(false);
@@ -178,8 +183,6 @@ const Profile = () => {
       theme: "light",
     });
 
-
-
   const [editedEducation, setEditedEducation] = useState({
     Course: "",
     Qualification: "",
@@ -278,7 +281,6 @@ const Profile = () => {
       console.log(err.message);
     }
   };
-
 
   const handleEditEducationSubmit = async (e, index) => {
     e.preventDefault();
@@ -422,8 +424,6 @@ const Profile = () => {
     setPhoneNumber(e.target.value);
   };
 
-
-
   const getMe = async () => {
     try {
       const response = await axiosWithTokenReq.get("/me");
@@ -453,609 +453,623 @@ const Profile = () => {
   );
 
   return (
-    <Container maxWidth="lg">
-      <ToastContainer />
-      {user && (
-        <div>
-          <Box
-            id="profile-box"
-            sx={{
-              width: "100%",
-              height: "45vh",
-              alignContent: "center",
-              alignItems: "center",
-              borderRadius: "10px",
-              marginTop: "4vh",
-            }}
-          >
-          <BackBtn path="/" />
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="lg">
+        <ToastContainer />
+        {user && (
+          <div>
             <Box
+              id="profile-box"
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                marginBottom: "3vh",
-                textAlign: "center",
+                width: "100%",
+                height: "auto",
+                paddingBottom: "5vh",
                 alignContent: "center",
-                justifyContent: "center",
                 alignItems: "center",
+                borderRadius: "10px",
+                marginTop: "4vh",
               }}
             >
-              <Typography
-                className="profile-user-info"
-                sx={{ fontWeight: "bold", fontSize: "1.5rem" }}
+              <BackBtn path="/" />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginBottom: "3vh",
+                  textAlign: "center",
+                  alignContent: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
-                {"Hi " + user.FirstName + "    " + user.LastName}
-              </Typography>
-              <Stack direction={"row"} sx={{ width: 300 }}>
-                <DiscordIcon />
-                <Typography className="profile-user-discordkey">
-                  {"Discord Key : " + user.DiscordKey}
+                <Typography
+                  className="profile-user-info"
+                  sx={{ fontWeight: "bold", fontSize: "1.5rem" }}
+                >
+                  {"Hi " + user.FirstName + "    " + user.LastName}
                 </Typography>
-              </Stack>
-              <Box sx={{ display: "flex" }}>
-                <Button
-                  variant="contained"
-                  href="https://discord.gg/JPtVQfr3kg"
-                  target="_blank"
-                  sx={{ bgcolor: '#7289da' }}
+                <Stack direction={"row"} sx={{ width: 300 }}>
+                  <DiscordIcon />
+                  <Typography className="profile-user-discordkey">
+                    {"Discord Key : " + user.DiscordKey}
+                  </Typography>
+                </Stack>
+                <Box sx={{ display: "flex" }}>
+                  <Button
+                    variant="contained"
+                    href="https://discord.gg/JPtVQfr3kg"
+                    target="_blank"
+                    sx={{ bgcolor: "#7289da" }}
+                  >
+                    เชื่อมต่อ Discord
+                  </Button>
+                  <IconButton onClick={handleInfoDiscordOpen}>
+                    <InfoIcon />
+                  </IconButton>
+                </Box>
+                <Modal
+                  open={openInfoDiscordModal}
+                  onClose={handleInfoDiscordClose}
+                  className="profile-modals"
                 >
-                  เชื่อมต่อ Discord
-                </Button>
-                <IconButton onClick={handleInfoDiscordOpen}>
-                  <InfoIcon />
-                </IconButton>
+                  <Box sx={DiscordStyle}>
+                    <Container
+                      sx={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <iframe
+                        width="800"
+                        height="500"
+                        src="https://www.youtube.com/embed/leBtwsXlpF0"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                      ></iframe>
+                    </Container>
+                  </Box>
+                </Modal>
+
+                <Modal
+                  open={openPasswordModal}
+                  onClose={handlePasswordClose}
+                  className="profile-modals"
+                >
+                  <Box sx={style}>
+                    <form onSubmit={handleChangePasswordSubmit}>
+                      <label>รหัสผ่านปัจจุบัน</label>
+                      <input
+                        type="password"
+                        name="oldPassword"
+                        placeholder="รหัสผ่าน"
+                      />
+                      <br />
+                      <br />
+                      <label>รหัสผ่านใหม่</label>
+                      <input
+                        type="password"
+                        name="newPassword"
+                        placeholder="รหัสผ่านใหม่"
+                      />
+                      <br />
+                      <br />
+                      <label>ยืนยันรหัสผ่านใหม่</label>
+                      <input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="ยืนยันรหัสผ่านใหม่"
+                      />
+                      <br />
+                      <br />
+                      <Button
+                        sx={{ marginRight: 2 }}
+                        type="submit"
+                        variant="contained"
+                        color="success"
+                      >
+                        แก้ไข
+                      </Button>
+                      <Button
+                        onClick={closePasswordModal}
+                        variant="contained"
+                        color="error"
+                      >
+                        ปิด
+                      </Button>
+                    </form>
+                  </Box>
+                </Modal>
               </Box>
-              <Modal
-                open={openInfoDiscordModal}
-                onClose={handleInfoDiscordClose}
-                className="profile-modals"
-              >
-                <Box sx={DiscordStyle}>
-                  <Container sx={{ display: "flex", justifyContent: "center" }}>
-                    <iframe
-                      width="800"
-                      height="500"
-                      src="https://www.youtube.com/embed/leBtwsXlpF0"
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
-                    ></iframe>
-                  </Container>
-                </Box>
-              </Modal>
 
-              <Modal
-                open={openPasswordModal}
-                onClose={handlePasswordClose}
-                className="profile-modals"
-              >
-                <Box sx={style}>
-                  <form onSubmit={handleChangePasswordSubmit}>
-                    <label>รหัสผ่านปัจจุบัน</label>
-                    <input
-                      type="password"
-                      name="oldPassword"
-                      placeholder="รหัสผ่าน"
-                    />
-                    <br />
-                    <br />
-                    <label>รหัสผ่านใหม่</label>
-                    <input
-                      type="password"
-                      name="newPassword"
-                      placeholder="รหัสผ่านใหม่"
-                    />
-                    <br />
-                    <br />
-                    <label>ยืนยันรหัสผ่านใหม่</label>
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      placeholder="ยืนยันรหัสผ่านใหม่"
-                    />
-                    <br />
-                    <br />
+              <Box>
+                <Grid
+                  container
+                  rowSpacing={1}
+                  justifyContent="center"
+                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                >
+                  <Grid item xs={5} sx={{ textAlign: "center" }}>
+                    <Typography>อีเมล</Typography>
+                    <TextField disabled value={user.Email}></TextField>
+                  </Grid>
+                  <Grid item xs={5} sx={{ textAlign: "center" }}>
+                    <Typography>รหัสนักศึกษา</Typography>
+                    <TextField disabled value={user.StdID}></TextField>
+                  </Grid>
+                  <Grid item xs={5} sx={{ textAlign: "center" }}>
+                    <Typography>เบอร์โทรศัพท์</Typography>
+                    <TextField disabled value={user.PhoneNumber}></TextField>
+                  </Grid>
+                  <Grid item xs={5} sx={{ textAlign: "center" }}>
+                    <Typography>วันเกิด</Typography>
+                    <TextField
+                      disabled
+                      value={dayjs(user.Birthday).format("YYYY-MM-DD")}
+                    ></TextField>
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <Box id="profile-address-box">
+                <p>ที่อยู่</p>
+                <p id="profile-address-text">{user.Address}</p>
+              </Box>
+              <Box>
+                <div className="profile-edit-btn">
+                  <ButtonGroup variant="outlined">
                     <Button
-                      sx={{ marginRight: 2 }}
-                      type="submit"
-                      variant="contained"
-                      color="success"
+                      color="info"
+                      onClick={handleBioOpen}
+                      startIcon={<EditIcon color="info" />}
                     >
                       แก้ไข
                     </Button>
                     <Button
-                      onClick={closePasswordModal}
-                      variant="contained"
-                      color="error"
+                      color="info"
+                      startIcon={<EditIcon color="info" />}
+                      onClick={handlePasswordOpen}
                     >
-                      ปิด
+                      {" "}
+                      เปลี่ยนรหัสผ่าน{" "}
                     </Button>
-                  </form>
-                </Box>
-              </Modal>
-            </Box>
-
-            <Box>
-              <Grid
-                container
-                rowSpacing={1}
-                justifyContent="center"
-                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              >
-                <Grid item xs={5} sx={{ textAlign: "center" }}>
-                  <p>Email</p>
-                  <TextField disabled value={user.Email}></TextField>
-                </Grid>
-                <Grid item xs={5} sx={{ textAlign: "center" }}>
-                  <p>รหัสนักศึกษา</p>
-                  <TextField disabled value={user.StdID}></TextField>
-                </Grid>
-                <Grid item xs={5} sx={{ textAlign: "center" }}>
-                  <p>เบอร์โทรศัพท์</p>
-                  <TextField disabled value={user.PhoneNumber}></TextField>
-                </Grid>
-                <Grid item xs={5} sx={{ textAlign: "center" }}>
-                  <p>วันเกิด</p>
-                  <TextField
-                    disabled
-                    value={dayjs(user.Birthday).format("YYYY-MM-DD")}
-                  ></TextField>
-                </Grid>
-              </Grid>
-            </Box>
-
-            <Box id="profile-address-box">
-              <p>ที่อยู่</p>
-              <p id="profile-address-text">{user.Address}</p>
-            </Box>
-            <Box>
-              <div className="profile-edit-btn">
-                <ButtonGroup variant="outlined">
-                  <Button
-                    color="info"
-                    onClick={handleBioOpen}
-                    startIcon={<EditIcon color="info" />}
-                  >
-                    แก้ไข
-                  </Button>
-                  <Button
-                    color="info"
-                    startIcon={<EditIcon color="info" />}
-                    onClick={handlePasswordOpen}
-                  >
-                    {" "}
-                    เปลี่ยนรหัสผ่าน{" "}
-                  </Button>
-                </ButtonGroup>
-              </div>
-              <Modal
-                open={openBioModal}
-                onClose={handleBioClose}
-                className="profile-modals"
-              >
-                <Box sx={style}>
-                  <form onSubmit={handleUpdateBioSubmit}>
-                    <label>ที่อยู่</label>
-                    <input
-                      type="text"
-                      id="profile-address-input"
-                      onChange={handleAddressChange}
-                      name="newAddress"
-                      placeholder="ที่อยู่"
-                      value={Address}
-                    />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <label id="profile-label-phonenumber">เบอร์โทรศัพท์</label>
-                    <input type="text"
-                      id="profile-address-phone"
-                      onChange={handlePhoneNumberChange}
-                      name="newPhoneNumber"
-                      placeholder="เบอร์ติดต่อ"
-                      value={phoneNumber}
-                    />
-                    <br />
-                    <br />
-                    <Button
-                      sx={{ marginRight: 2, marginTop: 10 }}
-                      type="submit"
-                      variant="contained"
-                      color="success"
-                    >
-                      แก้ไข
-                    </Button>
-                    <Button
-                      sx={{ marginTop: 10 }}
-                      onClick={closeBioModal}
-                      variant="contained"
-                      color="error"
-                    >
-                      ปิด
-                    </Button>
-                  </form>
-                </Box>
-              </Modal>
-            </Box>
-          </Box>
-        </div>
-      )}
-      <div className="profile-education-workplace-wrap">
-        <div className="profile-education-div">
-          <h2 className="profile-h2-title">ประวัติการศึกษา</h2>
-          <div>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 400 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>คณะ/สาขา</TableCell>
-                    <TableCell align="right">วุฒิการศึกษา</TableCell>
-                    <TableCell align="right">ปีที่สำเร็จการศึกษา</TableCell>
-                    <TableCell align="right"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {Array.isArray(education)
-                    ? education.map((edu, index) => (
-                      <TableRow
-                        key={edu}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
+                  </ButtonGroup>
+                </div>
+                <Modal
+                  open={openBioModal}
+                  onClose={handleBioClose}
+                  className="profile-modals"
+                >
+                  <Box sx={style}>
+                    <form onSubmit={handleUpdateBioSubmit}>
+                      <label>ที่อยู่</label>
+                      <input
+                        type="text"
+                        id="profile-address-input"
+                        onChange={handleAddressChange}
+                        name="newAddress"
+                        placeholder="ที่อยู่"
+                        value={Address}
+                      />
+                      <br />
+                      <br />
+                      <br />
+                      <br />
+                      <br />
+                      <br />
+                      <label id="profile-label-phonenumber">
+                        เบอร์โทรศัพท์
+                      </label>
+                      <input
+                        type="text"
+                        id="profile-address-phone"
+                        onChange={handlePhoneNumberChange}
+                        name="newPhoneNumber"
+                        placeholder="เบอร์ติดต่อ"
+                        value={phoneNumber}
+                      />
+                      <br />
+                      <br />
+                      <Button
+                        sx={{ marginRight: 2, marginTop: 10 }}
+                        type="submit"
+                        variant="contained"
+                        color="success"
                       >
-                        <TableCell component="th" scope="row">
-                          {edu.Course}
-                        </TableCell>
-                        <TableCell align="right">
-                          {edu.Qualification}
-                        </TableCell>
-                        <TableCell align="right">
-                          {edu.GraduateYear}
-                        </TableCell>
-                        <TableCell align="right">
-                          <Button
-                            sx={{ marginRight: 2 }}
-                            variant="contained"
-                            color="info"
-                            onClick={() => handleEditEducationOpen(index)}
+                        แก้ไข
+                      </Button>
+                      <Button
+                        sx={{ marginTop: 10 }}
+                        onClick={closeBioModal}
+                        variant="contained"
+                        color="error"
+                      >
+                        ปิด
+                      </Button>
+                    </form>
+                  </Box>
+                </Modal>
+              </Box>
+            </Box>
+          </div>
+        )}
+        <div className="profile-education-workplace-wrap">
+          <div className="profile-education-div">
+            <h2 className="profile-h2-title">ประวัติการศึกษา</h2>
+            <div>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 400 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell  sx={{fontWeight:'bold'}}>คณะ/สาขา</TableCell>
+                      <TableCell  sx={{fontWeight:'bold'}} align="right">วุฒิการศึกษา</TableCell>
+                      <TableCell  sx={{fontWeight:'bold'}} align="right">ปีที่สำเร็จการศึกษา</TableCell>
+                      <TableCell sx={{fontWeight:'bold'}} align="right"></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {Array.isArray(education)
+                      ? education.map((edu, index) => (
+                          <TableRow
+                            key={edu}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
                           >
-                            <EditIcon />
-                          </Button>
-                          <Button
-                            variant="contained"
-                            onClick={() => handleDeleteEducaitonClick(index)}
-                            color="error"
-                          >
-                            <ClearIcon />
-                          </Button>
-                        </TableCell>
-                        <Modal
-                          open={
-                            openEditEducationModal &&
-                            editedEducationIndex === index
-                          } // Check if the index matches the edited index
-                          onClose={handleEditEducationClose}
-                          className="profile-modals"
-                          aria-labelledby="modal-modal-title"
-                          aria-describedby="modal-modal-description"
-                        >
-                          <Box sx={style}>
-                            <form
-                              onSubmit={(e) =>
-                                handleEditEducationSubmit(e, index)
-                              }
-                            >
-                              <label>คณะ/สาขา</label>
-                              <input
-                                value={editedEducation.Course}
-                                type="text"
-                                name="Course"
-                                placeholder="Course"
-                                onChange={handleEditEducationChange}
-                              />
-                              <br />
-                              <br />
-                              <label>วุฒิการศึกษา</label>
-                              <input
-                                type="text"
-                                value={editedEducation.Qualification}
-                                name="Qualification"
-                                placeholder="Qualification"
-                                onChange={handleEditEducationChange}
-                              />
-                              <br />
-                              <br />
-                              <label>ปีที่สำเร็จการศึกษา</label>
-                              <input
-                                value={editedEducation.GraduateYear}
-                                type="text"
-                                name="GraduateYear"
-                                placeholder="GraduateYear"
-                                onChange={handleEditEducationChange}
-                              />
-                              <br />
-                              <br />
+                            <TableCell component="th" scope="row">
+                              {edu.Course}
+                            </TableCell>
+                            <TableCell align="right">
+                              {edu.Qualification}
+                            </TableCell>
+                            <TableCell align="right">
+                              {edu.GraduateYear}
+                            </TableCell>
+                            <TableCell align="right">
                               <Button
                                 sx={{ marginRight: 2 }}
-                                type="submit"
                                 variant="contained"
-                                color="success"
+                                color="info"
+                                onClick={() => handleEditEducationOpen(index)}
                               >
-                                แก้ไข
+                                <EditIcon />
                               </Button>
                               <Button
-                                onClick={handleEditEducationClose}
                                 variant="contained"
+                                onClick={() =>
+                                  handleDeleteEducaitonClick(index)
+                                }
                                 color="error"
                               >
-                                ปิด
+                                <ClearIcon />
                               </Button>
-                            </form>
-                          </Box>
-                        </Modal>
-                      </TableRow>
-                    ))
-                    : null}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-
-          <Button
-            id="profile-add-btn"
-            variant="contained"
-            onClick={handleEducationOpen}
-            color="success"
-          >
-            <AddHomeIcon />
-          </Button>
-          <Modal
-            open={openEducationModal}
-            onClose={handleEducationClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            className="profile-modals"
-          >
-            <Box sx={style}>
-              <form onSubmit={handleEducationSubmit}>
-                <label>คณะ/สาขา</label>
-                <input type="text" name="Course" placeholder="Course" />
-                <br />
-                <br />
-                <label>วุฒิการศึกษา</label>
-                <input
-                  type="text"
-                  name="Qualification"
-                  placeholder="Qualification"
-                />
-                <br />
-                <br />
-                <label>ปีที่สำเร็จการศึกษา</label>
-                <input
-                  type="text"
-                  name="GraduateYear"
-                  placeholder="GraduateYear"
-                />
-                <br />
-                <br />
-                <Button
-                  sx={{ marginRight: 2 }}
-                  type="submit"
-                  variant="contained"
-                  color="success"
-                >
-                  เพิ่ม
-                </Button>
-                <Button
-                  onClick={closeEducationModal}
-                  variant="contained"
-                  color="error"
-                >
-                  ปิด
-                </Button>
-              </form>
-            </Box>
-          </Modal>
-        </div>
-        <div className="profile-workplace-div">
-          <h2 className="profile-h2-title">ประวัติการทำงาน</h2>
-          <div className="profile-items-list">
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 400 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>สถานที่ทำงาน/บริษัท</TableCell>
-                    <TableCell align="right">ตำแหน่ง</TableCell>
-                    <TableCell align="right">วันที่เริ่มงาน</TableCell>
-                    <TableCell align="right">วันที่ออก</TableCell>
-                    <TableCell align="right"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {Array.isArray(workplace)
-                    ? workplace.map((work, index) => (
-                      <TableRow
-                        key={work}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {work.CompanyName}
-                        </TableCell>
-                        <TableCell align="right">{work.Position}</TableCell>
-                        <TableCell align="right">{work.StartDate}</TableCell>
-                        <TableCell align="right">{work.EndDate}</TableCell>
-                        <TableCell align="right">
-                          <Button
-                            sx={{ marginRight: 2 }}
-                            variant="contained"
-                            color="info"
-                            onClick={() => handleEditWorkPlaceOpen(index)}
-                          >
-                            <EditIcon />
-                          </Button>
-                          <Button
-                            variant="contained"
-                            onClick={() => handleDeleteWorkPlaceClick(index)}
-                            color="error"
-                          >
-                            <ClearIcon />
-                          </Button>
-                        </TableCell>
-                        <Modal
-                          open={
-                            openEditWorkPlaceModal &&
-                            editedWorkPlaceIndex === index
-                          }
-                          onClose={handleEditWorkPlaceClose}
-                          className="profile-modals"
-                          aria-labelledby="modal-modal-title"
-                          aria-describedby="modal-modal-description"
-                        >
-                          <Box sx={style}>
-                            <form
-                              onSubmit={(e) =>
-                                handleEditWorkPlaceSubmit(e, index)
-                              }
+                            </TableCell>
+                            <Modal
+                              open={
+                                openEditEducationModal &&
+                                editedEducationIndex === index
+                              } // Check if the index matches the edited index
+                              onClose={handleEditEducationClose}
+                              className="profile-modals"
+                              aria-labelledby="modal-modal-title"
+                              aria-describedby="modal-modal-description"
                             >
-                              <label>สถานที่ทำงาน/บริษัท</label>
-                              <input
-                                value={editedWorkPlace.CompanyName}
-                                type="text"
-                                name="CompanyName"
-                                placeholder="CompanyName"
-                                onChange={handleEditWorkPlaceChange}
-                              />
-                              <br />
-                              <br />
-                              <label>ตำแหน่ง</label>
-                              <input
-                                type="text"
-                                value={editedWorkPlace.Position}
-                                name="Position"
-                                placeholder="Position"
-                                onChange={handleEditWorkPlaceChange}
-                              />
-                              <br />
-                              <br />
-                              <label>วันที่เริ่มงาน</label>
-                              <input
-                                value={editedWorkPlace.StartDate}
-                                type="date"
-                                name="StartDate"
-                                placeholder="StartDate"
-                                onChange={handleEditWorkPlaceChange}
-                              />
-                              <br />
-                              <br />
-                              <label>วันที่ออก</label>
-                              <input
-                                value={editedWorkPlace.EndDate}
-                                type="date"
-                                name="EndDate"
-                                placeholder="EndDate"
-                                onChange={handleEditWorkPlaceChange}
-                              />
-                              <br />
-                              <br />
+                              <Box sx={style}>
+                                <form
+                                  onSubmit={(e) =>
+                                    handleEditEducationSubmit(e, index)
+                                  }
+                                >
+                                  <label>คณะ/สาขา</label>
+                                  <input
+                                    value={editedEducation.Course}
+                                    type="text"
+                                    name="Course"
+                                    placeholder="Course"
+                                    onChange={handleEditEducationChange}
+                                  />
+                                  <br />
+                                  <br />
+                                  <label>วุฒิการศึกษา</label>
+                                  <input
+                                    type="text"
+                                    value={editedEducation.Qualification}
+                                    name="Qualification"
+                                    placeholder="Qualification"
+                                    onChange={handleEditEducationChange}
+                                  />
+                                  <br />
+                                  <br />
+                                  <label>ปีที่สำเร็จการศึกษา</label>
+                                  <input
+                                    value={editedEducation.GraduateYear}
+                                    type="text"
+                                    name="GraduateYear"
+                                    placeholder="GraduateYear"
+                                    onChange={handleEditEducationChange}
+                                  />
+                                  <br />
+                                  <br />
+                                  <Button
+                                    sx={{ marginRight: 2 }}
+                                    type="submit"
+                                    variant="contained"
+                                    color="success"
+                                  >
+                                    แก้ไข
+                                  </Button>
+                                  <Button
+                                    onClick={handleEditEducationClose}
+                                    variant="contained"
+                                    color="error"
+                                  >
+                                    ปิด
+                                  </Button>
+                                </form>
+                              </Box>
+                            </Modal>
+                          </TableRow>
+                        ))
+                      : null}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+
+            <Button
+              id="profile-add-btn"
+              variant="contained"
+              onClick={handleEducationOpen}
+              color="success"
+            >
+              <AddHomeIcon />
+            </Button>
+            <Modal
+              open={openEducationModal}
+              onClose={handleEducationClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              className="profile-modals"
+            >
+              <Box sx={style}>
+                <form onSubmit={handleEducationSubmit}>
+                  <label>คณะ/สาขา</label>
+                  <input type="text" name="Course" placeholder="Course" />
+                  <br />
+                  <br />
+                  <label>วุฒิการศึกษา</label>
+                  <input
+                    type="text"
+                    name="Qualification"
+                    placeholder="Qualification"
+                  />
+                  <br />
+                  <br />
+                  <label>ปีที่สำเร็จการศึกษา</label>
+                  <input
+                    type="text"
+                    name="GraduateYear"
+                    placeholder="GraduateYear"
+                  />
+                  <br />
+                  <br />
+                  <Button
+                    sx={{ marginRight: 2 }}
+                    type="submit"
+                    variant="contained"
+                    color="success"
+                  >
+                    เพิ่ม
+                  </Button>
+                  <Button
+                    onClick={closeEducationModal}
+                    variant="contained"
+                    color="error"
+                  >
+                    ปิด
+                  </Button>
+                </form>
+              </Box>
+            </Modal>
+          </div>
+          <div className="profile-workplace-div">
+            <h2 className="profile-h2-title">ประวัติการทำงาน</h2>
+            <div className="profile-items-list">
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 400 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell  sx={{fontWeight:'bold'}}>สถานที่ทำงาน/บริษัท</TableCell>
+                      <TableCell  sx={{fontWeight:'bold'}} align="right">ตำแหน่ง</TableCell>
+                      <TableCell  sx={{fontWeight:'bold'}} align="right">วันที่เริ่มงาน</TableCell>
+                      <TableCell  sx={{fontWeight:'bold'}} align="right">วันที่ออก</TableCell>
+                      <TableCell  sx={{fontWeight:'bold'}} align="right"></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {Array.isArray(workplace)
+                      ? workplace.map((work, index) => (
+                          <TableRow
+                            key={work}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {work.CompanyName}
+                            </TableCell>
+                            <TableCell align="right">{work.Position}</TableCell>
+                            <TableCell align="right">
+                              {work.StartDate}
+                            </TableCell>
+                            <TableCell align="right">{work.EndDate}</TableCell>
+                            <TableCell align="right">
                               <Button
                                 sx={{ marginRight: 2 }}
-                                type="submit"
                                 variant="contained"
-                                color="success"
+                                color="info"
+                                onClick={() => handleEditWorkPlaceOpen(index)}
                               >
-                                แก้ไข
+                                <EditIcon />
                               </Button>
                               <Button
-                                onClick={handleEditWorkPlaceClose}
                                 variant="contained"
+                                onClick={() =>
+                                  handleDeleteWorkPlaceClick(index)
+                                }
                                 color="error"
                               >
-                                ปิด
+                                <ClearIcon />
                               </Button>
-                            </form>
-                          </Box>
-                        </Modal>
-                      </TableRow>
-                    ))
-                    : null}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                            </TableCell>
+                            <Modal
+                              open={
+                                openEditWorkPlaceModal &&
+                                editedWorkPlaceIndex === index
+                              }
+                              onClose={handleEditWorkPlaceClose}
+                              className="profile-modals"
+                              aria-labelledby="modal-modal-title"
+                              aria-describedby="modal-modal-description"
+                            >
+                              <Box sx={style}>
+                                <form
+                                  onSubmit={(e) =>
+                                    handleEditWorkPlaceSubmit(e, index)
+                                  }
+                                >
+                                  <label>สถานที่ทำงาน/บริษัท</label>
+                                  <input
+                                    value={editedWorkPlace.CompanyName}
+                                    type="text"
+                                    name="CompanyName"
+                                    placeholder="CompanyName"
+                                    onChange={handleEditWorkPlaceChange}
+                                  />
+                                  <br />
+                                  <br />
+                                  <label>ตำแหน่ง</label>
+                                  <input
+                                    type="text"
+                                    value={editedWorkPlace.Position}
+                                    name="Position"
+                                    placeholder="Position"
+                                    onChange={handleEditWorkPlaceChange}
+                                  />
+                                  <br />
+                                  <br />
+                                  <label>วันที่เริ่มงาน</label>
+                                  <input
+                                    value={editedWorkPlace.StartDate}
+                                    type="date"
+                                    name="StartDate"
+                                    placeholder="StartDate"
+                                    onChange={handleEditWorkPlaceChange}
+                                  />
+                                  <br />
+                                  <br />
+                                  <label>วันที่ออก</label>
+                                  <input
+                                    value={editedWorkPlace.EndDate}
+                                    type="date"
+                                    name="EndDate"
+                                    placeholder="EndDate"
+                                    onChange={handleEditWorkPlaceChange}
+                                  />
+                                  <br />
+                                  <br />
+                                  <Button
+                                    sx={{ marginRight: 2 }}
+                                    type="submit"
+                                    variant="contained"
+                                    color="success"
+                                  >
+                                    แก้ไข
+                                  </Button>
+                                  <Button
+                                    onClick={handleEditWorkPlaceClose}
+                                    variant="contained"
+                                    color="error"
+                                  >
+                                    ปิด
+                                  </Button>
+                                </form>
+                              </Box>
+                            </Modal>
+                          </TableRow>
+                        ))
+                      : null}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+            <Button
+              variant="contained"
+              onClick={handleWorkPlaceOpen}
+              color="success"
+            >
+              <AddHomeWorkIcon />
+            </Button>
+            <Modal
+              open={openWorkPlaceModal}
+              onClose={handleWorkPlaceClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              className="profile-modals"
+            >
+              <Box sx={style}>
+                <form onSubmit={handleWorkPlaceSubmit}>
+                  <label>สถานที่ทำงาน/บริษัท</label>
+                  <input
+                    type="text"
+                    name="CompanyName"
+                    placeholder="CompanyName"
+                  />
+                  <br />
+                  <br />
+                  <label>ตำแหน่ง</label>
+                  <input type="text" name="Position" placeholder="Position" />
+                  <br />
+                  <br />
+                  <label>วันที่เริ่มงาน</label>
+                  <input type="date" name="StartDate" placeholder="StartDate" />
+                  <br />
+                  <br />
+                  <label>วันที่ออก</label>
+                  <input type="date" name="EndDate" placeholder="EndDate" />
+                  <br />
+                  <br />
+                  <Button
+                    sx={{ marginRight: 2 }}
+                    type="submit"
+                    variant="contained"
+                    color="success"
+                  >
+                    เพิ่ม
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={closeWorkPlaceModal}
+                    color="error"
+                  >
+                    ปิด
+                  </Button>
+                </form>
+              </Box>
+            </Modal>
           </div>
-          <Button
-            variant="contained"
-            onClick={handleWorkPlaceOpen}
-            color="success"
-          >
-            <AddHomeWorkIcon />
-          </Button>
-          <Modal
-            open={openWorkPlaceModal}
-            onClose={handleWorkPlaceClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            className="profile-modals"
-          >
-            <Box sx={style}>
-              <form onSubmit={handleWorkPlaceSubmit}>
-                <label>สถานที่ทำงาน/บริษัท</label>
-                <input
-                  type="text"
-                  name="CompanyName"
-                  placeholder="CompanyName"
-                />
-                <br />
-                <br />
-                <label>ตำแหน่ง</label>
-                <input type="text" name="Position" placeholder="Position" />
-                <br />
-                <br />
-                <label>วันที่เริ่มงาน</label>
-                <input type="date" name="StartDate" placeholder="StartDate" />
-                <br />
-                <br />
-                <label>วันที่ออก</label>
-                <input type="date" name="EndDate" placeholder="EndDate" />
-                <br />
-                <br />
-                <Button
-                  sx={{ marginRight: 2 }}
-                  type="submit"
-                  variant="contained"
-                  color="success"
-                >
-                  เพิ่ม
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={closeWorkPlaceModal}
-                  color="error"
-                >
-                  ปิด
-                </Button>
-              </form>
-            </Box>
-          </Modal>
         </div>
-      </div>
 
-      {permission ? (
-        <div className="profile-admin-div">
-          <ButtonGroup variant="outlined">
-            <Button href="/admin/posts">จัดการข่าวสาร</Button>
-            <Button href="/admin/users">จัดการบัญชีผู้ใช้</Button>
-            <Button href="/gallery">จัดการแกลเลอรี</Button>
-            <Button href="/admin/sendPostcard">ส่งโปสการ์ด</Button>
-          </ButtonGroup>
-        </div>
-      ) : null}
-    </Container>
+        {permission ? (
+          <div className="profile-admin-div">
+            <ButtonGroup variant="outlined">
+              <Button href="/admin/posts">จัดการข่าวสาร</Button>
+              <Button href="/admin/users">จัดการบัญชีผู้ใช้</Button>
+              <Button href="/gallery">จัดการแกลเลอรี</Button>
+              <Button href="/admin/sendPostcard">ส่งโปสการ์ด</Button>
+            </ButtonGroup>
+          </div>
+        ) : null}
+      </Container>
+    </ThemeProvider>
   );
 };
 

@@ -36,7 +36,7 @@ function Navbar() {
 
   const pages = ["ข่าวสาร", "แกลเลอรี", "ติดต่อ"];
   const links = ["/", "/gallery", "/contact"];
-  const settings = ["Profile", "ค้นหาศิษย์เก่า", "Logout"];
+  const settings = ["โปรไฟล์", "ค้นหาศิษย์เก่า", "ออกจากระบบ"];
   const settingPath = ["/profile", "/alumni", "/logout"];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
