@@ -160,17 +160,6 @@ function Navbar() {
                   {page}
                 </Button>
               ))}
-              {isLoggedIn ? (
-                <></>
-              ) : (
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                  href="/login"
-                >
-                  เข้าสู่ระบบ
-                </Button>
-              )}
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -183,7 +172,15 @@ function Navbar() {
                     <AccountCircleIcon sx={{ color: "white" }} />
                   </IconButton>
                 </Tooltip>
-              ) : null}
+              ) : (
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                  href="/login"
+                >
+                  เข้าสู่ระบบ
+                </Button>
+              )}
               <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"

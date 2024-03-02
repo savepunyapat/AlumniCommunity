@@ -32,6 +32,7 @@ import DiscordIcon from "../../components/DiscordIcon";
 import InfoIcon from "@mui/icons-material/Info";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import BackBtn from "../../components/BackBtn/BackBtn";
 
 const Profile = () => {
 
@@ -60,7 +61,7 @@ const Profile = () => {
   const handleWorkPlaceOpen = () => setOpenWorkPlaceModal(true);
   const handleWorkPlaceClose = () => setOpenWorkPlaceModal(false);
   const [Address, setAddress] = useState("");
-  const [phoneNumber , setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const [openPasswordModal, setOpenPasswordModal] = React.useState(false);
   const handlePasswordOpen = () => setOpenPasswordModal(true);
@@ -467,6 +468,7 @@ const Profile = () => {
               marginTop: "4vh",
             }}
           >
+          <BackBtn path="/" />
             <Box
               sx={{
                 display: "flex",
@@ -645,12 +647,16 @@ const Profile = () => {
                     />
                     <br />
                     <br />
-                    <label>เบอร์โทรศัพท์</label>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <label id="profile-label-phonenumber">เบอร์โทรศัพท์</label>
                     <input type="text"
                       id="profile-address-phone"
                       onChange={handlePhoneNumberChange}
                       name="newPhoneNumber"
-                      placeholder="ที่อยู่"
+                      placeholder="เบอร์ติดต่อ"
                       value={phoneNumber}
                     />
                     <br />

@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import parse from "html-react-parser";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { Button } from "@mui/material";
+import BackBtn from "../../components/BackBtn/BackBtn";
 
 function PostDetail() {
   const [post, setPost] = useState();
@@ -27,6 +28,7 @@ function PostDetail() {
   return (
     <Container maxWidth="lg">
       <Container id="postdetail-news-box">
+        <BackBtn path="/" />
         <div>
           {post && (
             <div>

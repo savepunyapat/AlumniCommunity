@@ -143,3 +143,9 @@
     background: #a2d2ff;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+#profile-address-phone {
+    padding-left: 3vh;
+    padding-right: 3vh;
+    height: 2vh;
+    border-radius: 15px;
+}

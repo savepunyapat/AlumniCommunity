@@ -88,17 +88,17 @@ function Home() {
               variant="outlined"
               aria-label="outlined button group"
             >
-              <Button onClick={() => setSelectedCategory("")}>หน้าหลัก</Button>
-              <Button onClick={() => setSelectedCategory("ข่าวประชาสัมพันธ์")}>
+              <Button sx={{fontWeight:'bold'}} onClick={() => setSelectedCategory("")}>หน้าหลัก</Button>
+              <Button sx={{fontWeight:'bold'}} onClick={() => setSelectedCategory("ข่าวประชาสัมพันธ์")}>
                 ข่าวประชาสัมพันธ์
               </Button>
-              <Button onClick={() => setSelectedCategory("แนะนำศิษย์เก่า")}>
+              <Button sx={{fontWeight:'bold'}} onClick={() => setSelectedCategory("แนะนำศิษย์เก่า")}>
                 แนะนำศิษย์เก่า
               </Button>
-              <Button onClick={() => setSelectedCategory("กิจกรรม")}>
+              <Button sx={{fontWeight:'bold'}} onClick={() => setSelectedCategory("กิจกรรม")}>
                 กิจกรรม
               </Button>
-              <Button onClick={() => setSelectedCategory("รับสมัครงาน")}>
+              <Button sx={{fontWeight:'bold'}} onClick={() => setSelectedCategory("รับสมัครงาน")}>
                 รับสมัครงาน
               </Button>
             </ButtonGroup>

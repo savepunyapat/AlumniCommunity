@@ -24,6 +24,7 @@ import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './Gallery.css';
+import BackBtn from "../../components/BackBtn/BackBtn";
 
 const Gallery = () => {
   const [albums, setAlbums] = React.useState([]);
@@ -153,6 +154,9 @@ const Gallery = () => {
   return (
     <ThemeProvider theme={theme}>
       <ToastContainer />
+      <Container sx={{marginTop:'5vh'}}>
+        <BackBtn path="/" />
+      </Container>
       <Container sx={{ minHeight: "80vh", width: "auto",marginTop:"5vh"}}>
         <Typography
           variant="h4"

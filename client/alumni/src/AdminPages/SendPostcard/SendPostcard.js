@@ -15,7 +15,7 @@ import { NavLink } from "react-router-dom";
 import { axiosReq, axiosWithTokenReq } from "../../services/service";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-
+import BackBtn from "../../components/BackBtn/BackBtn";
 
 function SendPostcard() {
   const [postcardContent, setPostcardContent] = React.useState("");
@@ -135,6 +135,7 @@ function SendPostcard() {
   return (
     <Container>
       <ToastContainer/>
+      
       <Box
         sx={{ display: "flex", justifyContent: "center", minHeight: "80vh" }}
       >

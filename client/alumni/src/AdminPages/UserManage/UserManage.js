@@ -150,12 +150,12 @@ function UserManage() {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>รหัสนักศึกษา</TableCell>
-                <TableCell align="right">ชื่อ</TableCell>
-                <TableCell align="right">นามสกุล</TableCell>
-                <TableCell align="right">สถานะ</TableCell>
-                <TableCell align="right">อีเมล</TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell sx={{fontWeight:'bold',fontSize:'1rem'}}>รหัสนักศึกษา</TableCell>
+                <TableCell sx={{fontWeight:'bold',fontSize:'1rem'}} align="right">ชื่อ</TableCell>
+                <TableCell sx={{fontWeight:'bold',fontSize:'1rem'}} align="right">นามสกุล</TableCell>
+                <TableCell sx={{fontWeight:'bold',fontSize:'1rem'}} align="right">สถานะ</TableCell>
+                <TableCell sx={{fontWeight:'bold',fontSize:'1rem'}} align="right">อีเมล</TableCell>
+                <TableCell sx={{fontWeight:'bold',fontSize:'1rem'}} align="right"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

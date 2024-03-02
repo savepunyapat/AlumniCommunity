@@ -15,6 +15,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import BackBtn from "../../components/BackBtn/BackBtn";
 
 function GalleryPreview() {
   const { id } = useParams();
@@ -67,6 +68,9 @@ function GalleryPreview() {
 
     <ThemeProvider theme={theme}>
       <Container maxWidth={false} sx={{ marginTop: '2vh', minHeight: "55vh" }}>
+        <Container>
+          <BackBtn path="/gallery" />
+        </Container>
         {loading ? (<CircularProgress/>)
           : (<>
         <Box sx={{ justifyContent: "center", textAlign: "center" }}>

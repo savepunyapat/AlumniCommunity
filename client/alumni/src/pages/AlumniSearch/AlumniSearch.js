@@ -21,6 +21,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { axiosReq, axiosWithTokenReq } from "../../services/service";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import BackBtn from "../../components/BackBtn/BackBtn";
 
 const theme = createTheme({
   typography: {
@@ -97,6 +98,7 @@ function AlumniSearch() {
   return (
     <ThemeProvider theme={theme}>
       <Container sx={{ fontFamily: "Kanit, sans-serif", marginTop: "4vh", minHeight: '70vh' }}>
+        <BackBtn path="/" />
         <Typography variant="h4" sx={{ textAlign: "center" }}>
           ค้นหาศิษย์เก่า
         </Typography>
