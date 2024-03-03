@@ -16,7 +16,6 @@ import {
   createTheme,
   ThemeProvider,
   Typography,
-
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -24,8 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { axiosReq, axiosWithTokenReq } from "../../services/service";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { useParams,useNavigate } from "react-router-dom";
-
+import { useParams, useNavigate } from "react-router-dom";
 
 const EditGallery = () => {
   const [images, setImages] = React.useState([]);
@@ -38,7 +36,8 @@ const EditGallery = () => {
   const handleAddImageOpen = () => setOpenAddImageModal(true);
   const handleAddImageClose = () => setOpenAddImageModal(false);
 
-  const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] = useState(false);
+  const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
+    useState(false);
   const [deletingImageId, setDeletingImageId] = useState(null);
 
   const handleDeleteConfirmationOpen = (imageId) => {
@@ -56,7 +55,10 @@ const EditGallery = () => {
     handleDeleteConfirmationClose();
   };
 
-  const [openDeleteAlbumConfirmationModal, setOpenDeleteAlbumConfirmationModal] = useState(false);
+  const [
+    openDeleteAlbumConfirmationModal,
+    setOpenDeleteAlbumConfirmationModal,
+  ] = useState(false);
   const handleDeleteAlbumConfirmationOpen = () => {
     setOpenDeleteAlbumConfirmationModal(true);
   };
@@ -69,14 +71,11 @@ const EditGallery = () => {
     await deleteAlbum(id);
   };
 
-
-
   const FontTheme = createTheme({
     typography: {
-      fontFamily: "Kanit, sans-serif", 
+      fontFamily: "Kanit, sans-serif",
     },
   });
-
 
   const notifySuccess = () =>
     toast.success("เพิ่มรูปสำเร็จ!", {
@@ -98,9 +97,7 @@ const EditGallery = () => {
   };
   const getImages = async () => {
     try {
-      const response = await axiosReq.get(
-        "/gallery/getAlbumById/" + id
-      );
+      const response = await axiosReq.get("/gallery/getAlbumById/" + id);
       setAlbum(response?.data);
       setImages(response?.data.AlbumImages);
     } catch (error) {
@@ -135,31 +132,45 @@ const EditGallery = () => {
     });
   };
 
-
   const onChangePicture = (e) => {
     if (e.target.files[0]) {
       console.log("picture: ", e.target.files);
       setPickImage(e.target.files[0]);
     }
   };
+  const notifyEmptyField = () =>
+    toast.warn("กรุณากรอกข้อมูลให้ครบ", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    notifySuccess();
     setOpenAddImageModal(false);
     const base64 = await convertBase64(pickImage);
     const data = {
       Image_URL: base64,
-      ImageTitle: e.target.ImageTitle.value,
-      ImageDate: e.target.ImageDate.value,
+      ImageTitle: e.target.ImageTitle.value.trim(),
+      ImageDate: e.target.ImageDate.value.trim(),
     };
+    if (data.ImageTitle === "" || data.ImageDate === "") {
+      notifyEmptyField();
+      return;
+    }
     try {
+      
       const response = await axiosWithTokenReq.post(
         `/gallery/addToAlbum/${id}`,
         data
       );
       getImages();
-      console.log(response.data);
+      notifySuccess();
     } catch (error) {
       console.log(error.message);
     }
@@ -175,7 +186,7 @@ const EditGallery = () => {
       console.log(error.message);
     }
   };
-  
+
   const deleteModalStyle = {
     position: "absolute",
     top: "50%",
@@ -188,10 +199,7 @@ const EditGallery = () => {
     boxShadow: 24,
     borderRadius: "10px",
     textAlign: "center",
-    
   };
-
-  
 
   const style = {
     position: "absolute",
@@ -227,16 +235,19 @@ const EditGallery = () => {
   }, []);
   return (
     <ThemeProvider theme={FontTheme}>
-      <Container sx={{ minHeight: '60vh' }}>
+      <Container sx={{ minHeight: "60vh" }}>
         <ToastContainer />
-        <Box sx={{ justifyContent: "center", marginTop: 10, textAlign: "center" }}>
+        <Box
+          sx={{ justifyContent: "center", marginTop: 10, textAlign: "center" }}
+        >
           <h1>{album.AlbumTitle}</h1>
           <Typography variant="h6" gutterBottom>
             {album.AlbumDescription}
           </Typography>
         </Box>
-        <Container sx={{ marginBottom: 10, width: "100%", }}>
-          <Button sx={{ float: "right" }}
+        <Container sx={{ marginBottom: 10, width: "100%" }}>
+          <Button
+            sx={{ float: "right" }}
             variant="contained"
             color="error"
             onClick={handleDeleteAlbumConfirmationOpen}
@@ -244,36 +255,36 @@ const EditGallery = () => {
             ลบอัลบัม
           </Button>
           <Button
-            sx={{ float: "right" , marginRight: 2}}
+            sx={{ float: "right", marginRight: 2 }}
             variant="contained"
             onClick={handleAddImageOpen}
           >
             เพิ่มรูปภาพ
           </Button>
           <Modal
-          open={openDeleteAlbumConfirmationModal}
-          onClose={handleDeleteAlbumConfirmationClose}
-          className="profile-modals"
-        >
-          <Box sx={deleteModalStyle}>
-            <p>ยืนยันการลบอัลบัม</p>
-            <Button
-              sx={{ marginRight: 2 }}
-              variant="contained"
-              color="error"
-              onClick={handleDeleteAlbumConfirmed}
-            >
-              ลบ
-            </Button>
-            <Button
-              onClick={handleDeleteAlbumConfirmationClose}
-              variant="contained"
-              color="success"
-            >
-              ยกเลิก
-            </Button>
-          </Box>
-        </Modal>
+            open={openDeleteAlbumConfirmationModal}
+            onClose={handleDeleteAlbumConfirmationClose}
+            className="profile-modals"
+          >
+            <Box sx={deleteModalStyle}>
+              <p>ยืนยันการลบอัลบัม</p>
+              <Button
+                sx={{ marginRight: 2 }}
+                variant="contained"
+                color="error"
+                onClick={handleDeleteAlbumConfirmed}
+              >
+                ลบ
+              </Button>
+              <Button
+                onClick={handleDeleteAlbumConfirmationClose}
+                variant="contained"
+                color="success"
+              >
+                ยกเลิก
+              </Button>
+            </Box>
+          </Modal>
 
           <Modal
             open={openAddImageModal}
@@ -283,19 +294,25 @@ const EditGallery = () => {
             <Box sx={style}>
               <form onSubmit={onSubmit}>
                 <label>รูปภาพ</label>
-                <input type="file" name="Image_URL" onChange={onChangePicture} />
+                <input
+                  required={true}
+                  type="file"
+                  name="Image_URL"
+                  onChange={onChangePicture}
+                />
                 <br />
                 <br />
                 <label>คำอธิบายภาพ</label>
                 <input
+                  required={true}
                   type="text"
                   name="ImageTitle"
                   placeholder="กรุณาใส่คำอธิบายภาพ"
                 />
                 <br />
                 <br />
-                <label>วันที่  </label>
-                <input type="date" name="ImageDate" />
+                <label>วันที่ </label>
+                <input required={true} type="date" name="ImageDate" />
                 <br />
                 <br />
                 <Button
@@ -328,7 +345,10 @@ const EditGallery = () => {
                 <TableCell sx={{ fontWeight: "bold" }} align="right">
                   วันที่
                 </TableCell>
-                <TableCell sx={{ fontWeight: "bold" }} align="right"></TableCell>
+                <TableCell
+                  sx={{ fontWeight: "bold" }}
+                  align="right"
+                ></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -338,7 +358,8 @@ const EditGallery = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <Button variant="contained"
+                    <Button
+                      variant="contained"
                       onClick={() => toggleImageModal(image._id)}
                     >
                       <PlayArrowIcon />

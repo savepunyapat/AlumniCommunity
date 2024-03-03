@@ -46,12 +46,27 @@ function AddPost() {
       reader.readAsDataURL(file);
     }
   };
+  const notifyEmptyField = () =>
+    toast.warn("กรุณากรอกข้อมูลให้ครบ", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const handleSubmit = async (e) => {
     console.log(Pic_url)
 
     try {
       e.preventDefault();
+      if (PostSubject.trim() === "" || PostDetail.trim() === "" || PostCategory.trim() === "") {
+        notifyEmptyField();
+        return;
+      }
       const response = await axiosWithTokenReq.post("/addPost", {
         PostSubject,
         PostDetail,
@@ -63,9 +78,6 @@ function AddPost() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-    console.log(PostDetail);
-    console.log(PostSubject);
-    console.log(PostCategory);
   };
   useEffect(() => {
     document.title = "เพิ่มข่าวสาร | CS-Alumni";

@@ -223,15 +223,29 @@ const Profile = () => {
       [name]: value,
     }));
   };
-
+  const notifyEmptyField = () =>
+    toast.warn("กรุณากรอกข้อมูลให้ครบ", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   const handleUpdateBioSubmit = async (e) => {
     try {
       e.preventDefault();
-      const newAddress = e.target.newAddress.value;
-      const newPhoneNumber = e.target.newPhoneNumber.value;
+      const newAddress = e.target.newAddress.value.trim();
+      const newPhoneNumber = e.target.newPhoneNumber.value.trim();
+      if (newAddress === "" || newPhoneNumber === "") {
+        notifyEmptyField();
+        return;
+      }
+
       setAddress(newAddress);
       setPhoneNumber(newPhoneNumber);
-      console.log(Address);
       const response = await axiosWithTokenReq.put(`/acc/${user.id}`, {
         Address: Address,
         PhoneNumber: phoneNumber,
@@ -246,10 +260,14 @@ const Profile = () => {
     try {
       e.preventDefault();
       const Education = {
-        Course: e.target.Course.value,
-        Qualification: e.target.Qualification.value,
-        GraduateYear: e.target.GraduateYear.value,
+        Course: e.target.Course.value.trim(),
+        Qualification: e.target.Qualification.value.trim(),
+        GraduateYear: e.target.GraduateYear.value.trim(),
       };
+      if ( Education.Course === "" || Education.Qualification === "" || Education.GraduateYear === "") {
+        notifyEmptyField();
+        return;
+      }
       const response = await axiosWithTokenReq.put("/addEducation", Education);
       window.location.reload();
     } catch (err) {
@@ -269,11 +287,15 @@ const Profile = () => {
       }
 
       const WorkPlace = {
-        CompanyName: e.target.CompanyName.value,
-        Position: e.target.Position.value,
+        CompanyName: e.target.CompanyName.value.trim(),
+        Position: e.target.Position.value.trim(),
         StartDate: startDate,
         EndDate: endDate,
       };
+      if (WorkPlace.CompanyName === "" || WorkPlace.Position === "") {
+        notifyEmptyField();
+        return;
+      }
 
       const response = await axiosWithTokenReq.put("/addWorkPlace", WorkPlace);
       window.location.reload();
@@ -285,11 +307,14 @@ const Profile = () => {
   const handleEditEducationSubmit = async (e, index) => {
     e.preventDefault();
     const Education = {
-      Course: e.target.Course.value,
-      Qualification: e.target.Qualification.value,
-      GraduateYear: e.target.GraduateYear.value,
+      Course: e.target.Course.value.trim(),
+      Qualification: e.target.Qualification.value.trim(),
+      GraduateYear: e.target.GraduateYear.value.trim(),
     };
-    console.log(Education);
+    if (Education.Course === "" || Education.Qualification === "" || Education.GraduateYear === "") {
+      notifyEmptyField();
+      return;
+    }
     try {
       const response = await axiosWithTokenReq.put(
         `/updateEducation/${index}`,
@@ -313,11 +338,15 @@ const Profile = () => {
     }
 
     const WorkPlace = {
-      CompanyName: e.target.CompanyName.value,
-      Position: e.target.Position.value,
+      CompanyName: e.target.CompanyName.value.trim(),
+      Position: e.target.Position.value.trim(),
       StartDate: e.target.StartDate.value,
       EndDate: e.target.EndDate.value,
     };
+    if (WorkPlace.CompanyName === "" || WorkPlace.Position === "") {
+      notifyEmptyField();
+      return;
+    }
     try {
       const response = await axiosWithTokenReq.put(
         `/updateWorkPlace/${index}`,
@@ -403,16 +432,19 @@ const Profile = () => {
     try {
       e.preventDefault();
       const Password = {
-        oldPassword: e.target.oldPassword.value,
-        newPassword: e.target.newPassword.value,
-        confirmPassword: e.target.confirmPassword.value,
+        oldPassword: e.target.oldPassword.value.trim(),
+        newPassword: e.target.newPassword.value.trim(),
+        confirmPassword: e.target.confirmPassword.value.trim(),
       };
+      if ( Password.oldPassword === "" || Password.newPassword === "" || Password.confirmPassword === "") {
+        notifyEmptyField();
+        return;
+      }
       const response = await axiosWithTokenReq.post(
         "/changePassword",
         Password
       );
       notifyChangePassword();
-      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }
@@ -648,6 +680,7 @@ const Profile = () => {
                         name="newAddress"
                         placeholder="ที่อยู่"
                         value={Address}
+                        required={true}
                       />
                       <br />
                       <br />
@@ -665,6 +698,7 @@ const Profile = () => {
                         name="newPhoneNumber"
                         placeholder="เบอร์ติดต่อ"
                         value={phoneNumber}
+                        required={true}
                       />
                       <br />
                       <br />

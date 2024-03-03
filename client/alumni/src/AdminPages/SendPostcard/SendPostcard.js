@@ -105,9 +105,24 @@ function SendPostcard() {
     ]
 
 
+
+    const notifyEmptyField = () =>
+    toast.warn("กรุณากรอกข้อมูลให้ครบ", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(postcardContent, eventSubject, stdBatch);
+    if (eventSubject.trim() === "" || postcardContent.trim() === "" || stdBatch.trim() === "") {
+      notifyEmptyField();
+      return;
+    }
     try {
       const response = await axiosWithTokenReq.post(
         `/send-event-postcard-to-all-account`,

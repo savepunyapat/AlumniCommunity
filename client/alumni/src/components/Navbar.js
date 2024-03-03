@@ -149,7 +149,7 @@ function Navbar() {
                 textDecoration: "none",
               }}
             >
-              CS Alumni
+              CSAlumni
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page, index) => (
