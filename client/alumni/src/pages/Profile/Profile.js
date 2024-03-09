@@ -182,7 +182,18 @@ const Profile = () => {
       progress: undefined,
       theme: "light",
     });
-
+  
+  const notifyChangePasswordFail = () =>
+    toast.error("เปลี่ยนรหัสผ่านไม่สำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   const [editedEducation, setEditedEducation] = useState({
     Course: "",
     Qualification: "",
@@ -446,6 +457,7 @@ const Profile = () => {
       );
       notifyChangePassword();
     } catch (err) {
+      notifyChangePasswordFail();
       console.log(err.message);
     }
   };

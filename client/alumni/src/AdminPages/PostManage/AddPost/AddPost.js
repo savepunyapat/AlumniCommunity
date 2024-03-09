@@ -110,6 +110,7 @@ function AddPost() {
             onChange={handleChange}
           >
             <MenuItem value={"ข่าวทั่วไป"}>ข่าวทั่วไป</MenuItem>
+            <MenuItem value={"ข่าวประชาสัมพันธ์"}>ข่าวประชาสัมพันธ์</MenuItem>
             <MenuItem value={"แนะนำศิษย์เก่า"}>แนะนำศิษย์เก่า</MenuItem>
             <MenuItem value={"กิจกรรม"}>กิจกรรม</MenuItem>
             <MenuItem value={"รับสมัครงาน"}>รับสมัครงาน</MenuItem>

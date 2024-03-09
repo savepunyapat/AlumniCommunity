@@ -317,7 +317,7 @@ const deleteAccount = asyncHandler(async (req, res) => {
 });
 const getAllAlumni = asyncHandler(async (req, res) => {
   try {
-    const alumni = await AccountModel.find({}).select("-Password -DiscordKey -Permission -Address -Birthday");
+    const alumni = await AccountModel.find({Permission : 'user'}).select("-Password -DiscordKey -Permission -Address -Birthday");
     res.status(200).json(alumni);
   } catch (err) {
     res.status(500).json(err.message);
