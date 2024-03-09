@@ -439,6 +439,10 @@ const Profile = () => {
   const closeBioModal = () => {
     setOpenBioModal(false);
   };
+  function convertStringToDate(dateString) {
+    return new Date(dateString);
+  }
+  
   const handleChangePasswordSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -944,9 +948,11 @@ const Profile = () => {
                             </TableCell>
                             <TableCell align="right">{work.Position}</TableCell>
                             <TableCell align="right">
-                              {work.StartDate}
+                              {dayjs(work.StartDate).format("YYYY-MM-DD")}
                             </TableCell>
-                            <TableCell align="right">{work.EndDate}</TableCell>
+                            <TableCell align="right">
+                              {work.EndDate ? dayjs(work.EndDate).format("YYYY-MM-DD") : "ยังทำงานอยู่"}
+                              </TableCell>
                             <TableCell align="right">
                               <Button
                                 sx={{ marginRight: 2 }}

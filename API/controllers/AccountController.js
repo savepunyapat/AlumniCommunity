@@ -78,9 +78,22 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+function convertStringToDate(dateString) {
+  return new Date(dateString);
+}
+
+
 const addWorkPlace = asyncHandler(async (req, res) => {
   const { CompanyName, Position, StartDate, EndDate } = req.body;
-  const WorkPlace = { CompanyName, Position, StartDate, EndDate };
+  const convertedStartDate = convertStringToDate(StartDate);
+  var convertedEndDate = null;
+  if (EndDate !== null){
+    convertedEndDate = convertStringToDate(EndDate);
+  }else{
+    convertedEndDate = null;
+  }
+  const WorkPlace = { CompanyName, Position, StartDate: convertedStartDate, EndDate: convertedEndDate };
+  
   const user = await AccountModel.findById(req.user.id);
   if (user) {
     user.WorkPlace.push(WorkPlace);
