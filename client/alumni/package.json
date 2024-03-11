@@ -17,6 +17,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
+    "csvtojson": "^2.0.10",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.5",
     "html-react-parser": "^4.2.1",

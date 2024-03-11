@@ -2,6 +2,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const AccountModel = require("../models/AlumniAccount");
+const multer = require("multer");
+const upload = multer();
+const csvtojson = require("csvtojson");
 
 const registerUser = asyncHandler(async (req, res) => {
   const batchToDiscordKeyMap = {
@@ -106,7 +109,6 @@ const registerUser = asyncHandler(async (req, res) => {
   const classBatch = StdID.substring(0, 2);
 
   const DiscordKey = batchToDiscordKeyMap[classBatch] || defaultDiscordKey;
-
   const Account = await AccountModel.create({
     FirstName,
     Email,
@@ -139,6 +141,7 @@ const registerUser = asyncHandler(async (req, res) => {
 function convertStringToDate(dateString) {
   return new Date(dateString);
 }
+
 
 
 const addWorkPlace = asyncHandler(async (req, res) => {
@@ -394,6 +397,8 @@ const getAllAlumni = asyncHandler(async (req, res) => {
     res.status(500).json(err.message);
   }
 });
+
+
 
 module.exports = {
   changePassword,

@@ -21,6 +21,7 @@ import GalleryPreview from './pages/GalleryPreview/GalleryPreview.js';
 import AlumniSearch from './pages/AlumniSearch/AlumniSearch.js';
 import Contact from './pages/Contact/Contact.js';
 import ReloadAndNavigate from './components/ReloadNavigate/ReloadNavigate.js';
+import ImportUser from './AdminPages/ImportUser/ImportUser.js';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
         <Route path='/gallery/galleryPreview/:id' element={<GalleryPreview/>}/>
         <Route path='/alumni' element={isLoggedIn ? <AlumniSearch/> : <Login/>}/>
         <Route path='/contact' element={<Contact/>}/>
+        <Route path='/admin/importUser' element={isLoggedIn && isAdmin ? <ImportUser/> : <Home/>}/>
       </Routes>
       <Footer/>
     </Router>

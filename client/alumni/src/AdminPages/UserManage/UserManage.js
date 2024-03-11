@@ -198,60 +198,70 @@ function UserManage() {
               </TableBody>
             ) : (
               <TableBody>
-                {Array.isArray(users) && users.length > 0
-                  ? users.map((user) => (
-                      <TableRow
-                        key={user._id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {user.StdID}
-                        </TableCell>
-                        <TableCell align="right">{user.FirstName}</TableCell>
-                        <TableCell align="right">{user.LastName}</TableCell>
-                        <TableCell align="right">{user.Permission}</TableCell>
-                        <TableCell align="right">{user.Email}</TableCell>
-                        <TableCell align="right">
-                          <Button
-                            sx={{ marginRight: 2 }}
-                            onClick={() =>
-                              handleEditUserOpen(user._id, user.Permission)
-                            }
-                            variant="contained"
-                            color="info"
-                          >
-                            <EditIcon color="white" />
-                          </Button>
-                          <Button
-                            color="error"
-                            variant="contained"
-                            onClick={() => handleDeleteClick(user._id)}
-                          >
-                            <DeleteIcon color="white" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  : (
-                    <TableRow>
-                      <TableCell colSpan={6} align="center">
-                        ไม่มีผู้ใช้
+                {Array.isArray(users) && users.length > 0 ? (
+                  users.map((user) => (
+                    <TableRow
+                      key={user._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {user.StdID}
+                      </TableCell>
+                      <TableCell align="right">{user.FirstName}</TableCell>
+                      <TableCell align="right">{user.LastName}</TableCell>
+                      <TableCell align="right">{user.Permission}</TableCell>
+                      <TableCell align="right">{user.Email}</TableCell>
+                      <TableCell align="right">
+                        <Button
+                          sx={{ marginRight: 2 }}
+                          onClick={() =>
+                            handleEditUserOpen(user._id, user.Permission)
+                          }
+                          variant="contained"
+                          color="info"
+                        >
+                          <EditIcon color="white" />
+                        </Button>
+                        <Button
+                          color="error"
+                          variant="contained"
+                          onClick={() => handleDeleteClick(user._id)}
+                        >
+                          <DeleteIcon color="white" />
+                        </Button>
                       </TableCell>
                     </TableRow>
-                  )}
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={6} align="center">
+                      ไม่มีผู้ใช้
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             )}
           </Table>
         </TableContainer>
-        <NavLink to="/admin/adduser">
-          <div className="usermanage-add-user">
-            <Button variant="contained" color="success">
+
+        <div className="usermanage-add-user">
+          <NavLink to="/admin/adduser">
+            <Button
+              sx={{ marginRight: "1vw" }}
+              variant="contained"
+              color="success"
+            >
               เพิ่มผู้ใช้
             </Button>
-          </div>
-        </NavLink>
+          </NavLink>
+          <NavLink to="/admin/importUser">
+          <Button variant="contained" color="success">
+            เพิ่มผู้ใช้จากไฟล์ Excel
+          </Button>
+          </NavLink>
+        </div>
         <Modal
           open={openEditUserModal}
           onClose={handleEditUserClose}
