@@ -22,10 +22,34 @@ import {
   Typography,
 } from "@mui/material";
 import { axiosWithTokenReq } from "../../services/service";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ImportUser() {
   const [file, setFile] = useState(null);
   const [previewData, setPreviewData] = useState(null);
+  const notifyImportSuccess = () =>
+    toast.success("นำเข้าข้อมูลสำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const notifyImportFail = () =>
+    toast.error("นำเข้าข้อมูลไม่สำเร็จ!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   const FontTheme = createTheme({
     typography: {
       fontFamily: "Kanit, sans-serif",
@@ -38,9 +62,10 @@ function ImportUser() {
         "/import/user",
         previewData
       );
-      console.log(response);
+      notifyImportSuccess();
       setPreviewData(null);
     } catch (err) {
+      notifyImportFail();
       console.log(err);
     }
   };
